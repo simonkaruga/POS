@@ -95,10 +95,10 @@ export default function ResetPasswordPage() {
         {/* Logo */}
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center shadow-lg">
-            <span className="text-white font-black text-sm">K</span>
+            <span className="text-white font-black text-sm">F</span>
           </div>
           <div>
-            <div className="font-black text-gray-900 text-base leading-tight">KASTRA POS</div>
+            <div className="font-black text-gray-900 text-base leading-tight">Faida POS</div>
             <div className="text-xs text-gray-400">Set new password</div>
           </div>
         </div>

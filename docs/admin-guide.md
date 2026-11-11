@@ -1,11 +1,11 @@
 ---
-title: "KASTRA POS"
+title: "Faida POS"
 subtitle: "Admin & Installation Guide"
-author: "KASTRA Technologies"
+author: "Faida Systems"
 audience: "Whoever installs, deploys and maintains the server"
 ---
 
-# KASTRA POS — Admin & Installation Guide
+# Faida POS — Admin & Installation Guide
 
 **This guide is for whoever installs and looks after the server.** If you are trying
 to take a sale or close a shift, you want the **User Guide** instead.
@@ -50,7 +50,7 @@ One backend serves everything:
 |---|---|---|
 | **API** | NestJS backend, the only thing that talks to the database | Yes |
 | **Web** | The POS itself, a React PWA | Yes |
-| **Admin** | Platform console for managing tenants | Only if you run KASTRA as a service |
+| **Admin** | Platform console for managing tenants | Only if you run Faida as a service |
 | **Landing** | Static marketing site | Optional |
 | **Desktop** | Tauri shell around the web app, adds printer/drawer/LAN sync | Optional |
 | **Mobile** | Four Android apps | Optional |
@@ -104,13 +104,13 @@ you commit:
 
 ```bash
 sudo -u postgres psql << 'EOF'
-CREATE DATABASE kastra_pos;
-CREATE USER kastra WITH PASSWORD 'CHANGE_THIS';
-GRANT ALL PRIVILEGES ON DATABASE kastra_pos TO kastra;
-ALTER DATABASE kastra_pos OWNER TO kastra;
-\c kastra_pos
-GRANT ALL ON SCHEMA public TO kastra;
-ALTER USER kastra CREATEDB;
+CREATE DATABASE faida_pos;
+CREATE USER faida WITH PASSWORD 'CHANGE_THIS';
+GRANT ALL PRIVILEGES ON DATABASE faida_pos TO faida;
+ALTER DATABASE faida_pos OWNER TO faida;
+\c faida_pos
+GRANT ALL ON SCHEMA public TO faida;
+ALTER USER faida CREATEDB;
 EOF
 ```
 
@@ -125,8 +125,8 @@ redis-cli ping        # expect PONG
 ### 3.4 The application
 
 ```bash
-sudo mkdir -p /opt/kastra-pos && sudo chown $USER:$USER /opt/kastra-pos
-cd /opt/kastra-pos
+sudo mkdir -p /opt/faida-pos && sudo chown $USER:$USER /opt/faida-pos
+cd /opt/faida-pos
 git clone <your-repository-url> .
 
 npm install
@@ -158,7 +158,7 @@ those users before going live.
 ### 3.6 Build
 
 ```bash
-cd /opt/kastra-pos
+cd /opt/faida-pos
 npm run build        # api + web + admin
 ```
 
@@ -171,7 +171,7 @@ cp apps/api/.env.example apps/api/.env
 ### Required
 
 ```env
-DATABASE_URL="postgresql://kastra:CHANGE_THIS@localhost:5432/kastra_pos"
+DATABASE_URL="postgresql://faida:CHANGE_THIS@localhost:5432/faida_pos"
 JWT_SECRET="<openssl rand -base64 32>"
 ENCRYPTION_KEY="<openssl rand -hex 32>"
 FRONTEND_URL="https://pos.your-domain.com"
@@ -220,8 +220,8 @@ Use a process manager. PM2 is the simplest:
 ```bash
 sudo npm install -g pm2
 
-cd /opt/kastra-pos/apps/api
-pm2 start dist/main.js --name kastra-api
+cd /opt/faida-pos/apps/api
+pm2 start dist/main.js --name faida-api
 pm2 save
 pm2 startup        # then run the command it prints
 ```
@@ -230,8 +230,8 @@ Useful:
 
 ```bash
 pm2 status
-pm2 logs kastra-api
-pm2 restart kastra-api
+pm2 logs faida-api
+pm2 restart faida-api
 ```
 
 The web and admin apps build to static files (`apps/web/dist`, `apps/admin/dist`) —
@@ -247,7 +247,7 @@ server {
     listen 80;
     server_name pos.your-domain.com;
 
-    root /opt/kastra-pos/apps/web/dist;
+    root /opt/faida-pos/apps/web/dist;
     index index.html;
 
     location / {
@@ -272,7 +272,7 @@ The admin console is a second server block pointing at `apps/admin/dist`, on its
 hostname.
 
 ```bash
-sudo ln -s /etc/nginx/sites-available/kastra /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/faida /etc/nginx/sites-enabled/
 sudo nginx -t && sudo systemctl reload nginx
 
 sudo apt install -y certbot python3-certbot-nginx
@@ -330,7 +330,7 @@ Installers appear in `apps/desktop/src-tauri/target/release/bundle/`.
 Client terminals also pick a **device role**: full POS, cashier-only, kiosk, kitchen
 display, or manager.
 
-LAN discovery uses UDP port **47474**. Allow it between terminals.
+LAN discovery uses UDP port **47480**. Allow it between terminals.
 
 **Updates.** Installed desktop apps look for a newer version a little after start-up and every
 six hours. When one is ready, a banner appears at the top: the **owner or a manager** presses
@@ -400,7 +400,7 @@ Nothing here is optional for a business that trades on this system.
 
 ```bash
 # Daily dump
-pg_dump -U kastra kastra_pos | gzip > /backups/kastra_$(date +%F).sql.gz
+pg_dump -U faida faida_pos | gzip > /backups/faida_$(date +%F).sql.gz
 ```
 
 Add it to cron, keep copies off the machine, and **test a restore** — an untested
@@ -416,14 +416,14 @@ The desktop app has its own local backup/restore for standalone terminals.
 ## 13. Upgrades and migrations
 
 ```bash
-cd /opt/kastra-pos
-pg_dump -U kastra kastra_pos | gzip > /backups/pre-upgrade.sql.gz    # always
+cd /opt/faida-pos
+pg_dump -U faida faida_pos | gzip > /backups/pre-upgrade.sql.gz    # always
 
 git pull
 npm install && npm run install-all
 npx prisma migrate deploy --schema prisma/schema.prisma
 npm run build
-pm2 restart kastra-api
+pm2 restart faida-api
 ```
 
 Migration history is consolidated onto a base migration
@@ -459,7 +459,7 @@ Set `SENTRY_DSN` for error tracking.
 - [ ] HTTPS everywhere; certbot renewal working
 - [ ] `FRONTEND_URL` and `ADMIN_URL` set correctly — they are the CORS allowlist
 - [ ] PostgreSQL not exposed to the internet
-- [ ] Firewall allows only 22, 80, 443 (plus UDP 47474 internally for LAN sync)
+- [ ] Firewall allows only 22, 80, 443 (plus UDP 47480 internally for LAN sync)
 - [ ] Two-factor enabled for owner accounts
 - [ ] Backups running **and a restore tested**
 - [ ] Strong `SUPER_ADMIN_PASSWORD` if the admin console is deployed

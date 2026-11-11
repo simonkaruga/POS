@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 KASTRA POS - Complete Setup & Start"
+echo "🚀 Faida POS - Complete Setup & Start"
 echo "======================================"
 echo ""
 

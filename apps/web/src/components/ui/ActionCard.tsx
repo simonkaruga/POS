@@ -5,7 +5,7 @@ import { cn } from './cn';
 export type ActionTone = 'brand' | 'danger' | 'warning';
 
 const TILE: Record<ActionTone, { cls: string; hover: string }> = {
-  brand: { cls: 'bg-brand-100 text-brand-700', hover: '#7A35FF' },
+  brand: { cls: 'bg-brand-100 text-brand-700', hover: '#1F6BFF' },
   // Colour is for meaning: use these only when the action is about something that needs attention.
   danger: { cls: 'bg-red-100 text-red-700', hover: '#B91C1C' },
   warning: { cls: 'bg-amber-100 text-amber-700', hover: '#B45309' },

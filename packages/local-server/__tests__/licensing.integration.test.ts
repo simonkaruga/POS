@@ -1,6 +1,6 @@
 /**
- * Licensing on real software: the real API on a real PostgreSQL, talking to a stand-in KASTRA licence server that signs with
- * a key made for this test. Skips itself like supervisor.integration.test.ts unless KASTRA_PG_BIN is set and the API is built.
+ * Licensing on real software: the real API on a real PostgreSQL, talking to a stand-in Faida licence server that signs with
+ * a key made for this test. Skips itself like supervisor.integration.test.ts unless FAIDA_PG_BIN is set and the API is built.
  *
  * What it proves, end to end: a key entered by the owner becomes a signed licence that the app checks with only the public
  * key; the plan on the business changes; it survives a restart; a licence signed by the WRONG key or for ANOTHER computer is
@@ -15,7 +15,7 @@ import { randomBytes } from 'crypto';
 import { findFreePort } from '../src/ports';
 import { Supervisor, SupervisorOptions } from '../src/supervisor';
 
-const PG_BIN = process.env.KASTRA_PG_BIN;
+const PG_BIN = process.env.FAIDA_PG_BIN;
 const REPO = path.resolve(__dirname, '..', '..', '..');
 const API_MAIN = path.join(REPO, 'apps', 'api', 'dist', 'main.js');
 const TOKEN_JS = path.join(REPO, 'apps', 'api', 'dist', 'licensing', 'license-token.js');
@@ -40,7 +40,7 @@ maybe('licensing, end to end', () => {
   const good = pem(generateKeyPairSync('ed25519'));
   const other = pem(generateKeyPairSync('ed25519'));
 
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'kastra-lic-'));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'faida-lic-'));
   let apiPort = 0;
   let pgPort = 0;
   let authority: http.Server;
@@ -63,7 +63,7 @@ maybe('licensing, end to end', () => {
     pgPort,
     apiPort,
     pgBinDir: PG_BIN as string,
-    pgLibDir: process.env.KASTRA_PG_LIB,
+    pgLibDir: process.env.FAIDA_PG_LIB,
     nodePath: process.execPath,
     apiMain: API_MAIN,
     prismaCli: PRISMA_CLI,

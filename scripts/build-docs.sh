@@ -2,9 +2,9 @@
 #
 # Build every documentation output from its single markdown source.
 #
-#   docs/user-guide.md         -> KASTRA_POS_User_Guide.pdf
-#                              -> apps/landing/kastra-pos-manual.html
-#   docs/admin-guide.md        -> KASTRA_POS_Admin_Guide.pdf
+#   docs/user-guide.md         -> FAIDA_POS_User_Guide.pdf
+#                              -> apps/landing/faida-pos-manual.html
+#   docs/admin-guide.md        -> FAIDA_POS_Admin_Guide.pdf
 #   docs/super-admin-guide.md  -> apps/admin/src/generated/superAdminGuide.ts
 #
 # The markdown files are the ONLY things you edit. Everything above is generated
@@ -91,9 +91,9 @@ run_pandoc_pdf() {
     -V urlcolor=blue \
     -V toccolor=black \
     --highlight-style=tango \
-    --metadata title="KASTRA POS" \
+    --metadata title="Faida POS" \
     --metadata subtitle="$subtitle" \
-    --metadata author="KASTRA Technologies" \
+    --metadata author="Faida Systems" \
     --metadata date="$DATE"
 }
 
@@ -129,21 +129,21 @@ build_pdf() {
 }
 
 if [[ $SKIP_PDF -eq 0 ]]; then
-  build_pdf "$DOCS/user-guide.md"  "$ROOT/KASTRA_POS_User_Guide.pdf"  "User Guide"
-  build_pdf "$DOCS/admin-guide.md" "$ROOT/KASTRA_POS_Admin_Guide.pdf" "Admin & Installation Guide"
+  build_pdf "$DOCS/user-guide.md"  "$ROOT/FAIDA_POS_User_Guide.pdf"  "User Guide"
+  build_pdf "$DOCS/admin-guide.md" "$ROOT/FAIDA_POS_Admin_Guide.pdf" "Admin & Installation Guide"
 else
   echo "  PDF   (skipped)"
 fi
 
 # ── 2. Landing-site HTML (user guide only — customers must not get admin docs) ─
-echo "  HTML  user-guide.md  ->  apps/landing/kastra-pos-manual.html"
+echo "  HTML  user-guide.md  ->  apps/landing/faida-pos-manual.html"
 pandoc "$DOCS/user-guide.md" \
-  -o "$ROOT/apps/landing/kastra-pos-manual.html" \
+  -o "$ROOT/apps/landing/faida-pos-manual.html" \
   --standalone \
   --template="$TPL/manual.html" \
   --toc --toc-depth=2 \
   --highlight-style=breezedark \
-  --metadata title="KASTRA POS" \
+  --metadata title="Faida POS" \
   --metadata subtitle="User Guide" \
   --metadata audience="owners, managers and shop-floor staff" \
   --metadata date="$DATE" \
@@ -169,9 +169,9 @@ fs.writeFileSync("apps/admin/src/generated/superAdminGuide.ts", out);
 echo
 echo "Done."
 [[ $SKIP_PDF -eq 0 ]] && {
-  for f in KASTRA_POS_User_Guide.pdf KASTRA_POS_Admin_Guide.pdf; do
+  for f in FAIDA_POS_User_Guide.pdf FAIDA_POS_Admin_Guide.pdf; do
     [[ -f "$ROOT/$f" ]] && echo "  $f  ($(du -h "$ROOT/$f" | cut -f1))"
   done
 }
-echo "  apps/landing/kastra-pos-manual.html  ($(du -h "$ROOT/apps/landing/kastra-pos-manual.html" | cut -f1))"
+echo "  apps/landing/faida-pos-manual.html  ($(du -h "$ROOT/apps/landing/faida-pos-manual.html" | cut -f1))"
 echo "  apps/admin/src/generated/superAdminGuide.ts"

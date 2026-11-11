@@ -133,7 +133,7 @@ export class PaymentsController {
     // sale in the dashboard was attributed to the same non-existent customer.
     const payerEmail =
       customer?.email?.trim() ||
-      `pos-${(biz?.shortCode ?? businessId).toLowerCase()}@kastrapos.co.ke`;
+      `pos-${(biz?.shortCode ?? businessId).toLowerCase()}@faidapos.co.ke`;
 
     return { publicKey: biz?.paystackPublicKey ?? null, payerEmail };
   }

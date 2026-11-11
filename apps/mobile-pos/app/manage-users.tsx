@@ -49,8 +49,8 @@ const ROLE_HINT: Record<string, string> = {
   WAITER: 'Takes table orders on this app.',
   KITCHEN: 'Kitchen display only — no till access.',
   ACCOUNTANT: 'Reports and expenses. No stock or staff.',
-  DRIVER: 'Signs in to the KASTRA Driver app, not this one.',
-  SALES_AGENT: 'Signs in to the KASTRA Agent app, not this one.',
+  DRIVER: 'Signs in to the Faida Driver app, not this one.',
+  SALES_AGENT: 'Signs in to the Faida Agent app, not this one.',
 };
 
 /** Shown on the chip so a long role name still fits on a phone. */

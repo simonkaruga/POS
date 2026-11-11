@@ -27,7 +27,7 @@ img{max-width:100%}
 
 /* ── Cover ── */
 .cover{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:80px 40px;background:linear-gradient(135deg,var(--bg) 0%,var(--bg2) 100%);border-bottom:1px solid var(--border2);margin:-48px -40px 80px}
-.cover-badge{display:inline-flex;align-items:center;gap:8px;background:var(--blue-dim);border:1px solid rgba(122,53,255,.3);color:var(--blue2);font-size:12px;font-weight:600;padding:6px 14px;border-radius:999px;margin-bottom:32px;letter-spacing:.05em;text-transform:uppercase}
+.cover-badge{display:inline-flex;align-items:center;gap:8px;background:var(--blue-dim);border:1px solid rgba(31,107,255,.3);color:var(--blue2);font-size:12px;font-weight:600;padding:6px 14px;border-radius:999px;margin-bottom:32px;letter-spacing:.05em;text-transform:uppercase}
 .cover-logo{display:flex;align-items:center;gap:16px;margin-bottom:24px}
 .cover-logo-icon{width:64px;height:64px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));border-radius:16px;display:flex;align-items:center;justify-content:center}
 .cover-title{font-size:56px;font-weight:800;line-height:1.1;background:linear-gradient(135deg,var(--text) 0%,var(--text2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
@@ -39,7 +39,7 @@ img{max-width:100%}
 .cover-pills{display:flex;gap:10px;flex-wrap:wrap}
 .cover-pill{background:var(--bg4);border:1px solid var(--border2);border-radius:999px;padding:6px 16px;font-size:13px;color:var(--text2)}
 .cover-pill.green{border-color:rgba(22,101,52,.4);color:var(--green);background:rgba(22,101,52,.08)}
-.cover-pill.blue{border-color:rgba(122,53,255,.4);color:var(--blue2);background:var(--blue-dim)}
+.cover-pill.blue{border-color:rgba(31,107,255,.4);color:var(--blue2);background:var(--blue-dim)}
 .cover-pill.amber{border-color:rgba(146,64,14,.4);color:var(--amber);background:rgba(146,64,14,.08)}
 
 /* ── Chapter Headings ── */
@@ -67,7 +67,7 @@ li strong{color:var(--text)}
 .callout-warning .callout-body h5{color:var(--amber)}
 .callout-important{background:rgba(185,28,28,.08);border:1px solid rgba(185,28,28,.25)}
 .callout-important .callout-body h5{color:var(--red)}
-.callout-info{background:var(--blue-dim);border:1px solid rgba(122,53,255,.25)}
+.callout-info{background:var(--blue-dim);border:1px solid rgba(31,107,255,.25)}
 .callout-info .callout-body h5{color:var(--blue2)}
 
 /* ── Code ── */

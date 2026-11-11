@@ -20,9 +20,11 @@ describe('design tokens', () => {
     expect(() => execFileSync('node', ['design/build-tokens.mjs', '--check'], { cwd: root, stdio: 'pipe' })).not.toThrow();
   });
 
-  it('the brand is Signal Violet and the page is Mist Gray', () => {
-    expect(tokens.brand['600'].toUpperCase()).toBe('#7A35FF');
-    expect(tokens.neutral['100'].toUpperCase()).toBe('#F0F2F5');
+  it('the brand is Faida Blue and Navy with Faida Orange, on the Cloud page', () => {
+    expect(tokens.brand['600'].toUpperCase()).toBe('#1F6BFF');
+    expect(tokens.navy.DEFAULT.toUpperCase()).toBe('#0A2A55');
+    expect(tokens.accent.DEFAULT.toUpperCase()).toBe('#F26A0C');
+    expect(tokens.neutral['100'].toUpperCase()).toBe('#F3F6FC');
   });
 
   const AA = 4.5;
@@ -31,7 +33,7 @@ describe('design tokens', () => {
       ['white on the primary button', '#FFFFFF', tokens.brand['600']],
       ['white on the primary button hover', '#FFFFFF', tokens.brand['700']],
       ['primary text on a white card', tokens.brand['600'], '#FFFFFF'],
-      ['primary text on the Mist Gray page', tokens.brand['600'], tokens.neutral['100']],
+      ['primary text (text-blue-600 renders brandText) on the Cloud page', tokens.brandText.light, tokens.neutral['100']],
       ['body text (gray-900) on the page', tokens.neutral['900'], tokens.neutral['100']],
       ['secondary text (gray-600) on the page', tokens.neutral['600'], tokens.neutral['100']],
       ['muted text (gray-500) on a white card', tokens.neutral['500'], '#FFFFFF'],
@@ -50,6 +52,13 @@ describe('design tokens', () => {
       ['dark: tertiary text on the dark card', tokens.darkText.gray400, tokens.darkSurface.white],
       ['dark: body text on the dark page', tokens.darkText.gray900, tokens.neutral['950']],
       ['dark: primary text on the dark card', tokens.brand['400'], tokens.darkSurface.white],
+      ['brand text (text-blue-600) on the lightest brand tint', tokens.brandText.light, tokens.brand['50']],
+      ['dark: brand text on the dark card', tokens.brandText.dark, tokens.darkSurface.white],
+      ['white on Faida Navy (top bars, dark panels)', '#FFFFFF', tokens.navy.DEFAULT],
+      ['navy text on the Cloud page', tokens.navy.DEFAULT, tokens.neutral['100']],
+      ['orange accent text on white', tokens.accent.text, '#FFFFFF'],
+      ['orange accent text on its soft tint', tokens.accent.text, tokens.accent.soft],
+      ['dark: orange accent on the dark card', tokens.accent.dark, tokens.darkSurface.white],
     ];
     it.each(cases)('%s', (_name, fg, bg) => {
       expect(contrast(fg, bg)).toBeGreaterThanOrEqual(AA);

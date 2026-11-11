@@ -529,7 +529,7 @@ export class BusinessService {
       where: { id: businessId },
       select: { id: true, name: true, idleMessage: true, idleLogoUrl: true },
     });
-    return business ?? { name: 'KASTRA POS', idleMessage: 'Welcome!', idleLogoUrl: null };
+    return business ?? { name: 'Faida POS', idleMessage: 'Welcome!', idleLogoUrl: null };
   }
 
   /** Resolve a shortCode (e.g. PREMIE01) or seed-style id (e.g. biz-001) to the real UUID + name */

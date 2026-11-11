@@ -1,11 +1,11 @@
-# KASTRA POS — Desktop (Tauri v2)
+# Faida POS — Desktop (Tauri v2)
 
-Native desktop shell around the KASTRA POS web app, adding the hardware and
+Native desktop shell around the Faida POS web app, adding the hardware and
 offline capabilities a browser cannot reach: direct printer sockets, cash-drawer
 kick, LAN peer sync, an offline eTIMS/VSCU queue in SQLite, and a signed,
 online-activated licence for the offline edition.
 
-- Product name: **KASTRA POS** · identifier `co.ke.kastra.pos`
+- Product name: **Faida POS** · identifier `co.ke.faida.pos`
 - Frontend: `apps/web` — dev from the Vite server, release from `apps/web/dist`
 
 ---
@@ -52,7 +52,7 @@ Releases are automated by `.github/workflows/desktop-release.yml`.
 | `printer.rs` | Network ESC/POS printers over a raw TCP socket, with connect timeout. `print_to_network` is what the web **print bridge** (`apps/web/src/lib/printBridge.ts`) calls to deliver queued jobs; it only connects to a private IPv4 literal (`private_printer_addr`: 10.x, 172.16-31.x, 192.168.x), so a hostile or wrong job cannot make this computer connect to loopback, a public host or a metadata address. `private_printer_addr` is unit-tested by compiling it in a scratch crate; the full crate still cannot be built on every machine |
 | `system_printer.rs` | Printers installed on this computer: lists them and sends raw ESC/POS to one by name with no print dialog (Windows spooler RAW datatype; CUPS `lpstat` / `lp -o raw` on Linux and macOS). Commands `list_system_printers` and `print_to_system_printer` live in `printer.rs`; the web side is `apps/web/src/lib/desktopPrinter.ts`. The platform code has no Tauri dependency, so its unit tests run from a scratch crate that includes the file |
 | `cash_drawer.rs` | Drawer kick — ESC/POS `ESC p` pulse over USB/serial |
-| `discovery.rs` | LAN server auto-discovery. UDP :47474 — client broadcasts `KASTRA_DISCOVER`, servers reply `KASTRA_SERVER:{api_port}:{hostname}`; client collects responses for 2 s |
+| `discovery.rs` | LAN server auto-discovery. UDP :47480 — client broadcasts `FAIDA_DISCOVER`, servers reply `FAIDA_SERVER:{api_port}:{hostname}`; client collects responses for 2 s |
 | `lan_sync.rs` | TCP peer sync — a server terminal holds a registry of connected client streams and pushes events to all of them |
 | `vscu.rs` | Offline eTIMS/VSCU queue in local SQLite (`rusqlite`) — sales are signed and held until KRA is reachable |
 | `license.rs` | This computer's stable id (Windows MachineGuid / `/etc/machine-id` / macOS platform UUID, hostname hash as a last resort). It is handed to the server program, which binds the licence to it. **Nothing here decides whether a licence is valid**: the old checksum check, whose recipe shipped in the app and could be copied, is gone (see `apps/api/README.md`, Licensing) |
@@ -69,9 +69,9 @@ Installed apps update themselves, with the owner's go-ahead. Parts:
 | Part | Where | What it does |
 |---|---|---|
 | `app_update.rs` | `src-tauri/src` | `app_update_check` asks the manifest whether a newer version exists; `app_update_install` downloads it, **stops the offline server cleanly (with a backup)**, runs the installer and restarts; `app_update_status` is polled for progress. If the installer cannot run, the server is started again |
-| Banner and card | `apps/web`: `UpdateBanner.tsx` (top of every screen), `AppUpdateCard.tsx` (Settings, General), state in `lib/appUpdate.ts` | A check 20 s after start and every 6 h. The banner says "KASTRA 1.2.0 is ready"; the **owner or a manager** presses *Install and restart* (a cashier is told to ask). Quiet when offline |
-| The signed manifest | `tauri.conf.json` `plugins.updater` | The app only accepts an installer signed with KASTRA's update key: the **public** key is in `tauri.conf.json`, the private key is the GitHub secret `TAURI_SIGNING_PRIVATE_KEY` |
-| Manifest address | `https://github.com/kevrith/POS/releases/download/desktop-updates/latest.json` | One fixed address. The release workflow copies each release's `latest.json` there (a pre-release called `desktop-updates`, so it never becomes the repository's "latest release") |
+| Banner and card | `apps/web`: `UpdateBanner.tsx` (top of every screen), `AppUpdateCard.tsx` (Settings, General), state in `lib/appUpdate.ts` | A check 20 s after start and every 6 h. The banner says "Faida 1.2.0 is ready"; the **owner or a manager** presses *Install and restart* (a cashier is told to ask). Quiet when offline |
+| The signed manifest | `tauri.conf.json` `plugins.updater` | The app only accepts an installer signed with Faida's update key: the **public** key is in `tauri.conf.json`, the private key is the GitHub secret `TAURI_SIGNING_PRIVATE_KEY` |
+| Manifest address | `https://github.com/simonkaruga/POS/releases/download/desktop-updates/latest.json` | One fixed address. The release workflow copies each release's `latest.json` there (a pre-release called `desktop-updates`, so it never becomes the repository's "latest release") |
 
 **Data safety on the first start of a new version** (`packages/local-server`, `supervisor.ts`): the new version unpacks its own
 server, then, before touching the database, saves a `pre-upgrade` backup (when the version changed, or when the database is
@@ -121,7 +121,7 @@ once all of them are done.
 
 The wizard asks two questions: where does your data live, and what does THIS computer do?
 
-- **CLOUD** — the app is a till for KASTRA Cloud (`get_cloud_url`); needs internet to sign in and sell.
+- **CLOUD** — the app is a till for Faida Cloud (`get_cloud_url`); needs internet to sign in and sell.
 - **SERVER_POS** — data on this computer, which is also the till (a small shop's one PC). Works fully offline. Other
   computers may not connect unless the owner ticks "Let other computers on this network connect".
 - **SERVER** — data on this computer, which only serves the tills (a supermarket's back-room PC). It shows the server
@@ -143,8 +143,8 @@ happening ("Creating your database (first time only)").
 
 `packages/local-server` (TypeScript, see its README) runs a private PostgreSQL and the API on this computer: folders and
 their safety rules, secrets, database start/stop, migrations, API process, backups, restore. This app only launches
-`cli.js` and relays its status; the live database goes in `C:\ProgramData\KASTRA\pgdata` by default (never OneDrive,
-Documents or a network share) and backups in `Documents\KASTRA Backups`.
+`cli.js` and relays its status; the live database goes in `C:\ProgramData\Faida\pgdata` by default (never OneDrive,
+Documents or a network share) and backups in `Documents\Faida Backups`.
 
 ## Packaging the offline server (Windows installer)
 
@@ -162,10 +162,10 @@ node apps/desktop/scripts/smoke-server-bundle.mjs     # proves the bundle runs o
 - **Downloads are pinned**: `scripts/server-bundle.pins.json` holds the exact Node and PostgreSQL (EnterpriseDB build) URLs and
   SHA-256 hashes; a download with the wrong hash is deleted and the build stops. Upgrading means changing version and hash together.
 - **What goes in**: the packages are copied from this repository's own `node_modules` (the versions that were tested, with their
-  native parts, so build on Windows for Windows), PostgreSQL is cut down to the programs KASTRA runs (initdb, pg_ctl, postgres,
+  native parts, so build on Windows for Windows), PostgreSQL is cut down to the programs Faida runs (initdb, pg_ctl, postgres,
   pg_dump, pg_restore, psql and two support tools), their DLLs and Microsoft's runtime DLLs, the extension libraries and the
   shared data, without pgAdmin, documentation, translations or the Perl/Python/Tcl languages.
-- **Unpacking**: the app unpacks the file once per build (app version + size) into `%LOCALAPPDATA%\KASTRA\server\<build>`
+- **Unpacking**: the app unpacks the file once per build (app version + size) into `%LOCALAPPDATA%\Faida\server\<build>`
   using Windows' own `tar.exe` (by full path: a GNU tar from Git for Windows reads `C:\...` as a network host), into a
   temporary folder renamed into place only when complete, and removes older builds' folders. The wizard's folders step and the
   start-up screen say "Preparing the server" while it happens (up to a minute the first time).
@@ -174,14 +174,14 @@ node apps/desktop/scripts/smoke-server-bundle.mjs     # proves the bundle runs o
   given (CI's server job uses that; it makes no installer). The release workflow reads it from the repository *variable*
   `LICENSE_PUBLIC_KEY`. Make the pair with `apps/api/scripts/generate-license-keys.mjs`; the private half never enters this repo.
 - **Developer builds** have no real archive: `build.rs` leaves an empty placeholder, and starting a server says so. Run from a
-  checkout with `KASTRA_DEV_REPO` instead (below).
+  checkout with `FAIDA_DEV_REPO` instead (below).
 - **Installer extras** (`src-tauri/windows/installer-hooks.nsh`, installs for all users so it can add firewall rules): inbound
-  rules for TCP 3010 (API) and UDP 47474 (finding the server) on Private and Domain networks only. They are harmless on a
+  rules for TCP 3010 (API) and UDP 47480 (finding the server) on Private and Domain networks only. They are harmless on a
   single-computer setup, since the server listens on this computer only unless network access is switched on. **Uninstalling
-  removes those rules and the unpacked server program, and never touches the database (`C:\ProgramData\KASTRA`) or the
-  backups (`Documents\KASTRA Backups`).**
-  **A fresh install opens on the setup wizard**: the wizard shows when `%APPDATA%\kastra-pos\mode.json` is missing, and that file
-  outlives an uninstall, so the installer's pre-install hook deletes it when KASTRA is not installed yet (an update over an existing
+  removes those rules and the unpacked server program, and never touches the database (`C:\ProgramData\Faida`) or the
+  backups (`Documents\Faida Backups`).**
+  **A fresh install opens on the setup wizard**: the wizard shows when `%APPDATA%\faida-pos\mode.json` is missing, and that file
+  outlives an uninstall, so the installer's pre-install hook deletes it when Faida is not installed yet (an update over an existing
   installation keeps it). A damaged `mode.json` is moved aside (`mode.json.unreadable`) and the wizard starts. The installer check
   tests both the fresh and the update case.
 - **CI**: the `offline-server` job in `ci.yml` builds the real Windows bundle, checks the packed file keeps `.prisma`, runs the
@@ -192,7 +192,7 @@ node apps/desktop/scripts/smoke-server-bundle.mjs     # proves the bundle runs o
   installer's files change on `main`) builds the real NSIS installer on Windows and **publishes nothing**. It installs it silently,
   checks the program, uninstaller, `server.tar.gz` (same size as the one built) and both firewall rules, unpacks the installed
   server file with Windows' own `tar.exe` and runs the bundle smoke test on it, starts the installed app and requires it to stay
-  up for 25 seconds, then uninstalls and proves a canary file in `C:\ProgramData\KASTRA` survived and the rules and files are
+  up for 25 seconds, then uninstalls and proves a canary file in `C:\ProgramData\Faida` survived and the rules and files are
   gone. The installer is kept as a workflow artifact for 7 days so it can be tried on a real PC. Without the repository variable
   `LICENSE_PUBLIC_KEY` the artifact is named `UNLICENSED-test-build` and cannot activate a paid plan.
 - **Not verified on a real Windows machine yet**: the workflow above has not been run yet, so the Visual C++ runtime DLLs taken
@@ -205,7 +205,7 @@ id and stops it before starting a new one. Both are covered by integration tests
 
 **Running it from a checkout** (developers): build the API (`apps/api`) and the server program
 (`packages/local-server`: `npm run build`), then start the desktop app with
-`KASTRA_DEV_REPO=<repo> KASTRA_PG_BIN=<postgres bin folder> [KASTRA_PG_LIB=<its lib folder>]`.
+`FAIDA_DEV_REPO=<repo> FAIDA_PG_BIN=<postgres bin folder> [FAIDA_PG_LIB=<its lib folder>]`.
 
 **Testing the Rust launcher without Tauri:** `local_server_core.rs` uses only the standard library and `serde_json`; a scratch
 crate that includes it with `#[path]` can run it against the real server program (spawn, status, backup, stop, a start that
@@ -216,7 +216,7 @@ for the Tauri types; the full crate itself needs the Windows/Linux Tauri system 
 
 The setup wizard (`web/src/pages/DesktopSetupPage.tsx`; its step order and what it saves are in
 `web/src/lib/desktopSetup.ts`, unit-tested) shows whenever `get_setup_mode` reports `UNCONFIGURED`. The choice is saved in
-`mode.json` under the OS config dir (`%APPDATA%\kastra-pos\` on Windows), including the optional `business_name`.
+`mode.json` under the OS config dir (`%APPDATA%\faida-pos\` on Windows), including the optional `business_name`.
 
 **Owner account.** On a computer that keeps its own data (server and till, or server only) the wizard has an *Owner account*
 step (business name, name, email, password; the same password rules as the server, checked first). On *Launch* it starts the
@@ -227,14 +227,14 @@ login screen, where the same account can still be made; the step also has a *Ski
 until it is sent.
 
 **Which server this is connected to.** The login screen shows the business name and where the data lives ("This computer keeps
-the data and works offline", "Till connected to the server at 192.168.1.20:3010", "KASTRA Cloud") from `mode.json`
+the data and works offline", "Till connected to the server at 192.168.1.20:3010", "Faida Cloud") from `mode.json`
 (`describeConnection`). Google sign-in is shown only in a browser or a desktop app set up for the cloud
 (`googleSignInAvailable`): an offline server has no Google settings and no internet to rely on.
 
 "Reconfigure this terminal" stops the local server and forgets `mode.json` but never deletes the database; setting up again on
 the same folder picks the data up where it was.
 
-**Fresh installs.** The NSIS installer's pre-install hook (`windows/installer-hooks.nsh`) deletes `mode.json` when KASTRA is not
+**Fresh installs.** The NSIS installer's pre-install hook (`windows/installer-hooks.nsh`) deletes `mode.json` when Faida is not
 installed yet, and keeps it on an update; the installer check proves both. (`wix/setup-cleanup.wxs` does the same on an MSI
 uninstall, but Windows builds are NSIS-only now, so it does not run there.) To reset by hand, delete the file or use
 Reconfigure on the login page.
@@ -259,7 +259,7 @@ setup topology, update this README in the same change.
 
 ## App icon
 
-The icon is the KASTRA logo: `icon-src/logo.png` (1024 px, the same file as `apps/admin/public/logo.png`) is the one source.
+The icon is the Faida "F" mark (white and orange on a navy tile, cut from `design/faida-pos-logo.png`): `icon-src/logo.png` (1024 px) is the one source.
 `icon-src/build_icons.py` cuts the rounded tile out of its white canvas (smooth edges, white inside the logo is kept),
 trims it to a 3% margin, and scales that one 1024 px master to every size. Regenerate every platform file with:
 

@@ -1,9 +1,9 @@
-# KASTRA Driver — Delivery App (mobile-driver)
+# Faida Driver — Delivery App (mobile-driver)
 
 Expo / React Native app for delivery drivers. Drivers are `User`s with the driver
 role, created in the web POS; they log in with the credentials issued to them.
 
-- Store name: **KASTRA Driver** · slug `kastra-driver` · package `co.ke.kastra.driver`
+- Store name: **Faida Driver** · slug `faida-driver` · package `co.ke.faida.driver`
 - Router: `expo-router` (file-based)
 
 ---

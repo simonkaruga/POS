@@ -91,7 +91,7 @@ function pctChange(current: number, previous: number) {
 
 // ─── Sparkline SVG ────────────────────────────────────────────────────────────
 
-function MiniBar({ values, color = '#8B4EFF' }: { values: number[]; color?: string }) {
+function MiniBar({ values, color = '#3B7DFF' }: { values: number[]; color?: string }) {
   if (!values.length) return null;
   const max = Math.max(...values, 1);
   const w = 100 / values.length;

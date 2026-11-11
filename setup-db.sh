@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🗄️ Setting up KASTRA POS Database..."
+echo "🗄️ Setting up Faida POS Database..."
 
 # Go to API directory where .env is located
 cd apps/api

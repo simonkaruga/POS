@@ -240,7 +240,7 @@ export class DeliveryRoutesService {
   /**
    * Project a run's stops into `DeliveryOrder` rows.
    *
-   * Field/agent orders live on `FieldOrder` + `DeliveryRunOrder`, but the Kastra Driver
+   * Field/agent orders live on `FieldOrder` + `DeliveryRunOrder`, but the Faida Driver
    * app reads its job list from `DeliveryOrder`. Without this projection a dispatched
    * field order never reaches the driver's phone. One delivery per field order, kept
    * in step with the run's driver.

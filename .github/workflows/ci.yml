@@ -16,9 +16,9 @@ jobs:
       postgres:
         image: postgres:16-alpine
         env:
-          POSTGRES_USER: kastra
-          POSTGRES_PASSWORD: kastra2026
-          POSTGRES_DB: kastra_pos_test
+          POSTGRES_USER: faida
+          POSTGRES_PASSWORD: faida2026
+          POSTGRES_DB: faida_pos_test
         ports:
           - 5432:5432
         options: >-
@@ -28,8 +28,8 @@ jobs:
           --health-retries 5
 
     env:
-      DATABASE_URL: postgresql://kastra:kastra2026@localhost:5432/kastra_pos_test
-      DIRECT_URL: postgresql://kastra:kastra2026@localhost:5432/kastra_pos_test
+      DATABASE_URL: postgresql://faida:faida2026@localhost:5432/faida_pos_test
+      DIRECT_URL: postgresql://faida:faida2026@localhost:5432/faida_pos_test
       JWT_SECRET: ci-test-secret-min-32-chars-xxxxxxxxxxxx
       ENCRYPTION_KEY: "0000000000000000000000000000000000000000000000000000000000000000"
       NODE_ENV: test
@@ -128,13 +128,13 @@ jobs:
       matrix:
         include:
           - app: mobile-pos
-            name: KASTRA POS (Cashier)
+            name: Faida POS (Cashier)
           - app: mobile-customer
-            name: KASTRA Order (Customer)
+            name: Faida Order (Customer)
           - app: mobile-driver
-            name: KASTRA Driver
+            name: Faida Driver
           - app: mobile-agent
-            name: KASTRA Agent
+            name: Faida Agent
 
     steps:
       - uses: actions/checkout@v4
@@ -174,9 +174,9 @@ jobs:
       postgres:
         image: postgres:16-alpine
         env:
-          POSTGRES_USER: kastra
-          POSTGRES_PASSWORD: kastra2026
-          POSTGRES_DB: kastra_schema_check
+          POSTGRES_USER: faida
+          POSTGRES_PASSWORD: faida2026
+          POSTGRES_DB: faida_schema_check
         ports:
           - 5432:5432
         options: >-
@@ -186,8 +186,8 @@ jobs:
           --health-retries 5
 
     env:
-      DATABASE_URL: postgresql://kastra:kastra2026@localhost:5432/kastra_schema_check
-      DIRECT_URL: postgresql://kastra:kastra2026@localhost:5432/kastra_schema_check
+      DATABASE_URL: postgresql://faida:faida2026@localhost:5432/faida_schema_check
+      DIRECT_URL: postgresql://faida:faida2026@localhost:5432/faida_schema_check
 
     steps:
       - uses: actions/checkout@v4
@@ -269,5 +269,5 @@ jobs:
       - name: Server package tests against the Windows PostgreSQL
         working-directory: packages/local-server
         env:
-          KASTRA_PG_BIN: ${{ github.workspace }}\apps\desktop\src-tauri\resources\server\postgres\bin
+          FAIDA_PG_BIN: ${{ github.workspace }}\apps\desktop\src-tauri\resources\server\postgres\bin
         run: npm test

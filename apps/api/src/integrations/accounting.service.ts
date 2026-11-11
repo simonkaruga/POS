@@ -109,7 +109,7 @@ export class AccountingService {
     return {
       DocNumber: sale.receiptNumber ?? sale.id.slice(0, 8),
       TxnDate: sale.createdAt.toISOString().split('T')[0],
-      PrivateNote: `KASTRA POS Sale ${sale.receiptNumber ?? sale.id}`,
+      PrivateNote: `Faida POS Sale ${sale.receiptNumber ?? sale.id}`,
       Line: [
         {
           Description: 'Sales Revenue',

@@ -2,7 +2,7 @@
   "name": "@pos/print-core",
   "version": "1.0.0",
   "private": true,
-  "description": "One receipt/KOT layout for every KASTRA print path: ESC/POS, HTML, Star WebPRNT and Epson ePOS",
+  "description": "One receipt/KOT layout for every Faida print path: ESC/POS, HTML, Star WebPRNT and Epson ePOS",
   "main": "src/index.ts",
   "react-native": "src/index.ts",
   "types": "src/index.ts",

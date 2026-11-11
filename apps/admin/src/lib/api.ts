@@ -1,5 +1,5 @@
 // When VITE_API_URL is set, strip any trailing path segments so we always end up
-// with just the origin (e.g. https://pos-bhe5.onrender.com).
+// with just the origin (e.g. https://faida-api.onrender.com).
 // When it is NOT set, use a relative base so the Vercel proxy handles routing.
 const _raw = import.meta.env.VITE_API_URL as string | undefined;
 const _origin = _raw
@@ -22,7 +22,7 @@ export function getAdminToken(): string {
 }
 
 export function getAdminEmail(): string {
-  return sessionStorage.getItem('admin-email') ?? 'admin@kastrapos.co.ke';
+  return sessionStorage.getItem('admin-email') ?? 'admin@faidapos.co.ke';
 }
 
 export function clearAdminToken() {
@@ -196,7 +196,7 @@ export const adminApi = {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `kastra-revenue-${new Date().toISOString().slice(0,10)}.csv`;
+    a.download = `faida-revenue-${new Date().toISOString().slice(0,10)}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   },

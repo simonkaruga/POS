@@ -342,7 +342,7 @@ export class AuthService {
   // ─── TOTP setup ──────────────────────────────────────────────
   async setupTotp(userId: string): Promise<{ secret: string; otpauthUrl: string }> {
     const user = await this.prisma.user.findUniqueOrThrow({ where: { id: userId } });
-    const secret = speakeasy.generateSecret({ name: `KASTRA POS (${user.email ?? user.name})` });
+    const secret = speakeasy.generateSecret({ name: `Faida POS (${user.email ?? user.name})` });
 
     await this.prisma.user.update({
       where: { id: userId },

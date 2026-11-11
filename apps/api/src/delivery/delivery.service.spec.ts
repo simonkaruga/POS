@@ -35,7 +35,7 @@ describe('DeliveryService — customer tracking links', () => {
   };
 
   it('builds the link from FRONTEND_URL, not localhost', async () => {
-    process.env.FRONTEND_URL = 'https://pos-web-sigma.vercel.app';
+    process.env.FRONTEND_URL = 'https://faida-pos.vercel.app';
     delete process.env.WEB_URL;
     const { svc, prisma } = makeService();
     prisma.deliveryOrder.findUnique.mockResolvedValue(DELIVERY);
@@ -43,48 +43,48 @@ describe('DeliveryService — customer tracking links', () => {
     const res = await svc.sendCustomerTrackingLink('del-1');
 
     expect(res.trackingUrl).toBe(
-      'https://pos-web-sigma.vercel.app/track/DEL-1755100000000',
+      'https://faida-pos.vercel.app/track/DEL-1755100000000',
     );
     expect(res.trackingUrl).not.toContain('localhost');
   });
 
   it('texts the customer that same link', async () => {
-    process.env.FRONTEND_URL = 'https://pos-web-sigma.vercel.app';
+    process.env.FRONTEND_URL = 'https://faida-pos.vercel.app';
     const { svc, prisma, notifications } = makeService();
     prisma.deliveryOrder.findUnique.mockResolvedValue(DELIVERY);
 
     await svc.sendCustomerTrackingLink('del-1');
 
     const message = notifications.sendSMS.mock.calls[0][2] as string;
-    expect(message).toContain('https://pos-web-sigma.vercel.app/track/DEL-1755100000000');
+    expect(message).toContain('https://faida-pos.vercel.app/track/DEL-1755100000000');
     expect(message).not.toContain('localhost');
   });
 
   it('tolerates a trailing slash on the configured origin', async () => {
-    process.env.FRONTEND_URL = 'https://pos-web-sigma.vercel.app/';
+    process.env.FRONTEND_URL = 'https://faida-pos.vercel.app/';
     const { svc, prisma } = makeService();
     prisma.deliveryOrder.findUnique.mockResolvedValue(DELIVERY);
 
     const res = await svc.sendCustomerTrackingLink('del-1');
 
     expect(res.trackingUrl).toBe(
-      'https://pos-web-sigma.vercel.app/track/DEL-1755100000000',
+      'https://faida-pos.vercel.app/track/DEL-1755100000000',
     );
   });
 
   it('still honours WEB_URL if that is the only one set', async () => {
     delete process.env.FRONTEND_URL;
-    process.env.WEB_URL = 'https://kastra.example';
+    process.env.WEB_URL = 'https://faida.example';
     const { svc, prisma } = makeService();
     prisma.deliveryOrder.findUnique.mockResolvedValue(DELIVERY);
 
     const res = await svc.sendCustomerTrackingLink('del-1');
 
-    expect(res.trackingUrl).toBe('https://kastra.example/track/DEL-1755100000000');
+    expect(res.trackingUrl).toBe('https://faida.example/track/DEL-1755100000000');
   });
 
   it('never renders "undefined" into the public tracking payload', async () => {
-    process.env.FRONTEND_URL = 'https://pos-web-sigma.vercel.app';
+    process.env.FRONTEND_URL = 'https://faida-pos.vercel.app';
     const { svc, prisma } = makeService();
     prisma.deliveryOrder.findUnique.mockResolvedValue({
       ...DELIVERY,
@@ -97,7 +97,7 @@ describe('DeliveryService — customer tracking links', () => {
     const res: any = await svc.getDeliveryTracking('DEL-1755100000000');
 
     expect(res.trackingUrl).toBe(
-      'https://pos-web-sigma.vercel.app/track/DEL-1755100000000',
+      'https://faida-pos.vercel.app/track/DEL-1755100000000',
     );
     expect(res.trackingUrl).not.toContain('undefined');
   });

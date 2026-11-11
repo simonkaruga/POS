@@ -57,7 +57,7 @@ export const inDesktopApp = (): boolean => tauriInvoke() !== null;
 
 export async function call<T>(cmd: string, args?: Record<string, unknown>): Promise<T> {
   const invoke = tauriInvoke();
-  if (!invoke) throw new Error('This is only available in the KASTRA desktop app.');
+  if (!invoke) throw new Error('This is only available in the Faida desktop app.');
   try {
     return await invoke<T>(cmd, args);
   } catch (e) {
@@ -68,9 +68,9 @@ export async function call<T>(cmd: string, args?: Record<string, unknown>): Prom
 
 /** Outside the desktop app (developing the wizard in a browser) these return believable values so the screens work. */
 const DEV_DEFAULTS: FolderDefaults = {
-  rootDir: 'C:\\ProgramData\\KASTRA',
-  dataDir: 'C:\\ProgramData\\KASTRA\\pgdata',
-  backupDir: 'C:\\Users\\You\\Documents\\KASTRA Backups',
+  rootDir: 'C:\\ProgramData\\Faida',
+  dataDir: 'C:\\ProgramData\\Faida\\pgdata',
+  backupDir: 'C:\\Users\\You\\Documents\\Faida Backups',
   platform: 'win32',
 };
 
@@ -131,5 +131,5 @@ export const BACKUP_REASON: Record<string, string> = {
 export async function reconfigureThisComputer(): Promise<void> {
   try { await serverStop(); } catch { /* not running, or not a server computer */ }
   try { await call<boolean>('reset_setup'); } catch { /* ignore: the wizard falls back to local storage */ }
-  for (const key of ['desktop-setup-done', 'desktop-device-role', 'desktop-business-name', 'kastra-server-url']) localStorage.removeItem(key);
+  for (const key of ['desktop-setup-done', 'desktop-device-role', 'desktop-business-name', 'faida-server-url']) localStorage.removeItem(key);
 }

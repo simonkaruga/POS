@@ -4,7 +4,9 @@ import { useGoogleLogin } from '@react-oauth/google';
 import { isDesktopApp, getDesktopGoogleAccessToken } from '../lib/googleDesktop';
 import { useAuthStore } from '../stores/auth';
 import type { AuthUser } from '../stores/auth';
-import { Eye, EyeOff, Delete, ChevronLeft, Building2, Sparkles, Fingerprint, Settings } from 'lucide-react';
+import { Eye, EyeOff, ChevronLeft, Building2, Sparkles, Fingerprint, Settings, ShieldCheck, Phone, LockKeyhole, Cloud, CloudOff, Sun, Moon } from 'lucide-react';
+import { useThemeStore } from '../stores/theme';
+import '../styles/faida-login.css';
 import { isBiometricAvailable } from '../lib/biometric';
 import { setToken } from '../lib/api';
 import { reconfigureThisComputer } from '../lib/desktopServer';
@@ -23,7 +25,32 @@ const PLAN_LABELS: Record<string, { label: string; color: string; price: string 
 type LoginMode = 'email' | 'pin' | 'register';
 type PinStep = 'business' | 'staff' | 'pad';
 
-const PIN_DIGITS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'clear', 0, 'del'] as const;
+const PIN_DIGITS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'clear', 0, 'del', 'enter'] as const;
+
+/** Faida support line shown on the sign-in screen (call or WhatsApp). */
+const SUPPORT_PHONE = '+254 797 033 513';
+
+function useClock() {
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => { const t = setInterval(() => setNow(new Date()), 20_000); return () => clearInterval(t); }, []);
+  const h = now.getHours();
+  return {
+    time: now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
+    date: now.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }),
+    longDate: now.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }),
+    greeting: h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening',
+  };
+}
+
+function useOnline() {
+  const [online, setOnline] = useState(() => (typeof navigator === 'undefined' ? true : navigator.onLine));
+  useEffect(() => {
+    const up = () => setOnline(true), down = () => setOnline(false);
+    window.addEventListener('online', up); window.addEventListener('offline', down);
+    return () => { window.removeEventListener('online', up); window.removeEventListener('offline', down); };
+  }, []);
+  return online;
+}
 
 interface StaffMember {
   id: string;
@@ -55,6 +82,10 @@ export default function LoginPage() {
   const googleAvailable = googleSignInAvailable(isDesktopApp(), desktopSetup);
   // Which server and business this installation is connected to, so a till never has to guess where its sales go.
   const connection = describeConnection(useDesktopSetup());
+  const clock = useClock();
+  const online = useOnline();
+  const isDark = useThemeStore((t) => t.isDark);
+  const toggleTheme = useThemeStore((t) => t.toggle);
 
   // Read URL params on mount
   const urlParams = new URLSearchParams(window.location.search);
@@ -80,9 +111,12 @@ export default function LoginPage() {
   const [resolvedBusinessName, setResolvedBusinessName] = useState('');
   const [staff, setStaff] = useState<StaffMember[]>([]);
   const [staffLoading, setStaffLoading] = useState(false);
+  const [staffLoadError, setStaffLoadError] = useState('');
   const [selectedUser, setSelectedUser] = useState<StaffMember | null>(null);
   const [pin, setPin] = useState('');
   const [pinError, setPinError] = useState('');
+  /** Bumped on every wrong PIN; used as a React key so the shake replays each time. */
+  const [pinShake, setPinShake] = useState(0);
   const [biometricAvailable, setBiometricAvailable] = useState(false);
   const [biometricLoading, setBiometricLoading] = useState(false);
 
@@ -129,7 +163,7 @@ export default function LoginPage() {
   const { login, loginWithPin, loginWithBiometric, loginWithOAuth } = useAuthStore();
   const API_URL = (() => {
     try {
-      const stored = localStorage.getItem('kastra-server-url');
+      const stored = localStorage.getItem('faida-server-url');
       if (stored) return stored.replace(/\/$/, '') + '/api/v1';
     } catch { /* ignore */ }
     return import.meta.env.VITE_API_URL ?? '/api/v1';
@@ -258,6 +292,8 @@ export default function LoginPage() {
       setSavedBusinessId(stored);
       setResolvedBusinessName(storedName);
       setPinStep('staff');
+      // A till that already knows its business opens on the staff PIN pad, like the Faida counter.
+      if (urlMode !== 'register') setMode('pin');
       void loadStaff(stored);
     }
   }, []);
@@ -265,18 +301,24 @@ export default function LoginPage() {
   async function loadStaff(bizId: string) {
     setStaffLoading(true);
     setStaff([]);
+    setStaffLoadError('');
     try {
       const res = await fetch(`${API_URL}/business/${bizId}/staff`);
-      if (!res.ok) throw new Error('Not found');
-      const data = (await res.json()) as StaffMember[];
-      setStaff(data);
+      if (res.status === 404) {
+        // The server says this business does not exist: forget it and ask for the code again.
+        setSavedBusinessId('');
+        setResolvedBusinessName('');
+        localStorage.removeItem('pos-business-id');
+        localStorage.removeItem('pos-business-name');
+        setPinStep('business');
+        return;
+      }
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setStaff((await res.json()) as StaffMember[]);
     } catch {
-      // Invalid business ID — go back to business step
-      setSavedBusinessId('');
-      setResolvedBusinessName('');
-      localStorage.removeItem('pos-business-id');
-      localStorage.removeItem('pos-business-name');
-      setPinStep('business');
+      // The server could not be reached (or failed). Keep the business: a till that starts while the network is down
+      // must not forget which shop it belongs to.
+      setStaffLoadError('Could not reach the server to load the staff list. Check the connection, then retry.');
     } finally {
       setStaffLoading(false);
     }
@@ -324,6 +366,8 @@ export default function LoginPage() {
     function onKey(e: KeyboardEvent) {
       if (e.key >= '0' && e.key <= '9') {
         handlePinPad(Number(e.key) as typeof PIN_DIGITS[number]);
+      } else if (e.key === 'Enter') {
+        handlePinPad('enter');
       } else if (e.key === 'Backspace') {
         handlePinPad('del');
       } else if (e.key === 'Escape' || e.key === 'Delete') {
@@ -346,6 +390,7 @@ export default function LoginPage() {
     } catch (err) {
       setPinError(err instanceof Error ? err.message : 'Invalid PIN');
       setPin('');
+      setPinShake((n) => n + 1); // the dots shake, so a wrong PIN is felt as well as read
     } finally {
       setLoading(false);
     }
@@ -356,13 +401,11 @@ export default function LoginPage() {
       setPin('');
     } else if (key === 'del') {
       setPin((p) => p.slice(0, -1));
+    } else if (key === 'enter') {
+      void handlePinLogin();
     } else if (typeof key === 'number' && pin.length < 6) {
-      const next = pin + key.toString();
-      setPin(next);
-      if (next.length >= 4) {
-        // Pass next directly to avoid stale-closure issue with `pin` state
-        setTimeout(() => void handlePinLogin(next), 120);
-      }
+      setPin(pin + key.toString());
+      setPinError('');
     }
   }
 
@@ -433,124 +476,81 @@ export default function LoginPage() {
     }
   }
 
+  const businessTitle = resolvedBusinessName || connection?.business || 'Faida POS';
+  const isTauri = !!(window.__TAURI_INTERNALS__ ?? window.__TAURI__);
+
   return (
-    <div className="min-h-screen flex bg-slate-50 dark:bg-gray-950">
+    <div className={`faida-login ${isDark ? 'is-dark' : ''}`}>
+      {/* ── Top bar ─────────────────────────────────────────────────────── */}
+      <header className="topbar">
+        <span className="brand"><span className="faida-mark"><img src="/faida-mark.png" alt="" /></span>{businessTitle}</span>
+        <span className="topbar-spacer" />
+        <span className={`status ${online ? 'green' : 'yellow'}`}>
+          {online ? <Cloud size={18} /> : <CloudOff size={18} />} {online ? 'Online' : 'Offline'}
+        </span>
+        <button type="button" className="status topbar-look" onClick={toggleTheme}>
+          {isDark ? <Moon size={18} /> : <Sun size={18} />} {isDark ? 'Dark' : 'Bright'}
+        </button>
+        <span className="topbar-clock">{clock.time}<small>{clock.date}</small></span>
+      </header>
 
-      {/* ── Left branding panel (lg+) ─────────────────────────────────── */}
-      <div className="hidden lg:flex lg:w-[440px] xl:w-[500px] flex-col relative overflow-hidden flex-shrink-0 bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900">
-        {/* Decorative circles */}
-        <div className="absolute -top-28 -right-28 w-80 h-80 rounded-full bg-white/[0.06]" />
-        <div className="absolute top-1/2 -left-20 w-56 h-56 rounded-full bg-white/[0.04]" />
-        <div className="absolute -bottom-16 -right-16 w-64 h-64 rounded-full bg-white/[0.05]" />
-        {/* Subtle grid pattern */}
-        <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.8) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.8) 1px,transparent 1px)', backgroundSize: '40px 40px' }} />
+      <main className="pin-login">
+        {/* The Faida scene: orbs, a spinning ring, tumbling cubes and a glass tile (decorative only) */}
+        <div className="pin-scene" aria-hidden="true">
+          <span className="orb orb-orange" /><span className="orb orb-blue" /><span className="orb orb-navy" /><span className="pin-ring" />
+          {['cube cube-big', 'cube cube-small'].map((c) => (
+            <span key={c} className={c}>
+              {['front', 'back', 'right', 'left', 'top', 'bottom'].map((f) => <span key={f} className={`face ${f}`} />)}
+            </span>
+          ))}
+          <span className="glass-tile" />
+        </div>
 
-        <div className="relative z-10 flex flex-col h-full p-10 xl:p-12">
-          {/* Logo row */}
-          <div className="flex items-center gap-3 mb-auto">
-            <div className="w-10 h-10 rounded-[10px] bg-white/15 border border-white/20 flex items-center justify-center shadow">
-              <img src="/logo.png" alt="" className="w-6 h-6 object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-            </div>
-            <div>
-              <div className="text-white font-extrabold text-[15px] tracking-tight leading-tight">KASTRA POS</div>
-              <div className="text-brand-200 text-[10px] font-bold tracking-[0.2em] uppercase mt-[1px]">Enterprise</div>
-            </div>
+        {/* ── Left: the brand ───────────────────────────────────────────── */}
+        <section className="pin-brand">
+          <div className="pin-logo-card"><img src="/faida-wordmark.png" alt="Faida POS" /></div>
+          <div className="pin-business">
+            <h1>{businessTitle}</h1>
+            <span>Karibu · {clock.greeting} · {clock.time}, {clock.longDate}</span>
           </div>
-
-          {/* Headline */}
-          <div className="my-12">
-            <h1 className="text-4xl xl:text-[42px] font-extrabold text-white leading-[1.12] mb-4 tracking-tight">
-              Run your business<br />with confidence
-            </h1>
-            <p className="text-brand-100 text-[15px] leading-relaxed max-w-[340px]">
-              Enterprise POS built for Kenya — KRA eTIMS compliant, offline‑first, and ready to scale.
-            </p>
-          </div>
-
-          {/* Feature list */}
-          <div className="space-y-3">
-            {[
-              'KRA eTIMS compliant & KDPA ready',
-              'Works offline, syncs automatically',
-              'M-Pesa, card & split payments',
-              'Multi-store & franchise management',
-            ].map((f) => (
-              <div key={f} className="flex items-center gap-3 text-white text-sm">
-                <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                {f}
-              </div>
-            ))}
-          </div>
-
+          <p className="pin-hint"><ShieldCheck size={18} /> Every action is recorded under your PIN. Never share it.</p>
+          <p className="pin-hint pin-support"><Phone size={18} /> Faida support (call or WhatsApp): {SUPPORT_PHONE}</p>
           {/* Which server and business this installation is connected to — Tauri desktop only */}
           {connection && (
-            <div className="mt-8 text-left text-xs text-brand-100 border border-white/15 rounded-lg px-3 py-2 max-w-xs" data-testid="connection-note">
-              <p className="font-semibold text-white">{connection.business ?? 'Business not named yet'}</p>
-              <p className="opacity-80">{connection.where}</p>
-            </div>
+            <p className="pin-hint" data-testid="connection-note"><Building2 size={18} /> {connection.business ?? 'Business not named yet'} · {connection.where}</p>
           )}
-
           {/* Reconfigure terminal — Tauri desktop only */}
-          {!!(window.__TAURI_INTERNALS__ ?? window.__TAURI__) && (
+          {isTauri && (
             <button
               type="button"
+              className="pin-hint"
               onClick={async () => {
                 // Stops this computer's own server (with a backup) if it runs one, then forgets the setup.
                 await reconfigureThisComputer();
                 window.location.reload();
               }}
-              className="mt-4 flex items-center gap-2 text-brand-200 hover:text-white text-xs transition-colors group cursor-pointer"
             >
-              <Settings className="w-3.5 h-3.5 group-hover:rotate-90 transition-transform duration-300" />
-              Reconfigure this terminal
+              <Settings size={18} /> Reconfigure this terminal
             </button>
           )}
+        </section>
 
-          <p className="text-brand-200 text-xs mt-4">Trusted by businesses across Kenya</p>
-        </div>
-      </div>
-
-      {/* ── Right form panel ──────────────────────────────────────────── */}
-      <div className="flex-1 flex items-center justify-center p-4 xs:p-6 overflow-y-auto">
-        <div className="w-full max-w-sm py-8">
-
-          {/* Mobile logo (hidden when left panel is visible) */}
-          <div className="lg:hidden text-center mb-8">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center mx-auto mb-3 shadow-lg shadow-blue-500/25">
-              <img src="/logo.png" alt="" className="w-8 h-8 object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+        {/* ── Right: the PIN card ───────────────────────────────────────── */}
+        <section className="pin-pad">
+          <div className="pin-card">
+            <div className="segmented" role="group" aria-label="How to sign in">
+              {([
+                { id: 'email' as LoginMode,    label: 'Sign In' },
+                { id: 'pin' as LoginMode,      label: 'Staff PIN' },
+                { id: 'register' as LoginMode, label: 'Register' },
+              ]).map(({ id, label }) => (
+                <button key={id} type="button" className={mode === id ? 'on' : ''} aria-pressed={mode === id}
+                  onClick={() => { setMode(id); setError(''); setRegError(''); }}>
+                  {label}
+                </button>
+              ))}
             </div>
-            <h1 className="text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight">KASTRA POS</h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Enterprise Point of Sale</p>
-          </div>
-
-          {/* Pill-style mode tabs */}
-          <div className="flex bg-gray-100 dark:bg-gray-800/80 rounded-xl p-1 mb-5 gap-1">
-            {([
-              { id: 'email' as LoginMode,    label: 'Sign In' },
-              { id: 'pin' as LoginMode,      label: 'Staff PIN' },
-              { id: 'register' as LoginMode, label: 'Register' },
-            ]).map(({ id, label }) => (
-              <button
-                key={id}
-                onClick={() => { setMode(id); setError(''); setRegError(''); }}
-                className={`flex-1 py-2 rounded-lg text-xs xs:text-sm font-semibold transition-all duration-150 ${
-                  mode === id
-                    ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
-                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-
-          {/* Form card */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-card border border-gray-200/80 dark:border-gray-700/60">
-        <div className="p-6 xs:p-8">
+            <div className="pin-body">
 
           {/* ── Register mode ──────────────────────────────────────────────── */}
           {mode === 'register' && (
@@ -964,7 +964,14 @@ export default function LoginPage() {
                     </div>
                   )}
 
-                  {!staffLoading && staff.length === 0 && (
+                  {!staffLoading && staffLoadError && (
+                    <div className="py-6 text-center space-y-3" role="alert">
+                      <p className="text-sm text-red-600">{staffLoadError}</p>
+                      <button type="button" onClick={() => void loadStaff(savedBusinessId)} className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold">Retry</button>
+                    </div>
+                  )}
+
+                  {!staffLoading && !staffLoadError && staff.length === 0 && (
                     <div className="py-8 text-center">
                       <p className="text-gray-500 text-sm">No staff with PIN found.</p>
                       <p className="text-gray-400 text-xs mt-1">Ask the owner to set up staff PINs in HR → Staff.</p>
@@ -1024,29 +1031,14 @@ export default function LoginPage() {
                     </div>
                   </div>
 
-                  <p className="text-center text-sm text-gray-600">Enter your PIN</p>
-
-                  {/* PIN dots */}
-                  <div className="flex justify-center gap-3">
+                  <div className="pin-lock"><LockKeyhole size={26} /></div>
+                  <p className="pin-prompt">Enter your PIN</p>
+                  <div key={pinShake} className="pin-dots" data-shake={pinShake > 0 && !!pinError} aria-label={`${pin.length} of up to 6 digits entered`}>
                     {Array.from({ length: 6 }).map((_, i) => (
-                      <div
-                        key={i}
-                        className={`w-9 h-9 rounded-full border-2 flex items-center justify-center transition-all ${
-                          i < pin.length
-                            ? 'bg-blue-600 border-blue-600'
-                            : 'border-gray-300 bg-gray-50'
-                        }`}
-                      >
-                        {i < pin.length && <div className="w-2.5 h-2.5 rounded-full bg-white" />}
-                      </div>
+                      <span key={i} className={`pin-dot ${i < pin.length ? 'filled' : ''}`} />
                     ))}
                   </div>
-
-                  {pinError && (
-                    <div className="text-center text-sm text-red-600 bg-red-50 py-2 rounded-lg">
-                      {pinError}
-                    </div>
-                  )}
+                  <p className="pin-error" role="alert">{pinError || '\u00a0'}</p>
 
                   {/* Biometric login button */}
                   {biometricAvailable && (
@@ -1077,24 +1069,14 @@ export default function LoginPage() {
                     </button>
                   )}
 
-                  {/* Numpad */}
-                  <div className="grid grid-cols-3 gap-2">
-                    {PIN_DIGITS.map((key, i) => (
-                      <button
-                        key={i}
-                        onClick={() => handlePinPad(key)}
-                        disabled={loading}
-                        className={`h-13 py-3.5 rounded-xl font-bold text-lg transition-all active:scale-95 ${
-                          key === 'clear'
-                            ? 'bg-red-50 text-red-600 hover:bg-red-100 text-sm'
-                            : key === 'del'
-                              ? 'bg-gray-100 text-gray-600 hover:bg-gray-200 flex items-center justify-center'
-                              : 'bg-gray-100 hover:bg-blue-50 hover:text-blue-700 text-gray-800'
-                        } disabled:opacity-50`}
-                      >
-                        {key === 'del' ? <Delete className="w-5 h-5 mx-auto" /> : key === 'clear' ? 'CLEAR' : key}
-                      </button>
+                  {/* Keypad: 1-9, delete, 0, OK (Enter on a keyboard) */}
+                  <div className="keypad">
+                    {([1, 2, 3, 4, 5, 6, 7, 8, 9] as const).map((d) => (
+                      <button key={d} type="button" className="key" disabled={loading} onClick={() => handlePinPad(d)}>{d}</button>
                     ))}
+                    <button type="button" className="key key-quiet" aria-label="Delete" disabled={loading} onClick={() => handlePinPad('del')}>⌫</button>
+                    <button type="button" className="key" disabled={loading} onClick={() => handlePinPad(0)}>0</button>
+                    <button type="button" className="key key-enter" disabled={loading} onClick={() => handlePinPad('enter')}>OK</button>
                   </div>
 
                   {loading && (
@@ -1109,17 +1091,14 @@ export default function LoginPage() {
             </div>
           )}
 
-          <p className="text-center text-xs text-gray-400 mt-6">
+          <p className="text-center text-xs text-gray-500 mt-6">
             Want to earn by referring businesses?{' '}
             <a href="/affiliate" className="text-blue-600 dark:text-blue-400 font-medium hover:underline">Join our affiliate program →</a>
           </p>
-
-        </div>
+            </div>
           </div>
-
-
-        </div>
-      </div>
+        </section>
+      </main>
     </div>
   );
 }

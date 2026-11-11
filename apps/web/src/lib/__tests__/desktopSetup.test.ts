@@ -7,7 +7,7 @@ import { formatBytes, timeAgo } from '../desktopServer';
 
 const draft = (over: Partial<SetupDraft> = {}): SetupDraft => ({
   topology: 'SERVER_POS', deviceRole: 'FULL_POS', serverUrl: '',
-  terminalName: '', businessName: '', dataDir: 'C:\\ProgramData\\KASTRA\\pgdata', backupDir: 'C:\\Users\\X\\Documents\\KASTRA Backups',
+  terminalName: '', businessName: '', dataDir: 'C:\\ProgramData\\Faida\\pgdata', backupDir: 'C:\\Users\\X\\Documents\\Faida Backups',
   lanEnabled: false, ...over,
 });
 
@@ -71,7 +71,7 @@ describe('server addresses', () => {
   });
   it('keeps an explicit port and https', () => {
     expect(normalizeServerUrl('http://shop-server:4000')).toBe('http://shop-server:4000');
-    expect(normalizeServerUrl('https://pos-bhe5.onrender.com')).toBe('https://pos-bhe5.onrender.com');
+    expect(normalizeServerUrl('https://faida-api.onrender.com')).toBe('https://faida-api.onrender.com');
   });
   it('empty stays empty', () => expect(normalizeServerUrl('   ')).toBe(''));
   it('the till on the server computer talks to 127.0.0.1, not "localhost" (Windows may pick IPv6)', () => {
@@ -83,8 +83,8 @@ describe('what the wizard saves', () => {
   it('server and till: folders, LAN choice and the local address; no remote server', () => {
     const p = buildSetupPayload(draft({ lanEnabled: false, businessName: ' Wazi Biz ' }));
     expect(p.invokeArgs).toMatchObject({
-      mode: 'SERVER_POS', deviceRole: 'FULL_POS', serverUrl: null, dataDir: 'C:\\ProgramData\\KASTRA\\pgdata',
-      backupDir: 'C:\\Users\\X\\Documents\\KASTRA Backups', lanEnabled: false, businessName: 'Wazi Biz',
+      mode: 'SERVER_POS', deviceRole: 'FULL_POS', serverUrl: null, dataDir: 'C:\\ProgramData\\Faida\\pgdata',
+      backupDir: 'C:\\Users\\X\\Documents\\Faida Backups', lanEnabled: false, businessName: 'Wazi Biz',
     });
     expect(p.apiServerUrl).toBe('http://127.0.0.1:3010');
     expect(p.startsLocalServer).toBe(true);
@@ -102,8 +102,8 @@ describe('what the wizard saves', () => {
     expect(p.startsLocalServer).toBe(false);
   });
   it('cloud saves the cloud address', () => {
-    const p = buildSetupPayload(draft({ topology: 'CLOUD', serverUrl: 'https://pos-bhe5.onrender.com/' }));
-    expect(p.apiServerUrl).toBe('https://pos-bhe5.onrender.com');
+    const p = buildSetupPayload(draft({ topology: 'CLOUD', serverUrl: 'https://faida-api.onrender.com/' }));
+    expect(p.apiServerUrl).toBe('https://faida-api.onrender.com');
     expect(p.startsLocalServer).toBe(false);
   });
   it('never carries a licence key: activation is done by the server, after setup', () => {

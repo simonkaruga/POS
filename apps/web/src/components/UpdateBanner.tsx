@@ -39,9 +39,9 @@ export default function UpdateBanner() {
   const mayInstall = canInstallUpdate(role);
   const installNow = async () => {
     const ok = await confirm({
-      title: `Install KASTRA ${found.version}?`,
+      title: `Install Faida ${found.version}?`,
       message:
-        'KASTRA will close for about a minute while it updates, then open again by itself. Your data is backed up first. ' +
+        'Faida will close for about a minute while it updates, then open again by itself. Your data is backed up first. ' +
         'Finish any sale in progress before you continue. Other tills connected to this computer will wait until it is back.',
       confirmLabel: 'Install and restart',
       variant: 'info',
@@ -52,7 +52,7 @@ export default function UpdateBanner() {
   return (
     <div role="status" className="bg-brand-600 text-white text-sm font-semibold px-4 py-2 flex items-center justify-center gap-3 text-center flex-wrap">
       <Download className="w-4 h-4 flex-shrink-0" aria-hidden />
-      <span>KASTRA {found.version} is ready{mayInstall ? '' : '. Ask the owner or a manager to install it'}.</span>
+      <span>Faida {found.version} is ready{mayInstall ? '' : '. Ask the owner or a manager to install it'}.</span>
       {mayInstall && (
         <button type="button" onClick={installNow} className="bg-white text-brand-700 rounded-md px-3 py-1 hover:bg-gray-100">
           Install and restart

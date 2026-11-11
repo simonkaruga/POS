@@ -329,7 +329,7 @@ export default function SalesListPage() {
       const earnedTx = loyaltyData?.transactions.find(t => t.type === 'EARN' && t.saleId === sale.id);
       const receipt: ReceiptData = {
         receiptNumber: detail.receiptNumber,
-        businessName: (biz as any)?.name ?? 'KASTRA POS',
+        businessName: (biz as any)?.name ?? 'Faida POS',
         storeName: (biz as any)?.storeName ?? '',
         date: detail.createdAt,
         cashierName: detail.cashier?.name ?? 'Cashier',
@@ -420,7 +420,7 @@ export default function SalesListPage() {
         api.get<{ name?: string }>(`/business/${businessId}/settings`).catch(() => ({})),
       ]);
       const message = buildReceiptMessage({
-        businessName: (biz as { name?: string })?.name ?? 'KASTRA POS',
+        businessName: (biz as { name?: string })?.name ?? 'Faida POS',
         receiptNumber: detail.receiptNumber,
         date: detail.createdAt,
         customerName: detail.customer?.name ?? sale.customer?.name,

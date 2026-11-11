@@ -78,7 +78,7 @@ export default function ServerPanel({ status }: { status: LocalServerStatus }) {
     const ok = await confirm(enabled
       ? {
           title: 'Let other computers connect?',
-          message: 'Tills on your network will be able to use this server. Windows may ask you to allow KASTRA through its firewall: choose Allow for private networks. The server restarts and is back in about ten seconds.',
+          message: 'Tills on your network will be able to use this server. Windows may ask you to allow Faida through its firewall: choose Allow for private networks. The server restarts and is back in about ten seconds.',
           variant: 'info',
           confirmLabel: 'Allow',
         }

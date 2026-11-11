@@ -1,4 +1,4 @@
-# KASTRA POS — Web PWA
+# Faida POS — Web PWA
 
 React 18 + TypeScript + Vite 5. The main POS terminal and back office, installable as
 a PWA and bundled unchanged by the Tauri desktop app.
@@ -309,7 +309,7 @@ real receipt number and the eTIMS record are made when it uploads (the entry kee
 
 ## Design system
 
-The look comes from `design/tokens.json` (Signal Violet on Mist Gray; see `design/README.md`). `tailwind.config.js` maps the
+The look comes from `design/tokens.json` (Faida Blue on Cloud; see `design/README.md`). `tailwind.config.js` maps the
 old blue/indigo/purple families onto the brand and makes `bg-white`, `bg-gray-*` and `text-gray-*` follow the dark theme
 through CSS variables, so a page with no `dark:` classes is still readable in dark mode. Shared controls live in
 `src/components/ui` (Button, IconButton, Input, Select, Textarea, Switch, Card, Badge, Tabs, Segmented, SideNav, Menu,

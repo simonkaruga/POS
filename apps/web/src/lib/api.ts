@@ -1,20 +1,20 @@
 /**
  * API base URL resolution order:
- *  1. localStorage 'kastra-server-url'  — set by desktop setup wizard (cloud or LAN server)
+ *  1. localStorage 'faida-server-url'  — set by desktop setup wizard (cloud or LAN server)
  *  2. Tauri desktop with no stored URL  — deployed cloud API (a relative URL would
  *     resolve against tauri://localhost and every request would silently fail)
  *  3. VITE_API_URL env var              — set at build time for web deployment
  *  4. /api/v1                           — relative path (works via Vite proxy in dev)
  */
-const KASTRA_CLOUD_API = 'https://pos-bhe5.onrender.com/api/v1';
+const FAIDA_CLOUD_API = 'https://faida-api.onrender.com/api/v1';
 
 function resolveApiUrl(): string {
   try {
-    const stored = localStorage.getItem('kastra-server-url');
+    const stored = localStorage.getItem('faida-server-url');
     if (stored) return stored.replace(/\/$/, '') + '/api/v1';
   } catch { /* localStorage unavailable (kiosk/standalone context) */ }
   const w = window as unknown as { __TAURI_INTERNALS__?: unknown; __TAURI__?: unknown };
-  if (w.__TAURI_INTERNALS__ ?? w.__TAURI__) return KASTRA_CLOUD_API;
+  if (w.__TAURI_INTERNALS__ ?? w.__TAURI__) return FAIDA_CLOUD_API;
   return import.meta.env.VITE_API_URL ?? '/api/v1';
 }
 

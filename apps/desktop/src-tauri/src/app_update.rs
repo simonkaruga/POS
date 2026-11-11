@@ -5,7 +5,7 @@
 //! lives on this computer:
 //!
 //!   1. download the new installer (the till keeps working meanwhile; the file is checked against the public key in
-//!      tauri.conf.json, so only an installer signed with KASTRA's update key is accepted),
+//!      tauri.conf.json, so only an installer signed with Faida's update key is accepted),
 //!   2. stop the offline server cleanly (it takes a backup first), because Windows ends this program the moment the
 //!      installer starts and would otherwise cut the database off mid-write,
 //!   3. run the installer, which starts the new version.

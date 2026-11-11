@@ -1,8 +1,8 @@
 /**
  * The whole local server on real software: a real PostgreSQL, the real API, real backups.
  *
- * Needs the PostgreSQL programs, so it SKIPS itself unless KASTRA_PG_BIN points at a folder holding initdb, pg_ctl,
- * postgres, pg_dump and pg_restore (and KASTRA_PG_LIB at their libraries where they are not alongside). It also needs the
+ * Needs the PostgreSQL programs, so it SKIPS itself unless FAIDA_PG_BIN points at a folder holding initdb, pg_ctl,
+ * postgres, pg_dump and pg_restore (and FAIDA_PG_LIB at their libraries where they are not alongside). It also needs the
  * API built (apps/api/dist) and Prisma installed, as in CI. It never touches your real data: everything runs in a
  * temporary folder on free ports.
  */
@@ -20,7 +20,7 @@ import { checkHealth } from '../src/api';
 const PASSWORD = `Aa1-${randomBytes(12).toString('hex')}`;
 /** This API answers a successful POST /auth/login with 201 (Nest's default for POST). */
 const LOGIN_OK = 201;
-const PG_BIN = process.env.KASTRA_PG_BIN;
+const PG_BIN = process.env.FAIDA_PG_BIN;
 const REPO = path.resolve(__dirname, '..', '..', '..');
 const API_MAIN = path.join(REPO, 'apps', 'api', 'dist', 'main.js');
 const PRISMA_CLI = path.join(REPO, 'node_modules', 'prisma', 'build', 'index.js');
@@ -29,7 +29,7 @@ const ready = !!PG_BIN && fs.existsSync(API_MAIN) && fs.existsSync(PRISMA_CLI);
 const maybe = ready ? describe : describe.skip;
 
 maybe('local server, end to end', () => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'kastra-it-'));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'faida-it-'));
   let apiPort = 0;
   let pgPort = 0;
   const opts = (version: string): SupervisorOptions => ({
@@ -41,7 +41,7 @@ maybe('local server, end to end', () => {
     pgPort,
     apiPort,
     pgBinDir: PG_BIN as string,
-    pgLibDir: process.env.KASTRA_PG_LIB,
+    pgLibDir: process.env.FAIDA_PG_LIB,
     nodePath: process.execPath,
     apiMain: API_MAIN,
     prismaCli: PRISMA_CLI,
@@ -199,7 +199,7 @@ maybe('local server, end to end', () => {
   function launchCli(dir: string, pg: number, api: number): { child: ChildProcess; running: Promise<void> } {
     const args = ['run', '--root', dir, '--backup-dir', path.join(dir, 'bk'), '--pg-bin', PG_BIN as string, '--api-main', API_MAIN,
       '--prisma-cli', PRISMA_CLI, '--schema', SCHEMA, '--app-version', '1.0.0', '--pg-port', String(pg), '--api-port', String(api)];
-    if (process.env.KASTRA_PG_LIB) args.push('--pg-lib', process.env.KASTRA_PG_LIB);
+    if (process.env.FAIDA_PG_LIB) args.push('--pg-lib', process.env.FAIDA_PG_LIB);
     const child = spawn(process.execPath, [CLI, ...args], { stdio: ['pipe', 'pipe', 'ignore'] });
     let buf = '';
     const running = new Promise<void>((resolve, reject) => {
@@ -219,7 +219,7 @@ maybe('local server, end to end', () => {
   };
 
   cliTests('when the desktop app dies abruptly (its pipes break), the server stops by itself and leaves nothing running', async () => {
-    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'kastra-it-crash-'));
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'faida-it-crash-'));
     const pg = await findFreePort(54600);
     const api = await findFreePort(3600);
     const { child, running } = launchCli(dir, pg, api);
@@ -234,7 +234,7 @@ maybe('local server, end to end', () => {
   });
 
   cliTests('after the server program is KILLED outright, the next start reclaims the leftover and works, with the data intact', async () => {
-    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'kastra-it-kill-'));
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'faida-it-kill-'));
     const pg = await findFreePort(54620);
     const api = await findFreePort(3620);
     const { child, running } = launchCli(dir, pg, api);
@@ -272,7 +272,7 @@ maybe('local server, end to end', () => {
   });
 
   it('refuses to create a database in a folder that already holds someone\'s files, and leaves them alone', async () => {
-    const other = fs.mkdtempSync(path.join(os.tmpdir(), 'kastra-it-full-'));
+    const other = fs.mkdtempSync(path.join(os.tmpdir(), 'faida-it-full-'));
     const keep = path.join(other, 'pgdata');
     fs.mkdirSync(keep);
     fs.writeFileSync(path.join(keep, 'invoice.pdf'), 'precious');

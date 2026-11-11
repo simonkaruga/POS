@@ -159,7 +159,7 @@ export default function ReceiptPrinterSettings({ businessName, printers }: Props
         <p className="text-sm text-gray-600 bg-blue-50 border border-blue-100 rounded-lg p-3 mb-3">
           The browser print window lists every printer installed on this computer. Pick your thermal printer there; it
           remembers your last choice. Install the printer's driver as usual and set the paper size below. To print with no
-          window at all, use the KASTRA POS desktop app, or make the thermal printer the computer's default printer
+          window at all, use the Faida POS desktop app, or make the thermal printer the computer's default printer
           and start Chrome or Edge with
           <code className="mx-1 px-1 bg-white rounded border border-blue-100">--kiosk-printing</code>.
         </p>

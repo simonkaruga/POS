@@ -2,7 +2,7 @@ import type { HTMLAttributes, KeyboardEvent, ReactNode } from 'react';
 import { cn } from './cn';
 
 /**
- * A white surface on the Mist Gray page. Give it `onClick` and `interactive` and it becomes a button-like card: it lifts
+ * A white surface on the Cloud page. Give it `onClick` and `interactive` and it becomes a button-like card: it lifts
  * on hover, settles when pressed, shows a focus ring and answers Enter and Space. A card that only displays data stays still.
  */
 export function Card({ className, interactive, onClick, onKeyDown, ...rest }: HTMLAttributes<HTMLDivElement> & { interactive?: boolean }) {

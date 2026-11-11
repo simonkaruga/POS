@@ -3,7 +3,7 @@
  * which steps a choice leads through, what each choice means, and what gets saved.
  *
  * Two questions, in this order:
- *   1. Where does your data live?      on this computer / network (works offline)   or   KASTRA Cloud (online)
+ *   1. Where does your data live?      on this computer / network (works offline)   or   Faida Cloud (online)
  *   2. (on this computer / network) What does THIS computer do?
  *        SERVER_POS  the server AND a till (a small shop's one PC)
  *        SERVER      only the server; tills on other computers connect to it (a supermarket's back-room PC)
@@ -27,7 +27,7 @@ export const STEP_LABEL: Record<StepId, string> = {
   DONE: 'Done',
 };
 
-/** The default port of the KASTRA API on a server computer. */
+/** The default port of the Faida API on a server computer. */
 export const API_PORT = 3010;
 
 /** Does a computer set up this way run its own database and API? (STANDALONE is the old name for SERVER_POS.) */
@@ -99,7 +99,7 @@ export interface SetupPayload {
     backupDir: string | null;
     lanEnabled: boolean | null;
   };
-  /** Address the app uses for its API from now on (stored as kastra-server-url). */
+  /** Address the app uses for its API from now on (stored as faida-server-url). */
   apiServerUrl: string;
   deviceRole: DeviceRole;
   /** True when this computer must start its own database and API. */
@@ -131,7 +131,7 @@ export function buildSetupPayload(d: SetupDraft): SetupPayload {
 /** Plain-language names for the summary and the console. */
 export function topologyName(t: Topology | 'STANDALONE' | string | null): string {
   switch (t) {
-    case 'CLOUD': return 'KASTRA Cloud (online)';
+    case 'CLOUD': return 'Faida Cloud (online)';
     case 'SERVER_POS':
     case 'STANDALONE': return 'This computer: server and till';
     case 'SERVER': return 'This computer: server only';
@@ -143,7 +143,7 @@ export function topologyName(t: Topology | 'STANDALONE' | string | null): string
 /**
  * Is "Sign in with Google" offered on the login screen?
  *
- * In a browser: yes (the web app is the cloud app). In the desktop app only when the data lives in KASTRA Cloud. A computer that
+ * In a browser: yes (the web app is the cloud app). In the desktop app only when the data lives in Faida Cloud. A computer that
  * keeps its own data, or a till connected to one, talks to a server on the shop network that has no Google settings and may have
  * no internet, so the button could only fail (and the Google secret must never be put on a customer's computer). While the
  * setup is still being read (`undefined`) it is hidden, so the button does not flash and vanish.
@@ -202,7 +202,7 @@ export function describeConnection(cfg: SetupSummary | null | undefined): { wher
       return { where: host ? `Till connected to the server at ${host}` : 'Till connected to a shop server', business };
     }
     case 'CLOUD':
-      return { where: 'KASTRA Cloud (needs the internet)', business };
+      return { where: 'Faida Cloud (needs the internet)', business };
     default:
       return null;
   }

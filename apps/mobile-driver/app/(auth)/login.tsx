@@ -247,25 +247,25 @@ export default function LoginScreen() {
           <ScrollView contentContainerStyle={s.container} keyboardShouldPersistTaps="handled">
             <View style={s.logoArea}>
               <View style={s.logoCircle}><Ionicons name="server" size={36} color="#FFF" /></View>
-              <Text style={s.appName}>Kastra Driver</Text>
+              <Text style={s.appName}>Faida Driver</Text>
               <Text style={s.appTagline}>Server Setup</Text>
             </View>
             <View style={s.card}>
               <Text style={s.cardTitle}>API Server URL</Text>
-              <Text style={s.cardSub}>Enter the Kastra API server URL.{'\n'}Cloud users: leave as default.</Text>
+              <Text style={s.cardSub}>Enter the Faida API server URL.{'\n'}Cloud users: leave as default.</Text>
               {urlError ? <Text style={s.errorText}>{urlError}</Text> : null}
               <TextInput
                 style={s.input}
                 value={urlInput}
                 onChangeText={v => { setUrlInput(v); setUrlError(''); }}
-                placeholder="https://pos-bhe5.onrender.com/api/v1"
+                placeholder="https://faida-api.onrender.com/api/v1"
                 autoCapitalize="none"
                 autoCorrect={false}
                 keyboardType="url"
                 placeholderTextColor={Colors.textSecondary}
                 autoFocus
               />
-              <Text style={s.hintText}>Default (cloud): https://pos-bhe5.onrender.com/api/v1{'\n'}LAN server: http://192.168.x.x:3010/api/v1 (same Wi-Fi)</Text>
+              <Text style={s.hintText}>Default (cloud): https://faida-api.onrender.com/api/v1{'\n'}LAN server: http://192.168.x.x:3010/api/v1 (same Wi-Fi)</Text>
               <TouchableOpacity style={[s.btn, urlTesting && { opacity: 0.7 }]} onPress={handleSaveUrl} disabled={urlTesting}>
                 {urlTesting
                   ? <ActivityIndicator color="#FFF" />
@@ -286,7 +286,7 @@ export default function LoginScreen() {
         <ScrollView contentContainerStyle={s.container}>
           <View style={s.logoArea}>
             <View style={s.logoCircle}><Ionicons name="bicycle" size={40} color="#FFF" /></View>
-            <Text style={s.appName}>Kastra Driver</Text>
+            <Text style={s.appName}>Faida Driver</Text>
             <Text style={s.appTagline}>How would you like to sign in?</Text>
           </View>
           <View style={s.modeCard}>
@@ -487,7 +487,7 @@ export default function LoginScreen() {
           </TouchableOpacity>
           <View style={s.logoArea}>
             <View style={s.logoCircle}><Ionicons name="bicycle" size={40} color="#FFF" /></View>
-            <Text style={s.appName}>Kastra Driver</Text>
+            <Text style={s.appName}>Faida Driver</Text>
             <Text style={s.appTagline}>Delivery Management</Text>
           </View>
           <View style={s.card}>

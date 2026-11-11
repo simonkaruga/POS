@@ -774,7 +774,7 @@ export class HospitalityService {
     if (status === 'READY' && kot.order.waiter?.phone) {
       const tableLabel = kot.order.table ? `Table ${kot.order.table.number}` : 'your order';
       const message =
-        `*Order ready*\n\nHi ${kot.order.waiter.name}, ${tableLabel} (${kot.station.toLowerCase()} ticket #${kot.kotNumber}) is ready to be served.\n\n_KASTRA POS Kitchen_`;
+        `*Order ready*\n\nHi ${kot.order.waiter.name}, ${tableLabel} (${kot.station.toLowerCase()} ticket #${kot.kotNumber}) is ready to be served.\n\n_Faida POS Kitchen_`;
       void this.notificationsService.sendWhatsApp(
         kot.order.businessId,
         kot.order.waiter.phone,

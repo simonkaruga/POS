@@ -189,7 +189,7 @@ export default function MobileNav({ isOpen, onOpen, onClose, businessType = 'RET
             <ShoppingCart className="w-4 h-4 text-white" />
           </div>
           <span className="text-[15px] font-extrabold text-gray-900 dark:text-white tracking-tight">
-            KASTRA <span className="text-blue-500">POS</span>
+            Faida <span className="text-blue-500">POS</span>
           </span>
         </div>
         <div className="flex items-center gap-1">
@@ -270,7 +270,7 @@ export default function MobileNav({ isOpen, onOpen, onClose, businessType = 'RET
                     onTouchStart={() => prefetchRoute(item.to)}
                     className={`flex items-center gap-3 mx-2 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-all duration-150 ${
                       active
-                        ? 'bg-blue-600/10 dark:bg-blue-500/15 text-blue-700 dark:text-blue-300 shadow-[inset_2px_0_0_#8B4EFF]'
+                        ? 'bg-blue-600/10 dark:bg-blue-500/15 text-blue-700 dark:text-blue-300 shadow-[inset_2px_0_0_#3B7DFF]'
                         : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/[0.05] hover:text-gray-900 dark:hover:text-white'
                     }`}
                   >

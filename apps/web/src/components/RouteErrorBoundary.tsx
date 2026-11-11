@@ -11,7 +11,7 @@ import { Button } from './ui';
  * a button and a plain message. Any other error is shown the same way, with a retry that redraws just the page.
  */
 const CHUNK_ERROR = /dynamically imported module|Loading chunk|Failed to fetch|Importing a module script failed|error loading dynamically/i;
-const RELOAD_FLAG = 'kastra:chunk-reloaded';
+const RELOAD_FLAG = 'faida:chunk-reloaded';
 
 export function isChunkLoadError(err: unknown): boolean {
   const msg = err instanceof Error ? `${err.name} ${err.message}` : String(err);

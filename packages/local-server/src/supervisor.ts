@@ -169,7 +169,7 @@ export class Supervisor extends EventEmitter {
       const pidFile = nodePath.join(nodePath.dirname(this.o.configFile), 'run', 'api.pid');
       if (await reapOrphanApi(pidFile, config.apiPort)) this.emit('warning', 'Stopped a server left running by an earlier crash.');
       if (!(await isPortFree(config.apiPort))) {
-        throw new Error(`Port ${config.apiPort} is in use by another program, so the KASTRA server cannot start. Close that program or restart the computer.`);
+        throw new Error(`Port ${config.apiPort} is in use by another program, so the Faida server cannot start. Close that program or restart the computer.`);
       }
       this.set('starting', 'Starting the server');
       this.api = new ApiProcess(config, {
@@ -185,7 +185,7 @@ export class Supervisor extends EventEmitter {
         licensePublicKey: this.o.licensePublicKey,
       });
       this.api.on('crashed', () => this.set('running', 'The server restarted after a problem'));
-      this.api.on('gave-up', () => this.set('error', 'The server keeps stopping. See the log files, then restart KASTRA.'));
+      this.api.on('gave-up', () => this.set('error', 'The server keeps stopping. See the log files, then restart Faida.'));
       await this.api.start();
 
       config.lastRunVersion = this.o.appVersion;

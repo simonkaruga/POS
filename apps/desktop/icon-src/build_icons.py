@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rebuild every desktop icon from the KASTRA logo (icon-src/logo.png).
+"""Rebuild every desktop icon from the Faida logo (icon-src/logo.png).
 
     python3 icon-src/build_icons.py          (run from apps/desktop)
 

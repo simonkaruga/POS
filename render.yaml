@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: kastra-api
+    name: faida-api
     runtime: node
     region: frankfurt        # Frankfurt is closest to Kenya (low latency)
     plan: free               # Free tier — sleeps after 15 min inactivity; upgrade to starter ($7/mo) for always-on
@@ -25,19 +25,19 @@ services:
       - key: ENCRYPTION_KEY
         sync: false           # 64 hex chars — generate with: openssl rand -hex 32
       - key: FRONTEND_URL
-        sync: false           # web app origin, e.g. https://pos-web-sigma.vercel.app
+        sync: false           # web app origin, e.g. https://faida-pos.vercel.app
                               # REQUIRED. Used for CORS, affiliate/referral emails, customer
                               # delivery tracking links and supplier RFQ quote links. If it is
                               # unset those links are handed to customers as localhost.
       - key: ADMIN_URL
-        sync: false           # admin console origin, e.g. https://kastra-admin.vercel.app
+        sync: false           # admin console origin, e.g. https://faida-admin.vercel.app
       - key: EXTRA_ORIGINS
         sync: false           # Comma-separated extra allowed origins (optional)
       # ── Email (Resend) — REQUIRED for affiliate/subscription/receipt emails ──
       - key: RESEND_API_KEY
         sync: false           # from resend.com/api-keys
       - key: EMAIL_FROM
-        sync: false           # e.g. "KASTRA POS <receipts@yourdomain.com>" (verified Resend domain)
+        sync: false           # e.g. "Faida POS <receipts@yourdomain.com>" (verified Resend domain)
       # ── Paystack billing — REQUIRED for subscriptions + affiliate commissions ──
       - key: PAYSTACK_SECRET_KEY
         sync: false
@@ -76,8 +76,8 @@ services:
 # Uncomment the section below ONLY if you want Render's built-in DB (dev/testing only):
 #
 # databases:
-#   - name: kastra-db
-#     databaseName: kastra_pos
-#     user: kastra
+#   - name: faida-db
+#     databaseName: faida_pos
+#     user: faida
 #     plan: free             # WARNING: deleted after 90 days — use Supabase for production
 #     region: frankfurt

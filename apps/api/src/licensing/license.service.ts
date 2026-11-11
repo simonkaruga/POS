@@ -2,7 +2,7 @@
  * The offline edition's side of licensing: holds the signed licence, activates and quietly renews it, and keeps the
  * business's plan in step with it.
  *
- * Only runs as the offline edition (KASTRA_EDITION=LOCAL, set by the desktop app's server program). On the cloud server every
+ * Only runs as the offline edition (FAIDA_EDITION=LOCAL, set by the desktop app's server program). On the cloud server every
  * method answers "cloud" and does nothing, so the cloud's own subscription handling is untouched.
  *
  * Trust: the plan and the dates are read from the verified token, never from the readable copy in the database, so editing the
@@ -17,7 +17,7 @@ import { evaluateLicense, LicenseEvaluation, LicenseState, planFieldsFor } from 
 
 const DAY = 24 * 60 * 60 * 1000;
 /** Where licences are issued; the desktop app can point elsewhere (a test server). */
-const DEFAULT_SERVER = 'https://pos-bhe5.onrender.com';
+const DEFAULT_SERVER = 'https://faida-api.onrender.com';
 /** How often a connected installation renews. The token lasts 30 days, so a day's renewal keeps it fresh with huge margin. */
 const RENEW_EVERY_MS = DAY;
 
@@ -57,10 +57,10 @@ export class LicenseService implements OnApplicationBootstrap {
   constructor(private readonly prisma: PrismaService) {}
 
   get edition(): 'LOCAL' | 'CLOUD' {
-    return process.env.KASTRA_EDITION === 'LOCAL' ? 'LOCAL' : 'CLOUD';
+    return process.env.FAIDA_EDITION === 'LOCAL' ? 'LOCAL' : 'CLOUD';
   }
-  private get publicKey(): string | null { return process.env.KASTRA_LICENSE_PUBLIC_KEY?.trim() || null; }
-  private get machineId(): string | null { return process.env.KASTRA_MACHINE_ID?.trim() || null; }
+  private get publicKey(): string | null { return process.env.FAIDA_LICENSE_PUBLIC_KEY?.trim() || null; }
+  private get machineId(): string | null { return process.env.FAIDA_MACHINE_ID?.trim() || null; }
   private get serverUrl(): string { return (process.env.LICENSE_SERVER_URL?.trim() || DEFAULT_SERVER).replace(/\/+$/, ''); }
   private get configured(): boolean { return !!this.publicKey && !!this.machineId; }
 
@@ -166,7 +166,7 @@ export class LicenseService implements OnApplicationBootstrap {
         signal: AbortSignal.timeout(15000),
       });
     } catch {
-      throw failure(503, 'UNREACHABLE', 'Could not reach the KASTRA licence server. Connect this computer to the internet and try again.');
+      throw failure(503, 'UNREACHABLE', 'Could not reach the Faida licence server. Connect this computer to the internet and try again.');
     }
     const body = (await res.json().catch(() => ({}))) as { code?: string; message?: string; token?: string };
     if (!res.ok) throw failure(res.status, body.code ?? 'REFUSED', body.message ?? 'The licence server refused the request.');
@@ -175,10 +175,10 @@ export class LicenseService implements OnApplicationBootstrap {
   }
 
   private async store(key: string, token: string, now: Date): Promise<LicensePayload> {
-    if (!this.publicKey) throw failure(503, 'NOT_CONFIGURED', 'This installation has no licence key to check licences against. Reinstall KASTRA POS.');
+    if (!this.publicKey) throw failure(503, 'NOT_CONFIGURED', 'This installation has no licence key to check licences against. Reinstall Faida POS.');
     const v = verifyLicense(token, this.publicKey);
     // A licence that does not verify is never stored: it could be a forgery, or an answer from the wrong server.
-    if (!v.ok) throw failure(502, 'BAD_SIGNATURE', 'The licence could not be verified. Contact KASTRA support.');
+    if (!v.ok) throw failure(502, 'BAD_SIGNATURE', 'The licence could not be verified. Contact Faida support.');
     if (v.payload.machineId !== this.machineId) throw failure(502, 'WRONG_COMPUTER', 'That licence is for a different computer.');
     const previous = await this.findRow();
     const tokenExpiresAt = new Date(v.payload.tokenExpiresAt);

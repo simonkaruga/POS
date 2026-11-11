@@ -83,3 +83,6 @@ apps/*/ios/
 apps/desktop/.cache/
 apps/desktop/src-tauri/resources/server/
 apps/desktop/src-tauri/resources/server.tar.gz
+
+# TypeScript incremental build state
+*.tsbuildinfo

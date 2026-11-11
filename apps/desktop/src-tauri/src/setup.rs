@@ -5,7 +5,7 @@ use std::path::PathBuf;
 #[derive(Serialize, Deserialize, Clone)]
 pub struct SetupConfig {
     /// Where this computer's data lives and what it does:
-    ///   CLOUD        data in KASTRA Cloud; this app is a till
+    ///   CLOUD        data in Faida Cloud; this app is a till
     ///   SERVER_POS   data on THIS computer, which is also a till (a small shop's single PC)
     ///   SERVER       data on this computer, which only serves the tills (a dedicated server PC)
     ///   CLIENT       a till that connects to a server on the network
@@ -23,10 +23,10 @@ pub struct SetupConfig {
     pub terminal_name: Option<String>,
     /// Business name entered in the wizard; pre-fills registration
     pub business_name: Option<String>,
-    /// Folder for the live database (SERVER_POS / SERVER). None = the default, C:\ProgramData\KASTRA\pgdata.
+    /// Folder for the live database (SERVER_POS / SERVER). None = the default, C:\ProgramData\Faida\pgdata.
     #[serde(default)]
     pub data_dir: Option<String>,
-    /// Folder for backups. None = Documents\KASTRA Backups.
+    /// Folder for backups. None = Documents\Faida Backups.
     #[serde(default)]
     pub backup_dir: Option<String>,
     /// May other computers on the network connect to this server?
@@ -61,7 +61,7 @@ pub fn read_config() -> Result<SetupConfig, String> {
 fn get_config_path() -> PathBuf {
     let mut path = dirs_next::config_dir()
         .unwrap_or_else(|| PathBuf::from("."));
-    path.push("kastra-pos");
+    path.push("faida-pos");
     fs::create_dir_all(&path).ok();
     path.push("mode.json");
     path
@@ -143,19 +143,19 @@ pub async fn reset_setup() -> Result<bool, String> {
 }
 
 /// Return the vendor's cloud server URL baked in at build time.
-/// Set VITE_KASTRA_CLOUD_URL in the web .env before building the installer.
+/// Set VITE_FAIDA_CLOUD_URL in the web .env before building the installer.
 #[tauri::command]
 pub fn get_cloud_url() -> String {
     cloud_url()
 }
 
-/// The KASTRA cloud address this build talks to (licences are issued and renewed there).
+/// The Faida cloud address this build talks to (licences are issued and renewed there).
 pub fn cloud_url() -> String {
     // The env var is embedded at compile-time via the build script or
     // via the web Vite build that Tauri bundles.
     // We expose it as a Tauri command so the setup wizard can read it.
-    option_env!("KASTRA_CLOUD_URL")
-        .unwrap_or("https://pos-bhe5.onrender.com")
+    option_env!("FAIDA_CLOUD_URL")
+        .unwrap_or("https://faida-api.onrender.com")
         .to_string()
 }
 

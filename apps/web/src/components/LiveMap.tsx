@@ -149,14 +149,14 @@ export default function LiveMap({
             className={`px-2 py-0.5 rounded-md text-[11px] font-semibold text-white whitespace-nowrap shadow ${
               p.muted ? 'opacity-60' : ''
             }`}
-            style={{ backgroundColor: p.color ?? '#7A35FF' }}
+            style={{ backgroundColor: p.color ?? '#1F6BFF' }}
           >
             {p.label}
             {p.sublabel && <span className="font-normal opacity-90"> · {p.sublabel}</span>}
           </div>
           <div
             className={`w-3 h-3 rotate-45 -mt-1 shadow ${p.muted ? 'opacity-60' : ''}`}
-            style={{ backgroundColor: p.color ?? '#7A35FF' }}
+            style={{ backgroundColor: p.color ?? '#1F6BFF' }}
           />
         </div>
       ))}

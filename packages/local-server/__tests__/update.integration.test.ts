@@ -1,7 +1,7 @@
 /**
  * Updating the app, on real software: a real PostgreSQL and the real API, with a shop's data already in the database.
  *
- * Skips itself unless KASTRA_PG_BIN is set and the API is built (see supervisor.integration.test.ts). It proves the part of
+ * Skips itself unless FAIDA_PG_BIN is set and the API is built (see supervisor.integration.test.ts). It proves the part of
  * an app update that can lose a shop's records: the first start of a new version saves a safety backup, applies the new
  * database changes, and keeps every record; and when a database change FAILS the data is put back exactly as it was, so
  * the shop is never left with a half-updated database. Everything runs in a temporary folder on free ports.
@@ -16,7 +16,7 @@ import { isPortFree, findFreePort } from '../src/ports';
 import { Supervisor, SupervisorOptions } from '../src/supervisor';
 
 const PASSWORD = `Aa1-${randomBytes(12).toString('hex')}`;
-const PG_BIN = process.env.KASTRA_PG_BIN;
+const PG_BIN = process.env.FAIDA_PG_BIN;
 const REPO = path.resolve(__dirname, '..', '..', '..');
 const API_MAIN = path.join(REPO, 'apps', 'api', 'dist', 'main.js');
 const PRISMA_CLI = path.join(REPO, 'node_modules', 'prisma', 'build', 'index.js');
@@ -24,7 +24,7 @@ const ready = !!PG_BIN && fs.existsSync(API_MAIN) && fs.existsSync(PRISMA_CLI);
 const maybe = ready ? describe : describe.skip;
 
 maybe('updating the app keeps the shop data', () => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'kastra-upd-'));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'faida-upd-'));
   let apiPort = 0;
   let pgPort = 0;
 
@@ -57,7 +57,7 @@ maybe('updating the app keeps the shop data', () => {
     pgPort,
     apiPort,
     pgBinDir: PG_BIN as string,
-    pgLibDir: process.env.KASTRA_PG_LIB,
+    pgLibDir: process.env.FAIDA_PG_LIB,
     nodePath: process.execPath,
     apiMain: API_MAIN,
     prismaCli: PRISMA_CLI,

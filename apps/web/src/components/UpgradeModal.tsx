@@ -166,7 +166,7 @@ export default function UpgradeModal({
           <div className="flex gap-3">
             {isEnterprise ? (
               <a
-                href="mailto:sales@kastrapos.co.ke?subject=Enterprise Plan Inquiry"
+                href="mailto:sales@faidapos.co.ke?subject=Enterprise Plan Inquiry"
                 className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-xl font-bold text-center hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl"
               >
                 Contact Sales

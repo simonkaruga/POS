@@ -63,7 +63,7 @@ export class SubscriptionService {
     const business = await this.prisma.business.findUnique({ where: { id: businessId } });
     if (!business) throw new BadRequestException('Business not found');
 
-    const reference = `kastra_${businessId}_${tier}_${Date.now()}`;
+    const reference = `faida_${businessId}_${tier}_${Date.now()}`;
 
     const res = await fetch('https://api.paystack.co/transaction/initialize', {
       method: 'POST',

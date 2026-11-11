@@ -98,7 +98,7 @@ export default function ProfileScreen() {
           <Text style={st.logoutText}>Sign Out</Text>
         </TouchableOpacity>
 
-        <Text style={st.version}>KASTRA Agent v{buildLabel()}</Text>
+        <Text style={st.version}>Faida Agent v{buildLabel()}</Text>
         <UpdateCheck />
       </ScrollView>
     </View>

@@ -29,15 +29,15 @@ pub struct LocalServerState(pub Slot, pub Arc<Mutex<Prep>>);
 
 /// Where the server's files are. Installed: the installer carries the server as ONE file, `server.tar.gz` (11,000 small files
 /// make a poor installer), and it is unpacked once per build into the user's local app data folder, then reused. Developers
-/// can run from a checkout instead: set KASTRA_DEV_REPO to the repository folder and KASTRA_PG_BIN (and KASTRA_PG_LIB where
+/// can run from a checkout instead: set FAIDA_DEV_REPO to the repository folder and FAIDA_PG_BIN (and FAIDA_PG_LIB where
 /// needed) to a PostgreSQL `bin` folder.
 ///
 /// Unpacking can take a minute the first time, so this must run off the window's thread. Progress is kept in `prep` so the
 /// screen can say "Preparing the server" instead of looking stuck.
 fn server_paths(app: &AppHandle, prep: &Mutex<Prep>) -> Result<ServerPaths, String> {
-    if let Ok(repo) = std::env::var("KASTRA_DEV_REPO") {
-        let pg_bin = std::env::var("KASTRA_PG_BIN").map_err(|_| "KASTRA_PG_BIN must point to a PostgreSQL bin folder when KASTRA_DEV_REPO is set".to_string())?;
-        let pg_lib = std::env::var("KASTRA_PG_LIB").ok();
+    if let Ok(repo) = std::env::var("FAIDA_DEV_REPO") {
+        let pg_bin = std::env::var("FAIDA_PG_BIN").map_err(|_| "FAIDA_PG_BIN must point to a PostgreSQL bin folder when FAIDA_DEV_REPO is set".to_string())?;
+        let pg_lib = std::env::var("FAIDA_PG_LIB").ok();
         return Ok(ServerPaths::from_repo(Path::new(&repo), Path::new(&pg_bin), pg_lib.as_deref().map(Path::new)));
     }
     let resources = app.path().resource_dir().map_err(|e| e.to_string())?;
@@ -45,10 +45,10 @@ fn server_paths(app: &AppHandle, prep: &Mutex<Prep>) -> Result<ServerPaths, Stri
     let archive = [resources.join("server.tar.gz"), resources.join("resources").join("server.tar.gz")]
         .into_iter()
         .find(|p| p.exists())
-        .ok_or_else(|| "The offline server is missing from this installation. Reinstall KASTRA POS.".to_string())?;
+        .ok_or_else(|| "The offline server is missing from this installation. Reinstall Faida POS.".to_string())?;
     let versions = dirs_next::data_local_dir()
         .ok_or_else(|| "Cannot find this computer's local app data folder.".to_string())?
-        .join("KASTRA")
+        .join("Faida")
         .join("server");
     let size = std::fs::metadata(&archive).map(|m| m.len()).unwrap_or(0);
     let key = format!("{}-{}", app.package_info().version, size);

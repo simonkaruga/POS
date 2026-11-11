@@ -4,16 +4,16 @@ import * as path from 'node:path';
 import { DbBackupService } from './db-backup.service';
 
 describe('DbBackupService on the offline desktop edition', () => {
-  const saved = { edition: process.env.KASTRA_EDITION, dir: process.env.BACKUP_DIR, url: process.env.DATABASE_URL };
+  const saved = { edition: process.env.FAIDA_EDITION, dir: process.env.BACKUP_DIR, url: process.env.DATABASE_URL };
   afterEach(() => {
-    for (const [key, value] of [['KASTRA_EDITION', saved.edition], ['BACKUP_DIR', saved.dir], ['DATABASE_URL', saved.url]] as const) {
+    for (const [key, value] of [['FAIDA_EDITION', saved.edition], ['BACKUP_DIR', saved.dir], ['DATABASE_URL', saved.url]] as const) {
       if (value === undefined) delete process.env[key]; else process.env[key] = value;
     }
   });
 
   it('does nothing: the desktop app backs itself up, and this job would only fail and leave a stray folder', async () => {
-    const dir = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'kastra-dbb-')), 'never-created');
-    process.env.KASTRA_EDITION = 'LOCAL';
+    const dir = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'faida-dbb-')), 'never-created');
+    process.env.FAIDA_EDITION = 'LOCAL';
     process.env.BACKUP_DIR = dir;
     process.env.DATABASE_URL = 'postgresql://127.0.0.1:1/z';
     await new DbBackupService().runBackup();
@@ -21,8 +21,8 @@ describe('DbBackupService on the offline desktop edition', () => {
   });
 
   it('still tries to back up on the cloud server (no edition set)', async () => {
-    const dir = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'kastra-dbb-')), 'created');
-    delete process.env.KASTRA_EDITION;
+    const dir = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'faida-dbb-')), 'created');
+    delete process.env.FAIDA_EDITION;
     process.env.BACKUP_DIR = dir;
     process.env.DATABASE_URL = 'postgresql://127.0.0.1:1/z';
     await new DbBackupService().runBackup();

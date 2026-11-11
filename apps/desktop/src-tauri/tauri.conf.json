@@ -1,7 +1,7 @@
 {
-  "productName": "KASTRA POS",
+  "productName": "Faida POS",
   "version": "1.1.3",
-  "identifier": "co.ke.kastra.pos",
+  "identifier": "co.ke.faida.pos",
   "build": {
     "beforeDevCommand": "cd ../../ && npm run dev:web",
     "devUrl": "http://localhost:3005",
@@ -11,7 +11,7 @@
   "app": {
     "windows": [
       {
-        "title": "KASTRA POS",
+        "title": "Faida POS",
         "width": 1280,
         "height": 800,
         "minWidth": 1024,
@@ -19,7 +19,7 @@
         "resizable": true,
         "fullscreen": false,
         "center": true,
-        "backgroundColor": "#F0F2F5"
+        "backgroundColor": "#F3F6FC"
       }
     ],
     "security": {
@@ -51,7 +51,7 @@
       "timestampUrl": "",
       "wix": {
         "fragmentPaths": ["wix/setup-cleanup.wxs"],
-        "componentRefs": ["KastraSetupCleanup"]
+        "componentRefs": ["FaidaSetupCleanup"]
       },
       "nsis": {
         "installMode": "perMachine",
@@ -64,8 +64,8 @@
   },
   "plugins": {
     "updater": {
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDQ4MEZBN0E2MTc3NzYyNEUKUldST1luY1hwcWNQU0VVYmI3Rm1OUlhtcld1NmRtanBoRGNLMXBiQ0NrbEtQTFRvK0Z2OG5Xb2sK",
-      "endpoints": ["https://github.com/kevrith/POS/releases/download/desktop-updates/latest.json"],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEJBNjJGOTgxRTJEODNFMDYKUldRR1B0amlnZmxpdW9sQnV2Q250dURrNWg3L1V0eUViU3pTMmpnamdodjhNem14Uytmd2NWYnMK",
+      "endpoints": ["https://github.com/simonkaruga/POS/releases/download/desktop-updates/latest.json"],
       "windows": { "installMode": "passive" }
     }
   }

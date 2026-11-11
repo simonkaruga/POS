@@ -90,9 +90,9 @@ jobs:
           fi
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
-  # ── KASTRA POS Cashier App ────────────────────────────────────────────────────
+  # ── Faida POS Cashier App ────────────────────────────────────────────────────
   build-pos:
-    name: Android — KASTRA POS (Cashier)
+    name: Android — Faida POS (Cashier)
     if: >
       github.event.inputs.app == 'all' ||
       github.event.inputs.app == 'mobile-pos' ||
@@ -135,6 +135,17 @@ jobs:
         working-directory: apps/mobile-pos
         run: rm -rf android ios .expo
 
+      - name: Ensure EAS project is linked
+        working-directory: apps/mobile-pos
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          if node -e "process.exit(require('./app.json').expo?.extra?.eas?.projectId ? 0 : 1)"; then
+            echo "projectId already set in app.json — skipping init"
+          else
+            eas init --non-interactive --force
+          fi
+
       - name: Build Android APK (local)
         working-directory: apps/mobile-pos
         env:
@@ -149,27 +160,27 @@ jobs:
             --platform android \
             --profile ${{ github.event.inputs.profile || 'preview' }} \
             --local \
-            --output ./build/kastra-pos-cashier.apk \
+            --output ./build/faida-pos-cashier.apk \
             --non-interactive
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: kastra-pos-cashier-${{ github.ref_name || 'manual' }}.apk
-          path: apps/mobile-pos/build/kastra-pos-cashier.apk
+          name: faida-pos-cashier-${{ github.ref_name || 'manual' }}.apk
+          path: apps/mobile-pos/build/faida-pos-cashier.apk
           retention-days: 30
 
       - name: Add download link to job summary
         run: |
-          echo "## KASTRA POS Cashier APK" >> $GITHUB_STEP_SUMMARY
+          echo "## Faida POS Cashier APK" >> $GITHUB_STEP_SUMMARY
           echo "Build: \`${{ github.ref_name || 'manual' }}\`" >> $GITHUB_STEP_SUMMARY
           echo "Profile: \`${{ github.event.inputs.profile || 'preview' }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "Download the APK from the **Artifacts** section of this workflow run." >> $GITHUB_STEP_SUMMARY
 
-  # ── KASTRA Order (Customer Self-Service) App ──────────────────────────────────
+  # ── Faida Order (Customer Self-Service) App ──────────────────────────────────
   build-customer:
-    name: Android — KASTRA Order (Customer)
+    name: Android — Faida Order (Customer)
     if: >
       github.event.inputs.app == 'all' ||
       github.event.inputs.app == 'mobile-customer' ||
@@ -212,6 +223,17 @@ jobs:
         working-directory: apps/mobile-customer
         run: rm -rf android ios .expo
 
+      - name: Ensure EAS project is linked
+        working-directory: apps/mobile-customer
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          if node -e "process.exit(require('./app.json').expo?.extra?.eas?.projectId ? 0 : 1)"; then
+            echo "projectId already set in app.json — skipping init"
+          else
+            eas init --non-interactive --force
+          fi
+
       - name: Build Android APK (local)
         working-directory: apps/mobile-customer
         env:
@@ -226,24 +248,24 @@ jobs:
             --platform android \
             --profile ${{ github.event.inputs.profile || 'preview' }} \
             --local \
-            --output ./build/kastra-order-customer.apk \
+            --output ./build/faida-order-customer.apk \
             --non-interactive
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: kastra-order-customer-${{ github.ref_name || 'manual' }}.apk
-          path: apps/mobile-customer/build/kastra-order-customer.apk
+          name: faida-order-customer-${{ github.ref_name || 'manual' }}.apk
+          path: apps/mobile-customer/build/faida-order-customer.apk
           retention-days: 30
 
       - name: Add download link to job summary
         run: |
-          echo "## KASTRA Order (Customer) APK" >> $GITHUB_STEP_SUMMARY
+          echo "## Faida Order (Customer) APK" >> $GITHUB_STEP_SUMMARY
           echo "Download the APK from the **Artifacts** section of this workflow run." >> $GITHUB_STEP_SUMMARY
 
-  # ── KASTRA Driver App ─────────────────────────────────────────────────────────
+  # ── Faida Driver App ─────────────────────────────────────────────────────────
   build-driver:
-    name: Android — KASTRA Driver
+    name: Android — Faida Driver
     if: >
       github.event.inputs.app == 'all' ||
       github.event.inputs.app == 'mobile-driver' ||
@@ -286,6 +308,17 @@ jobs:
         working-directory: apps/mobile-driver
         run: rm -rf android ios .expo
 
+      - name: Ensure EAS project is linked
+        working-directory: apps/mobile-driver
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          if node -e "process.exit(require('./app.json').expo?.extra?.eas?.projectId ? 0 : 1)"; then
+            echo "projectId already set in app.json — skipping init"
+          else
+            eas init --non-interactive --force
+          fi
+
       - name: Build Android APK (local)
         working-directory: apps/mobile-driver
         env:
@@ -300,24 +333,24 @@ jobs:
             --platform android \
             --profile ${{ github.event.inputs.profile || 'preview' }} \
             --local \
-            --output ./build/kastra-driver.apk \
+            --output ./build/faida-driver.apk \
             --non-interactive
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: kastra-driver-${{ github.ref_name || 'manual' }}.apk
-          path: apps/mobile-driver/build/kastra-driver.apk
+          name: faida-driver-${{ github.ref_name || 'manual' }}.apk
+          path: apps/mobile-driver/build/faida-driver.apk
           retention-days: 30
 
       - name: Add download link to job summary
         run: |
-          echo "## KASTRA Driver APK" >> $GITHUB_STEP_SUMMARY
+          echo "## Faida Driver APK" >> $GITHUB_STEP_SUMMARY
           echo "Download the APK from the **Artifacts** section of this workflow run." >> $GITHUB_STEP_SUMMARY
 
-  # ── KASTRA Agent App (Field Sales) ────────────────────────────────────────────
+  # ── Faida Agent App (Field Sales) ────────────────────────────────────────────
   build-agent:
-    name: Android — KASTRA Agent
+    name: Android — Faida Agent
     if: >
       github.event.inputs.app == 'all' ||
       github.event.inputs.app == 'mobile-agent' ||
@@ -360,10 +393,9 @@ jobs:
         working-directory: apps/mobile-agent
         run: rm -rf android ios .expo
 
-      # The agent app has no committed extra.eas.projectId yet (unlike the other
-      # three apps). Link/create it non-interactively using EXPO_TOKEN so the
-      # build can run. First run creates @kevrith/kastra-agent; later runs link
-      # the same project by owner+slug. To make this permanent and skip the
+      # No extra.eas.projectId is committed (the Faida apps are not linked to an Expo
+      # project yet). With EXPO_TOKEN set to YOUR Expo account, the first run creates
+      # the project under that account; later runs link it by owner+slug. To skip this
       # step, run `eas init` locally once and commit app.json.
       - name: Ensure EAS project is linked
         working-directory: apps/mobile-agent
@@ -390,19 +422,19 @@ jobs:
             --platform android \
             --profile ${{ github.event.inputs.profile || 'preview' }} \
             --local \
-            --output ./build/kastra-agent.apk \
+            --output ./build/faida-agent.apk \
             --non-interactive
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
-          name: kastra-agent-${{ github.ref_name || 'manual' }}.apk
-          path: apps/mobile-agent/build/kastra-agent.apk
+          name: faida-agent-${{ github.ref_name || 'manual' }}.apk
+          path: apps/mobile-agent/build/faida-agent.apk
           retention-days: 30
 
       - name: Add download link to job summary
         run: |
-          echo "## KASTRA Agent APK" >> $GITHUB_STEP_SUMMARY
+          echo "## Faida Agent APK" >> $GITHUB_STEP_SUMMARY
           echo "Download the APK from the **Artifacts** section of this workflow run." >> $GITHUB_STEP_SUMMARY
 
   # ── Publish: create/update rolling mobile-latest GitHub Release ───────────────
@@ -441,11 +473,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release view mobile-latest --repo kevrith/POS >/dev/null 2>&1 && exit 0
+          gh release view mobile-latest --repo simonkaruga/POS >/dev/null 2>&1 && exit 0
           echo "mobile-latest does not exist yet — creating it"
           gh release create mobile-latest \
-            --repo kevrith/POS \
-            --title "KASTRA Mobile Apps — Latest Build" \
+            --repo simonkaruga/POS \
+            --title "Faida Mobile Apps — Latest Build" \
             --notes "Populated by the Mobile Apps Release workflow." \
             --latest=false
 
@@ -458,27 +490,27 @@ jobs:
             echo "::error::No APKs were produced — leaving the existing release untouched"
             exit 1
           fi
-          echo "$found" | xargs gh release upload mobile-latest --repo kevrith/POS --clobber
+          echo "$found" | xargs gh release upload mobile-latest --repo simonkaruga/POS --clobber
 
       - name: Refresh the release notes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release edit mobile-latest \
-            --repo kevrith/POS \
-            --title "KASTRA Mobile Apps — Latest Build" \
+            --repo simonkaruga/POS \
+            --title "Faida Mobile Apps — Latest Build" \
             --notes "$(cat <<'EOF'
-          ## KASTRA Mobile Apps — Latest Build
+          ## Faida Mobile Apps — Latest Build
 
           Auto-updated every time a new `mobile-v*` tag is pushed.
 
           ### Direct Download Links
           | App | Platform | Link |
           |-----|----------|------|
-          | **KASTRA POS** (Cashier) | Android | [kastra-pos-cashier.apk](https://github.com/kevrith/POS/releases/download/mobile-latest/kastra-pos-cashier.apk) |
-          | **KASTRA Order** (Customer) | Android | [kastra-order-customer.apk](https://github.com/kevrith/POS/releases/download/mobile-latest/kastra-order-customer.apk) |
-          | **KASTRA Driver** | Android | [kastra-driver.apk](https://github.com/kevrith/POS/releases/download/mobile-latest/kastra-driver.apk) |
-          | **KASTRA Agent** (Field Sales) | Android | [kastra-agent.apk](https://github.com/kevrith/POS/releases/download/mobile-latest/kastra-agent.apk) |
+          | **Faida POS** (Cashier) | Android | [faida-pos-cashier.apk](https://github.com/simonkaruga/POS/releases/download/mobile-latest/faida-pos-cashier.apk) |
+          | **Faida Order** (Customer) | Android | [faida-order-customer.apk](https://github.com/simonkaruga/POS/releases/download/mobile-latest/faida-order-customer.apk) |
+          | **Faida Driver** | Android | [faida-driver.apk](https://github.com/simonkaruga/POS/releases/download/mobile-latest/faida-driver.apk) |
+          | **Faida Agent** (Field Sales) | Android | [faida-agent.apk](https://github.com/simonkaruga/POS/releases/download/mobile-latest/faida-agent.apk) |
 
           ### Install on Android
           1. Download the APK on your Android phone
@@ -497,7 +529,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| App | Download |" >> $GITHUB_STEP_SUMMARY
           echo "|-----|----------|" >> $GITHUB_STEP_SUMMARY
-          echo "| KASTRA POS (Cashier) | [kastra-pos-cashier.apk](https://github.com/kevrith/POS/releases/download/mobile-latest/kastra-pos-cashier.apk) |" >> $GITHUB_STEP_SUMMARY
-          echo "| KASTRA Order (Customer) | [kastra-order-customer.apk](https://github.com/kevrith/POS/releases/download/mobile-latest/kastra-order-customer.apk) |" >> $GITHUB_STEP_SUMMARY
-          echo "| KASTRA Driver | [kastra-driver.apk](https://github.com/kevrith/POS/releases/download/mobile-latest/kastra-driver.apk) |" >> $GITHUB_STEP_SUMMARY
-          echo "| KASTRA Agent | [kastra-agent.apk](https://github.com/kevrith/POS/releases/download/mobile-latest/kastra-agent.apk) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Faida POS (Cashier) | [faida-pos-cashier.apk](https://github.com/simonkaruga/POS/releases/download/mobile-latest/faida-pos-cashier.apk) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Faida Order (Customer) | [faida-order-customer.apk](https://github.com/simonkaruga/POS/releases/download/mobile-latest/faida-order-customer.apk) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Faida Driver | [faida-driver.apk](https://github.com/simonkaruga/POS/releases/download/mobile-latest/faida-driver.apk) |" >> $GITHUB_STEP_SUMMARY
+          echo "| Faida Agent | [faida-agent.apk](https://github.com/simonkaruga/POS/releases/download/mobile-latest/faida-agent.apk) |" >> $GITHUB_STEP_SUMMARY

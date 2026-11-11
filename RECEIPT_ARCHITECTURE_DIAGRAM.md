@@ -1,10 +1,10 @@
-# KASTRA POS Receipt System Architecture
+# Faida POS Receipt System Architecture
 
 ## System Overview
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                         KASTRA POS Receipt System                       │
+│                         Faida POS Receipt System                       │
 │                                                                         │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐                │
 │  │   THERMAL    │  │   A4 PDF     │  │   A5 PDF     │                │

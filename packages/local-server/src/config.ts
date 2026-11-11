@@ -49,8 +49,8 @@ export function newConfig(o: NewConfigOptions, now: Date = new Date()): ServerCo
     createdAt: now.toISOString(),
     pgDataDir: o.pgDataDir,
     backupDir: o.backupDir,
-    dbName: 'kastra',
-    dbUser: 'kastra',
+    dbName: 'faida',
+    dbUser: 'faida',
     dbPassword: hex(24),
     pgPort: o.pgPort ?? DEFAULT_PG_PORT,
     apiPort: o.apiPort ?? DEFAULT_API_PORT,
@@ -64,7 +64,7 @@ export function loadConfig(file: string): ServerConfig | null {
   if (!fs.existsSync(file)) return null;
   const cfg = JSON.parse(fs.readFileSync(file, 'utf8')) as ServerConfig;
   if (cfg.version !== 1 || !cfg.dbPassword || !cfg.jwtSecret || !/^[0-9a-f]{64}$/i.test(cfg.encryptionKey)) {
-    throw new Error(`${file} is damaged or from a newer version of KASTRA. Restore it from a backup; do not delete it, the database cannot be read without it.`);
+    throw new Error(`${file} is damaged or from a newer version of Faida. Restore it from a backup; do not delete it, the database cannot be read without it.`);
   }
   return cfg;
 }

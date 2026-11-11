@@ -27,7 +27,7 @@ const SEMVER = /^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?$/;
 // Windows checks files out with \r\n line ends, so every pattern that spans a line break accepts both.
 const jsonVersion = /("version"\s*:\s*")([^"]+)(")/;
 const cargoVersion = /(\[package\][^[]*?\r?\nversion\s*=\s*")([^"]+)(")/;
-const lockVersion = /(name = "kastra-pos-desktop"\r?\nversion = ")([^"]+)(")/;
+const lockVersion = /(name = "faida-pos-desktop"\r?\nversion = ")([^"]+)(")/;
 
 const patterns = { tauri: jsonVersion, cargo: cargoVersion, lock: lockVersion, npm: jsonVersion };
 

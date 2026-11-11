@@ -7,12 +7,12 @@
  * deploy step (e.g. a Vercel/Netlify build command) AFTER setting the env vars —
  * then buying/pointing a new domain never requires a code change.
  *
- *   KASTRA_WEB_ORIGIN   web app origin   (default keeps the current value)
- *   KASTRA_API_ORIGIN   API origin       (default keeps the current value)
+ *   FAIDA_WEB_ORIGIN   web app origin   (default keeps the current value)
+ *   FAIDA_API_ORIGIN   API origin       (default keeps the current value)
  *
  * Example:
- *   KASTRA_WEB_ORIGIN=https://app.mycompany.co.ke \
- *   KASTRA_API_ORIGIN=https://api.mycompany.co.ke \
+ *   FAIDA_WEB_ORIGIN=https://app.mycompany.co.ke \
+ *   FAIDA_API_ORIGIN=https://api.mycompany.co.ke \
  *   node apply-domains.mjs
  *
  * Idempotent: it only swaps the known current origins, so re-running is safe.
@@ -25,14 +25,14 @@ const DIR = dirname(fileURLToPath(import.meta.url));
 
 // current origin  ->  env var that overrides it
 const MAP = [
-  { from: 'https://pos-web-sigma.vercel.app', env: 'KASTRA_WEB_ORIGIN' },
-  { from: 'https://pos-bhe5.onrender.com',    env: 'KASTRA_API_ORIGIN' },
+  { from: 'https://faida-pos.vercel.app', env: 'FAIDA_WEB_ORIGIN' },
+  { from: 'https://faida-api.onrender.com',    env: 'FAIDA_API_ORIGIN' },
   // Dev origins, listed so a stray one is rewritten instead of shipping.
   // Six pages reached production with their Log in and Start Free buttons
   // pointing at http://localhost:3001, which goes nowhere for a visitor.
-  { from: 'http://localhost:3001',            env: 'KASTRA_WEB_ORIGIN' },
-  { from: 'http://localhost:3005',            env: 'KASTRA_WEB_ORIGIN' },
-  { from: 'http://localhost:3010',            env: 'KASTRA_API_ORIGIN' },
+  { from: 'http://localhost:3001',            env: 'FAIDA_WEB_ORIGIN' },
+  { from: 'http://localhost:3005',            env: 'FAIDA_WEB_ORIGIN' },
+  { from: 'http://localhost:3010',            env: 'FAIDA_API_ORIGIN' },
 ];
 
 const subs = MAP

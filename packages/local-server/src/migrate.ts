@@ -12,7 +12,7 @@ export interface MigrateOptions {
 
 /**
  * Bring the database up to this version of the app. Safe to run on every start: it applies only what is missing.
- * The first run also creates the (empty) `kastra` database, which Prisma does when it is absent.
+ * The first run also creates the (empty) `faida` database, which Prisma does when it is absent.
  */
 export async function migrate(cfg: ServerConfig, o: MigrateOptions): Promise<string> {
   const url = databaseUrl(cfg);

@@ -384,4 +384,4 @@ VIP Price:       KES 45  (special customers)
 
 - Read: `FIELD_SALES_WORKFLOW.md` (detailed guide)
 - View: `FIELD_SALES_DIAGRAM.md` (visual workflow)
-- Contact: support@kastrapos.co.ke
+- Contact: support@faidapos.co.ke

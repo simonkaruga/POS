@@ -68,7 +68,7 @@ export async function requestCardPayment(
           MessageCategory: 'Payment',
           MessageType: 'Request',
           ServiceID: req.reference.slice(0, 10),
-          SaleID: 'KASTRA-POS',
+          SaleID: 'FAIDA-POS',
           POIID: config.terminalId,
         },
         PaymentRequest: {
@@ -265,7 +265,7 @@ export async function registerBiometric(
   const credential = await navigator.credentials.create({
     publicKey: {
       challenge: challengeBytes,
-      rp: { name: 'Kastra POS', id: window.location.hostname },
+      rp: { name: 'Faida POS', id: window.location.hostname },
       user: { id: userIdBytes, name: userName, displayName: userName },
       pubKeyCredParams: [
         { type: 'public-key', alg: -7 },   // ES256

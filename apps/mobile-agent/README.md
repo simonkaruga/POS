@@ -1,10 +1,10 @@
-# KASTRA Agent — Field Sales App (mobile-agent)
+# Faida Agent — Field Sales App (mobile-agent)
 
 Expo / React Native app for **field sales agents** (van sales, distribution). Agents
 are `User`s with role `SALES_AGENT`; they log in with credentials created for them in
 the web POS (Settings → Users).
 
-- Store name: **KASTRA Agent** · slug `kastra-agent` · package `co.ke.kastra.agent`
+- Store name: **Faida Agent** · slug `faida-agent` · package `co.ke.faida.agent`
 - Router: `expo-router` (file-based)
 
 ---

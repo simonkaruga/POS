@@ -113,7 +113,7 @@ export class CustomerPortalService {
       where: { id: businessId },
       select: { name: true },
     });
-    const brand = business?.name ?? 'KASTRA';
+    const brand = business?.name ?? 'Faida';
     const isDev = process.env.NODE_ENV !== 'production';
     const sms = await this.notifications.sendSMS(
       businessId,

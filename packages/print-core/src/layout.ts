@@ -215,7 +215,7 @@ export function layoutReceipt(doc: ReceiptDocument): Block[] {
   if (doc.receiptHeader) b.push({ kind: 'line', text: doc.receiptHeader, align: 'center', size: 'small' });
   b.push({ kind: 'line', text: 'Thank you for your business!', align: 'center' });
   if (doc.receiptFooter) b.push({ kind: 'line', text: doc.receiptFooter, align: 'center', size: 'small' });
-  b.push({ kind: 'line', text: 'Powered by: Kastra Systems', align: 'center', size: 'small', muted: true });
+  b.push({ kind: 'line', text: 'Powered by: Faida Systems', align: 'center', size: 'small', muted: true });
   return b;
 }
 
@@ -277,6 +277,6 @@ export function layoutBill(bill: BillDocument): Block[] {
   if (bill.footer) b.push({ kind: 'line', text: bill.footer, align: 'center', size: 'small' });
   b.push({ kind: 'line', text: 'Please check your bill and inform staff of any errors.', align: 'center', size: 'small' });
   b.push({ kind: 'line', text: 'Thank you for dining with us!', align: 'center', size: 'small' });
-  b.push({ kind: 'line', text: 'Powered by: Kastra Systems', align: 'center', size: 'small', muted: true });
+  b.push({ kind: 'line', text: 'Powered by: Faida Systems', align: 'center', size: 'small', muted: true });
   return b;
 }

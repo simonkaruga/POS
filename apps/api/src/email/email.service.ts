@@ -18,7 +18,7 @@ export class EmailService {
 
   constructor() {
     const apiKey = process.env.RESEND_API_KEY;
-    this.from = process.env.EMAIL_FROM ?? 'KASTRA POS <noreply@kastrapos.co.ke>';
+    this.from = process.env.EMAIL_FROM ?? 'Faida POS <noreply@faidapos.co.ke>';
 
     if (apiKey) {
       this.resend = new Resend(apiKey);
@@ -63,10 +63,10 @@ export class EmailService {
   async sendTrialExpiryWarning(opts: { to: string; businessName: string; daysLeft: number }) {
     return this.send({
       to: opts.to,
-      subject: `Your KASTRA POS trial expires in ${opts.daysLeft} day${opts.daysLeft !== 1 ? 's' : ''}`,
+      subject: `Your Faida POS trial expires in ${opts.daysLeft} day${opts.daysLeft !== 1 ? 's' : ''}`,
       html: `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
-          <h2 style="color:#2563eb">KASTRA POS</h2>
+          <h2 style="color:#2563eb">Faida POS</h2>
           <p>Hi ${opts.businessName},</p>
           <p>Your free trial ends in <strong>${opts.daysLeft} day${opts.daysLeft !== 1 ? 's' : ''}</strong>.</p>
           <p>Upgrade now to keep access to all features.</p>
@@ -74,7 +74,7 @@ export class EmailService {
              style="display:inline-block;padding:12px 24px;background:#2563eb;color:#fff;border-radius:6px;text-decoration:none;font-weight:bold">
             Upgrade Plan
           </a>
-          <p style="color:#6b7280;font-size:12px;margin-top:24px">KASTRA POS — Enterprise POS for Kenyan Businesses</p>
+          <p style="color:#6b7280;font-size:12px;margin-top:24px">Faida POS — Enterprise POS for Kenyan Businesses</p>
         </div>`,
     });
   }
@@ -88,8 +88,8 @@ export class EmailService {
           <h2 style="color:#16a34a">Payment Confirmed ✓</h2>
           <p>Hi ${opts.businessName},</p>
           <p>Your <strong>${opts.plan}</strong> subscription is now active. Amount charged: <strong>${opts.amount}</strong>.</p>
-          <p>Thank you for choosing KASTRA POS!</p>
-          <p style="color:#6b7280;font-size:12px;margin-top:24px">KASTRA POS — Enterprise POS for Kenyan Businesses</p>
+          <p>Thank you for choosing Faida POS!</p>
+          <p style="color:#6b7280;font-size:12px;margin-top:24px">Faida POS — Enterprise POS for Kenyan Businesses</p>
         </div>`,
     });
   }
@@ -106,14 +106,14 @@ export class EmailService {
       subject: `${opts.businessName} — ${opts.reportType} Report (${opts.period})`,
       html: `
         <div style="font-family:sans-serif;max-width:800px;margin:0 auto">
-          <h2 style="color:#2563eb">KASTRA POS — Scheduled Report</h2>
+          <h2 style="color:#2563eb">Faida POS — Scheduled Report</h2>
           <p><strong>Business:</strong> ${opts.businessName}</p>
           <p><strong>Report:</strong> ${opts.reportType}</p>
           <p><strong>Period:</strong> ${opts.period}</p>
           <hr style="border:1px solid #e5e7eb;margin:16px 0"/>
           ${opts.reportHtml}
           <p style="color:#6b7280;font-size:12px;margin-top:24px">
-            This is an automated report from KASTRA POS.
+            This is an automated report from Faida POS.
             <a href="${frontendUrl()}/settings?tab=automation">Manage schedules</a>
           </p>
         </div>`,
@@ -126,10 +126,10 @@ export class EmailService {
       : `<strong>Lifetime license — never expires</strong>`;
     return this.send({
       to: opts.to,
-      subject: `Your KASTRA POS License Key — ${opts.plan} Plan`,
+      subject: `Your Faida POS License Key — ${opts.plan} Plan`,
       html: `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
-          <h2 style="color:#2563eb">KASTRA POS — License Key</h2>
+          <h2 style="color:#2563eb">Faida POS — License Key</h2>
           <p>Hi ${opts.businessName},</p>
           <p>Thank you for your payment! Your <strong>${opts.plan}</strong> license key is ready.</p>
           <div style="background:#f0f9ff;border:2px dashed #2563eb;border-radius:8px;padding:20px;margin:20px 0;text-align:center">
@@ -137,9 +137,9 @@ export class EmailService {
             <code style="font-size:22px;font-weight:bold;color:#1e40af;letter-spacing:0.05em">${opts.licenseKey}</code>
           </div>
           <p style="color:#374151">${expiryText}</p>
-          <p>To activate: open the KASTRA POS desktop app → Settings → License → Enter key above.</p>
+          <p>To activate: open the Faida POS desktop app → Settings → License → Enter key above.</p>
           <p>Keep this email safe. If you lose the key, contact support.</p>
-          <p style="color:#6b7280;font-size:12px;margin-top:24px">KASTRA POS — Enterprise POS for Kenyan Businesses</p>
+          <p style="color:#6b7280;font-size:12px;margin-top:24px">Faida POS — Enterprise POS for Kenyan Businesses</p>
         </div>`,
     });
   }
@@ -147,10 +147,10 @@ export class EmailService {
   async sendPasswordReset(opts: { to: string; name: string; resetUrl: string }) {
     return this.send({
       to: opts.to,
-      subject: 'Reset your KASTRA POS password',
+      subject: 'Reset your Faida POS password',
       html: `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
-          <h2 style="color:#2563eb">KASTRA POS — Password Reset</h2>
+          <h2 style="color:#2563eb">Faida POS — Password Reset</h2>
           <p>Hi ${opts.name},</p>
           <p>We received a request to reset your password. Click the button below to set a new password.
              This link expires in <strong>15 minutes</strong>.</p>
@@ -165,7 +165,7 @@ export class EmailService {
             Or copy this link into your browser:<br/>
             <a href="${opts.resetUrl}" style="color:#2563eb;word-break:break-all">${opts.resetUrl}</a>
           </p>
-          <p style="color:#9ca3af;font-size:11px;margin-top:24px">KASTRA POS — Enterprise POS for Kenyan Businesses</p>
+          <p style="color:#9ca3af;font-size:11px;margin-top:24px">Faida POS — Enterprise POS for Kenyan Businesses</p>
         </div>`,
     });
   }
@@ -180,7 +180,7 @@ export class EmailService {
           <p>Hi ${opts.businessName},</p>
           <p><strong>${opts.referredBusiness}</strong> signed up using your referral link.</p>
           <p>Your account has been credited with <strong>${opts.rewardAmount}</strong>.</p>
-          <p style="color:#6b7280;font-size:12px;margin-top:24px">KASTRA POS</p>
+          <p style="color:#6b7280;font-size:12px;margin-top:24px">Faida POS</p>
         </div>`,
     });
   }
@@ -188,7 +188,7 @@ export class EmailService {
   async sendAffiliateApproved(opts: { to: string; name: string; code: string; link: string; commissionPercent: number }) {
     return this.send({
       to: opts.to,
-      subject: 'You\'re approved — KASTRA Affiliate Program',
+      subject: 'You\'re approved — Faida Affiliate Program',
       html: `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
           <h2 style="color:#4f46e5">Welcome aboard, ${opts.name}!</h2>
@@ -196,7 +196,7 @@ export class EmailService {
           <p>Your referral link:</p>
           <p style="background:#f3f4f6;border-radius:8px;padding:12px;font-family:monospace;word-break:break-all">${opts.link}</p>
           <p>Share it far and wide. Track your signups, commissions and payouts anytime from your dashboard.</p>
-          <p style="color:#6b7280;font-size:12px;margin-top:24px">Your code: ${opts.code} · KASTRA POS</p>
+          <p style="color:#6b7280;font-size:12px;margin-top:24px">Your code: ${opts.code} · Faida POS</p>
         </div>`,
     });
   }
@@ -204,14 +204,14 @@ export class EmailService {
   async sendAffiliateCommission(opts: { to: string; name: string; amount: string; businessName: string; balance: string }) {
     return this.send({
       to: opts.to,
-      subject: `You earned ${opts.amount} — KASTRA Affiliate`,
+      subject: `You earned ${opts.amount} — Faida Affiliate`,
       html: `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
           <h2 style="color:#10b981">Commission earned!</h2>
           <p>Hi ${opts.name},</p>
           <p><strong>${opts.businessName}</strong> made a subscription payment, so you just earned <strong>${opts.amount}</strong>.</p>
-          <p>Your current balance is <strong>${opts.balance}</strong>. Payouts are processed by the KASTRA team.</p>
-          <p style="color:#6b7280;font-size:12px;margin-top:24px">KASTRA POS</p>
+          <p>Your current balance is <strong>${opts.balance}</strong>. Payouts are processed by the Faida team.</p>
+          <p style="color:#6b7280;font-size:12px;margin-top:24px">Faida POS</p>
         </div>`,
     });
   }
@@ -219,14 +219,14 @@ export class EmailService {
   async sendAffiliatePayout(opts: { to: string; name: string; amount: string; method: string; reference: string; balance: string }) {
     return this.send({
       to: opts.to,
-      subject: `Payout sent: ${opts.amount} — KASTRA Affiliate`,
+      subject: `Payout sent: ${opts.amount} — Faida Affiliate`,
       html: `
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto">
           <h2 style="color:#4f46e5">Payout sent</h2>
           <p>Hi ${opts.name},</p>
           <p>We've sent you a payout of <strong>${opts.amount}</strong> via <strong>${opts.method}</strong>${opts.reference ? ` (ref: ${opts.reference})` : ''}.</p>
           <p>Your remaining balance is <strong>${opts.balance}</strong>.</p>
-          <p style="color:#6b7280;font-size:12px;margin-top:24px">KASTRA POS</p>
+          <p style="color:#6b7280;font-size:12px;margin-top:24px">Faida POS</p>
         </div>`,
     });
   }

@@ -23,7 +23,7 @@ pub struct VscuItem {
 fn get_db_path() -> PathBuf {
     let mut path = dirs_next::data_local_dir()
         .unwrap_or_else(|| PathBuf::from("."));
-    path.push("kastra-pos");
+    path.push("faida-pos");
     std::fs::create_dir_all(&path).ok();
     path.push("vscu.db");
     path

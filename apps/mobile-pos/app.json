@@ -1,24 +1,24 @@
 {
   "expo": {
-    "name": "KASTRA POS",
-    "slug": "kastra-pos-cashier",
+    "name": "Faida POS",
+    "slug": "faida-pos-cashier",
     "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme": "kastra-pos",
+    "scheme": "faida-pos",
     "userInterfaceStyle": "light",
     "androidStatusBar": {
       "barStyle": "dark-content",
-      "backgroundColor": "#F0F2F5"
+      "backgroundColor": "#F3F6FC"
     },
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#030712"
+      "backgroundColor": "#01275C"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "co.ke.kastra.pos",
+      "bundleIdentifier": "co.ke.faida.pos",
       "infoPlist": {
         "NSCameraUsageDescription": "Camera is used to scan product barcodes at point of sale.",
         "NSPhotoLibraryUsageDescription": "Used to attach receipt photos to expense records.",
@@ -32,9 +32,9 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#030712"
+        "backgroundColor": "#01275C"
       },
-      "package": "co.ke.kastra.pos",
+      "package": "co.ke.faida.pos",
       "permissions": [
         "CAMERA",
         "VIBRATE",
@@ -54,13 +54,13 @@
       [
         "expo-local-authentication",
         {
-          "faceIDPermission": "Allow KASTRA POS to use Face ID to sign you in."
+          "faceIDPermission": "Allow Faida POS to use Face ID to sign you in."
         }
       ],
       [
         "expo-camera",
         {
-          "cameraPermission": "Allow KASTRA POS to access your camera for barcode scanning."
+          "cameraPermission": "Allow Faida POS to access your camera for barcode scanning."
         }
       ],
       [
@@ -82,14 +82,7 @@
     "extra": {
       "router": {
         "origin": false
-      },
-      "eas": {
-        "projectId": "3cd7f6fd-6fa7-4e28-a1cd-97fc5cfea9f1"
       }
-    },
-    "owner": "kevrith",
-    "updates": {
-      "url": "https://u.expo.dev/3cd7f6fd-6fa7-4e28-a1cd-97fc5cfea9f1"
     }
   }
 }

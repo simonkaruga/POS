@@ -1,4 +1,4 @@
-/* KASTRA landing — shared mobile navigation.
+/* Faida landing — shared mobile navigation.
  *
  * index.html carried this inline; the other pages had no hamburger at all, so
  * their nav (marked .hide-mobile) simply vanished below 768px and a phone

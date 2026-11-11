@@ -3,7 +3,7 @@ import { useAuthStore } from '../stores/auth';
 import { secondsUntilExpiry } from './jwt';
 
 export const SERVER_URL_KEY  = 'driver_server_url';
-export const DEFAULT_BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'https://pos-bhe5.onrender.com/api/v1';
+export const DEFAULT_BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'https://faida-api.onrender.com/api/v1';
 const TOKEN_KEY = 'driver_token';
 
 export async function getBaseUrl(): Promise<string> {

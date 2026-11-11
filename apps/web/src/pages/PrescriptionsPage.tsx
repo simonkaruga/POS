@@ -193,7 +193,7 @@ export default function PrescriptionsPage() {
           <td style="padding:4px 4px 0;font-weight:600">${item.name}</td>
           <td style="padding:4px 4px 0;text-align:right;white-space:nowrap">${item.qty} ${item.doseUnit ?? 'unit'}${item.qty !== 1 ? 's' : ''}</td>
         </tr>
-        ${(item.dose || item.frequency) ? `<tr><td colspan="2" style="padding:0 4px 3px;font-size:11px;color:#7A35FF">${formatDosage(item)}</td></tr>` : ''}
+        ${(item.dose || item.frequency) ? `<tr><td colspan="2" style="padding:0 4px 3px;font-size:11px;color:#1F6BFF">${formatDosage(item)}</td></tr>` : ''}
         ${item.instructions ? `<tr><td colspan="2" style="padding:0 4px 6px;font-size:11px;color:#666;font-style:italic">${item.instructions}</td></tr>` : ''}
       `).join('')}
     </table>

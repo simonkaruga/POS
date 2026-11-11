@@ -1,4 +1,4 @@
-# KASTRA POS — Enterprise Point of Sale for Kenya
+# Faida POS — Enterprise Point of Sale for Kenya
 
 Offline-first, KRA eTIMS-compliant point of sale built for Kenyan businesses — retail,
 hospitality, hotels, pharmacies, fuel stations, cyber cafés, supermarkets, and field
@@ -103,13 +103,13 @@ Every Prisma command in this repo needs an explicit
 
 ```bash
 sudo -u postgres psql << 'EOF'
-CREATE DATABASE kastra_pos;
-CREATE USER kastra WITH PASSWORD '<your_secure_password>';
-GRANT ALL PRIVILEGES ON DATABASE kastra_pos TO kastra;
-ALTER DATABASE kastra_pos OWNER TO kastra;
-\c kastra_pos
-GRANT ALL ON SCHEMA public TO kastra;
-ALTER USER kastra CREATEDB;
+CREATE DATABASE faida_pos;
+CREATE USER faida WITH PASSWORD '<your_secure_password>';
+GRANT ALL PRIVILEGES ON DATABASE faida_pos TO faida;
+ALTER DATABASE faida_pos OWNER TO faida;
+\c faida_pos
+GRANT ALL ON SCHEMA public TO faida;
+ALTER USER faida CREATEDB;
 EOF
 ```
 
@@ -340,7 +340,7 @@ referral programme · affiliate programme with recurring commission · database 
 Copy `apps/api/.env.example` → `apps/api/.env`. Required:
 
 ```env
-DATABASE_URL="postgresql://user:password@localhost:5432/kastra_pos"
+DATABASE_URL="postgresql://user:password@localhost:5432/faida_pos"
 JWT_SECRET="<openssl rand -base64 32>"
 ENCRYPTION_KEY="<openssl rand -hex 32>"   # 64 hex chars — AES-256-CBC for M-Pesa + eTIMS creds
 FRONTEND_URL="http://localhost:3005"      # used to build links in emails/SMS
@@ -362,7 +362,7 @@ Optional — leave blank to disable the feature:
 | `GOOGLE_DESKTOP_CLIENT_ID` / `GOOGLE_DESKTOP_CLIENT_SECRET` | Google OAuth client of type "Desktop app", used by Google sign-in inside the desktop app |
 | `ETIMS_ENV` | `test` (default) or `production` |
 | `EXPO_PUBLIC_API_URL` | Default API the mobile apps ship with |
-| `KASTRA_WEB_ORIGIN` / `KASTRA_API_ORIGIN` | Rewritten into the landing site at deploy |
+| `FAIDA_WEB_ORIGIN` / `FAIDA_API_ORIGIN` | Rewritten into the landing site at deploy |
 
 Never commit `.env`. Never hardcode a credential in a script, seed file, or doc.
 
@@ -393,7 +393,7 @@ PostgreSQL service), web build, mobile type-check, and Prisma schema validation.
 | API | `render.yaml` blueprint → Render (Frankfurt). Build `npm ci && bash scripts/render-build.sh`; start runs `prisma migrate deploy` then `node dist/main`. Health check `/api/v1/health`. |
 | Database | Supabase or any managed PostgreSQL. Set `DIRECT_URL` to a **session** pooler (port 5432) — migrations hang on the transaction pooler (:6543). |
 | Web / Admin | Static Vite build → any CDN (Vercel). Set `VITE_API_URL` only when the API is on a different origin. |
-| Landing | Static HTML. Run `node apps/landing/apply-domains.mjs` at deploy with `KASTRA_WEB_ORIGIN` / `KASTRA_API_ORIGIN` set. |
+| Landing | Static HTML. Run `node apps/landing/apply-domains.mjs` at deploy with `FAIDA_WEB_ORIGIN` / `FAIDA_API_ORIGIN` set. |
 | Desktop | `.github/workflows/desktop-release.yml`, or `cd apps/desktop && npm run build`. Build `apps/web` **first** — Tauri bundles `apps/web/dist`. |
 | Mobile | `.github/workflows/mobile-release.yml` — run **Mobile Apps Release** (app: one of the four, or `all`) or push a `mobile-v*` tag. Versions are resolved by `scripts/bump-mobile-version.mjs` and committed; the job builds Android APKs locally on the runner and uploads them as artifacts. |
 
@@ -442,8 +442,8 @@ by [scripts/build-docs.sh](scripts/build-docs.sh):
 
 | Source | Audience | Generated into |
 |---|---|---|
-| [docs/user-guide.md](docs/user-guide.md) | Shop staff and owners | `KASTRA_POS_User_Guide.pdf`, `apps/landing/kastra-pos-manual.html` |
-| [docs/admin-guide.md](docs/admin-guide.md) | Whoever runs the server | `KASTRA_POS_Admin_Guide.pdf` |
+| [docs/user-guide.md](docs/user-guide.md) | Shop staff and owners | `FAIDA_POS_User_Guide.pdf`, `apps/landing/faida-pos-manual.html` |
+| [docs/admin-guide.md](docs/admin-guide.md) | Whoever runs the server | `FAIDA_POS_Admin_Guide.pdf` |
 | [docs/super-admin-guide.md](docs/super-admin-guide.md) | Platform operators | The **Guide** page inside the admin console |
 
 Edit the markdown, run `scripts/build-docs.sh`, commit the outputs.

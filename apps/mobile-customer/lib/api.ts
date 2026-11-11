@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSessionStore } from '../stores/session';
 
 export const SERVER_URL_KEY  = 'customer_server_url';
-export const DEFAULT_BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'https://pos-bhe5.onrender.com/api/v1';
+export const DEFAULT_BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'https://faida-api.onrender.com/api/v1';
 
 /** Expired/revoked portal session → clear it so the app returns to the login gate. */
 async function handleUnauthorized() {

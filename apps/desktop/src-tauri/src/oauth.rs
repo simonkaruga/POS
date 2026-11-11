@@ -23,9 +23,9 @@ pub struct OAuthResult {
     pub redirect_uri: String,
 }
 
-const DONE_PAGE: &str = "<!doctype html><html><head><meta charset=\"utf-8\"><title>KASTRA POS</title></head>\
+const DONE_PAGE: &str = "<!doctype html><html><head><meta charset=\"utf-8\"><title>Faida POS</title></head>\
 <body style=\"font-family:sans-serif;text-align:center;padding-top:15vh;color:#1f2937\">\
-<h2>Sign-in complete</h2><p>You can close this tab and return to KASTRA POS.</p></body></html>";
+<h2>Sign-in complete</h2><p>You can close this tab and return to Faida POS.</p></body></html>";
 
 fn percent_decode(input: &str) -> String {
     let bytes = input.as_bytes();

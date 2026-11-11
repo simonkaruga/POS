@@ -32,7 +32,7 @@ import {
 } from '../../lib/biometricLogin';
 
 const SERVER_URL_KEY = 'pos_server_url';
-const DEFAULT_URL = 'https://pos-bhe5.onrender.com/api/v1';
+const DEFAULT_URL = 'https://faida-api.onrender.com/api/v1';
 
 interface BusinessInfo {
   name: string;

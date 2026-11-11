@@ -127,7 +127,7 @@ export default function ProfileScreen() {
             <Text style={[s.rowText, { color: Colors.error }]}>Delete my data (KDPA)</Text>
             <Ionicons name="chevron-forward" size={18} color={Colors.textSecondary} />
           </TouchableOpacity>
-          <Text style={s.buildLine}>KASTRA Order v{buildLabel()}</Text>
+          <Text style={s.buildLine}>Faida Order v{buildLabel()}</Text>
           <UpdateCheck />
         </ScrollView>
       )}

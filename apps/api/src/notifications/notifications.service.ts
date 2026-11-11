@@ -34,7 +34,7 @@ export class NotificationsService {
   }
 
   /**
-   * The shared KASTRA account, from the environment. It is the default for every business, so a
+   * The shared Faida account, from the environment. It is the default for every business, so a
    * shop can take customer logins without opening and funding its own Africa's Talking account.
    */
   private platformCreds(): { apiKey: string; username: string; senderId?: string } | null {
@@ -332,12 +332,12 @@ export class NotificationsService {
   }
 
   async sendReceiptSMS(businessId: string, phone: string, receiptNumber: string, totalCents: number) {
-    const message = `Thank you for shopping with us!\nReceipt: ${receiptNumber}\nTotal: KES ${(totalCents / 100).toFixed(2)}\nPowered by KASTRA POS`;
+    const message = `Thank you for shopping with us!\nReceipt: ${receiptNumber}\nTotal: KES ${(totalCents / 100).toFixed(2)}\nPowered by Faida POS`;
     return this.sendSMS(businessId, phone, message);
   }
 
   async sendReceiptWhatsApp(businessId: string, phone: string, receiptNumber: string, totalCents: number) {
-    const message = `*Thank you for your purchase!*\n\nReceipt No: ${receiptNumber}\nTotal: KES ${(totalCents / 100).toFixed(2)}\n\n_Powered by KASTRA POS_`;
+    const message = `*Thank you for your purchase!*\n\nReceipt No: ${receiptNumber}\nTotal: KES ${(totalCents / 100).toFixed(2)}\n\n_Powered by Faida POS_`;
     return this.sendWhatsApp(businessId, phone, message);
   }
 

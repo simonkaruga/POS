@@ -1,24 +1,24 @@
 {
   "expo": {
-    "name": "KASTRA Agent",
-    "slug": "kastra-agent",
+    "name": "Faida Agent",
+    "slug": "faida-agent",
     "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme": "kastra-agent",
+    "scheme": "faida-agent",
     "userInterfaceStyle": "light",
     "androidStatusBar": {
       "barStyle": "dark-content",
-      "backgroundColor": "#F0F2F5"
+      "backgroundColor": "#F3F6FC"
     },
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#7C2D12"
+      "backgroundColor": "#01275C"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "co.ke.kastra.agent",
+      "bundleIdentifier": "co.ke.faida.agent",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "Location is used to record where customers are registered and visited.",
         "NSAppTransportSecurity": {
@@ -30,9 +30,9 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#7C2D12"
+        "backgroundColor": "#01275C"
       },
-      "package": "co.ke.kastra.agent",
+      "package": "co.ke.faida.agent",
       "permissions": [
         "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION",
@@ -46,7 +46,7 @@
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "Allow KASTRA Agent to use your location to register and visit customers."
+          "locationWhenInUsePermission": "Allow Faida Agent to use your location to register and visit customers."
         }
       ],
       [
@@ -64,17 +64,10 @@
     "runtimeVersion": {
       "policy": "appVersion"
     },
-    "updates": {
-      "url": "https://u.expo.dev/8597f68c-f697-43e5-b6f8-68744e1f8e28"
-    },
     "extra": {
       "router": {
         "origin": false
-      },
-      "eas": {
-        "projectId": "8597f68c-f697-43e5-b6f8-68744e1f8e28"
       }
-    },
-    "owner": "kevrith"
+    }
   }
 }

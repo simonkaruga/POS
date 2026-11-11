@@ -5,7 +5,7 @@ import { BrowserMultiFormatReader } from '@zxing/browser';
 import { api } from '../lib/api';
 import IncomingPaymentsPanel from './pos/IncomingPaymentsPanel';
 import { PaymentMethodPicker } from './pos/PaymentMethodPicker';
-import { IconButton } from './ui';
+import { IconButton, PaidCheck } from './ui';
 import { NFCPaymentReader } from '../lib/nfc';
 import { cardTerminalSale, connectCardTerminal, isCardTerminalConnected, isSerialAvailable, type CardTerminalConfig } from '../lib/cardTerminal';
 
@@ -792,7 +792,7 @@ export default function PaymentModal({
 
               {stkStatus === 'paid' && (
                 <div className="text-center py-8 space-y-3">
-                  <CheckCircle className="w-14 h-14 text-green-500 mx-auto" />
+                  <PaidCheck size={64} className="text-green-600 mx-auto block" />
                   <p className="font-bold text-green-700 text-xl">Payment Received!</p>
                   <p className="text-sm text-gray-500">{formatKES(totalCents)} via M-Pesa</p>
                 </div>

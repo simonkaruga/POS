@@ -819,7 +819,7 @@ function buildDispensingLabelHTML(opts: {
   .drug { font-weight:bold; font-size:11pt; margin-bottom:1mm; }
   .row { display:flex; justify-content:space-between; font-size:8pt; margin-bottom:0.5mm; }
   .schedule { display:inline-block; background:#fee2e2; color:#991b1b; font-size:7pt; font-weight:bold; padding:1px 4px; border-radius:3px; }
-  .dose { font-size:8pt; color:#531BB8; font-style:italic; margin-top:1mm; }
+  .dose { font-size:8pt; color:#1245B5; font-style:italic; margin-top:1mm; }
 </style></head><body>
 <div class="header"><span class="biz">${opts.businessName}</span><span class="date">${opts.dispensedDate}</span></div>
 <div class="drug">${opts.drugName}${opts.scheduleClass && opts.scheduleClass !== 'OTC' ? ` <span class="schedule">${opts.scheduleClass}</span>` : ''}</div>

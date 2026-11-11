@@ -89,7 +89,7 @@ mod platform {
     pub fn print_raw(printer_name: &str, data: &[u8]) -> Result<(), String> {
         // Arguments are passed individually (no shell), and the name was checked against the installed list.
         let mut child = Command::new("lp")
-            .args(["-d", printer_name, "-o", "raw", "-t", "KASTRA POS receipt"])
+            .args(["-d", printer_name, "-o", "raw", "-t", "Faida POS receipt"])
             .stdin(Stdio::piped())
             .stdout(Stdio::null())
             .stderr(Stdio::piped())
@@ -186,7 +186,7 @@ mod platform {
 
     pub fn print_raw(printer_name: &str, data: &[u8]) -> Result<(), String> {
         let mut name = to_wide(printer_name);
-        let mut doc_name = to_wide("KASTRA POS receipt");
+        let mut doc_name = to_wide("Faida POS receipt");
         let mut datatype = to_wide("RAW");
         unsafe {
             let mut handle: HANDLE = null_mut();

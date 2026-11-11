@@ -413,7 +413,7 @@ function getComparisonDateRange(_range: Range, comparison: ComparisonPeriod, sta
   return null;
 }
 
-const CHART_COLORS = ['#8B4EFF', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#06B6D4'];
+const CHART_COLORS = ['#3B7DFF', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#06B6D4'];
 
 const RANGE_LABELS: Record<Range, string> = {
   today: 'Today',
@@ -483,13 +483,13 @@ function printHtml(title: string, bodyHtml: string): void {
   body{font-family:Arial,sans-serif;font-size:11pt;color:#111;padding:20px 30px}
   h1{font-size:16pt;margin-bottom:2px}
   .sub{font-size:9pt;color:#666;margin-bottom:12px}
-  h2{font-size:12pt;background:#f0f0f0;padding:5px 8px;margin:14px 0 4px;border-left:4px solid #7A35FF}
+  h2{font-size:12pt;background:#f0f0f0;padding:5px 8px;margin:14px 0 4px;border-left:4px solid #1F6BFF}
   table{width:100%;border-collapse:collapse;margin-bottom:8px}
   th{text-align:left;padding:5px 8px;border-bottom:2px solid #ccc;font-size:9pt;white-space:nowrap}
   th.r,td.r{text-align:right}
   td{padding:4px 8px;border-bottom:1px solid #eee;font-size:10pt}
   tfoot td{font-weight:bold;border-top:2px solid #ccc;border-bottom:none}
-  .grand{font-size:12pt;font-weight:bold;padding:10px 8px;border-top:3px solid #7A35FF;margin-top:8px}
+  .grand{font-size:12pt;font-weight:bold;padding:10px 8px;border-top:3px solid #1F6BFF;margin-top:8px}
   @media print{@page{margin:15mm}}
 </style>
 </head><body>
@@ -1411,7 +1411,7 @@ export default function ReportsPage() {
                           <XAxis dataKey="date" tick={{ fontSize: 11 }} />
                           <YAxis tick={{ fontSize: 11 }} tickFormatter={(v: number) => `${(v / 1000).toFixed(0)}K`} />
                           <Tooltip formatter={(v: number) => [`KES ${v.toLocaleString('en-KE')}`, 'Revenue']} />
-                          <Bar dataKey="totalKES" fill="#8B4EFF" radius={[4, 4, 0, 0]} />
+                          <Bar dataKey="totalKES" fill="#3B7DFF" radius={[4, 4, 0, 0]} />
                           {showTrendlines && (
                             <ReferenceLine
                               stroke="#EF4444"
@@ -1429,7 +1429,7 @@ export default function ReportsPage() {
                           <XAxis dataKey="date" tick={{ fontSize: 11 }} />
                           <YAxis tick={{ fontSize: 11 }} tickFormatter={(v: number) => `${(v / 1000).toFixed(0)}K`} />
                           <Tooltip formatter={(v: number) => [`KES ${v.toLocaleString('en-KE')}`, 'Revenue']} />
-                          <Line type="monotone" dataKey="totalKES" stroke="#8B4EFF" strokeWidth={2} dot={{ r: 4 }} />
+                          <Line type="monotone" dataKey="totalKES" stroke="#3B7DFF" strokeWidth={2} dot={{ r: 4 }} />
                         </LineChart>
                       ) : (
                         <AreaChart data={dailyData} margin={{ left: 0, right: 0 }}>
@@ -1437,7 +1437,7 @@ export default function ReportsPage() {
                           <XAxis dataKey="date" tick={{ fontSize: 11 }} />
                           <YAxis tick={{ fontSize: 11 }} tickFormatter={(v: number) => `${(v / 1000).toFixed(0)}K`} />
                           <Tooltip formatter={(v: number) => [`KES ${v.toLocaleString('en-KE')}`, 'Revenue']} />
-                          <Area type="monotone" dataKey="totalKES" stroke="#8B4EFF" fill="#8B4EFF" fillOpacity={0.3} />
+                          <Area type="monotone" dataKey="totalKES" stroke="#3B7DFF" fill="#3B7DFF" fillOpacity={0.3} />
                         </AreaChart>
                       )}
                     </ResponsiveContainer>
@@ -2356,7 +2356,7 @@ export default function ReportsPage() {
                           onClick={() => {
                             if (!plData) return;
                             const margin = plData.revenueCents > 0 ? ((plData.netProfitCents / plData.revenueCents) * 100).toFixed(1) : '0.0';
-                            printHtml('Profit & Loss Statement', `<h1>Profit &amp; Loss Statement</h1><p class="sub">${startDate.substring(0,10)} to ${endDate.substring(0,10)}</p><table><tbody><tr><td>Revenue</td><td class="r" style="color:#16a34a">${formatKES(plData.revenueCents)}</td></tr><tr><td style="padding-left:20px">Cost of Goods Sold</td><td class="r" style="color:#dc2626">(${formatKES(plData.cogsCents)})</td></tr><tr style="font-weight:bold;border-top:2px solid #ccc"><td>Gross Profit</td><td class="r" style="color:${plData.grossProfitCents>=0?'#16a34a':'#dc2626'}">${formatKES(plData.grossProfitCents)}</td></tr><tr><td style="padding-left:20px">Operating Expenses</td><td class="r" style="color:#dc2626">(${formatKES(plData.expensesCents)})</td></tr><tr style="font-weight:bold;border-top:2px solid #7A35FF"><td>Net Profit</td><td class="r" style="color:${plData.netProfitCents>=0?'#16a34a':'#dc2626'}">${formatKES(plData.netProfitCents)}</td></tr></tbody></table><p style="text-align:right;color:#888;font-size:9pt;margin-top:8px">Net Margin: ${margin}%</p>`);
+                            printHtml('Profit & Loss Statement', `<h1>Profit &amp; Loss Statement</h1><p class="sub">${startDate.substring(0,10)} to ${endDate.substring(0,10)}</p><table><tbody><tr><td>Revenue</td><td class="r" style="color:#16a34a">${formatKES(plData.revenueCents)}</td></tr><tr><td style="padding-left:20px">Cost of Goods Sold</td><td class="r" style="color:#dc2626">(${formatKES(plData.cogsCents)})</td></tr><tr style="font-weight:bold;border-top:2px solid #ccc"><td>Gross Profit</td><td class="r" style="color:${plData.grossProfitCents>=0?'#16a34a':'#dc2626'}">${formatKES(plData.grossProfitCents)}</td></tr><tr><td style="padding-left:20px">Operating Expenses</td><td class="r" style="color:#dc2626">(${formatKES(plData.expensesCents)})</td></tr><tr style="font-weight:bold;border-top:2px solid #1F6BFF"><td>Net Profit</td><td class="r" style="color:${plData.netProfitCents>=0?'#16a34a':'#dc2626'}">${formatKES(plData.netProfitCents)}</td></tr></tbody></table><p style="text-align:right;color:#888;font-size:9pt;margin-top:8px">Net Margin: ${margin}%</p>`);
                           }}
                           className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-800"
                         >
@@ -3612,7 +3612,7 @@ export default function ReportsPage() {
                               <div style="text-align:right;font-size:9pt">Sales: <strong>${emp.salesCount}</strong> &bull; Revenue: <strong>${formatKES(emp.totalCents)}</strong> &bull; M-Pesa: <strong>${formatKES(emp.mpesaTotalCents)}</strong></div>
                             </div>
                             ${catRows}${mpesaRows}
-                            <div style="margin-top:8px;padding:6px;background:#f0f9ff;border-left:4px solid #7A35FF">
+                            <div style="margin-top:8px;padding:6px;background:#f0f9ff;border-left:4px solid #1F6BFF">
                               Cash Expected = Total Revenue (${formatKES(emp.totalCents)}) &minus; M-Pesa (${formatKES(emp.mpesaTotalCents)}) = <strong>${formatKES(emp.totalCents - emp.mpesaTotalCents)}</strong>
                             </div>
                           </div>`;

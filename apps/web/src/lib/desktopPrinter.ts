@@ -1,5 +1,5 @@
 /**
- * Printers installed on this computer, reached through the KASTRA POS desktop app (Tauri).
+ * Printers installed on this computer, reached through the Faida POS desktop app (Tauri).
  *
  * The browser cannot list or silently use installed printers, but the desktop shell can: it asks the
  * operating system's print spooler for the printer list and sends raw ESC/POS bytes straight to the
@@ -23,14 +23,14 @@ function getInvoke(): Invoke | null {
   return w.__TAURI_INTERNALS__?.invoke ?? w.__TAURI__?.invoke ?? null;
 }
 
-/** True inside the KASTRA POS desktop app. */
+/** True inside the Faida POS desktop app. */
 export function isDesktopApp(): boolean {
   return getInvoke() !== null;
 }
 
 function requireInvoke(): Invoke {
   const invoke = getInvoke();
-  if (!invoke) throw new Error('Printing to an installed printer needs the KASTRA POS desktop app');
+  if (!invoke) throw new Error('Printing to an installed printer needs the Faida POS desktop app');
   return invoke;
 }
 

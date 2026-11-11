@@ -1,6 +1,6 @@
 # @pos/mobile-push
 
-Shared Expo push-notification client used by all four KASTRA mobile apps
+Shared Expo push-notification client used by all four Faida mobile apps
 (`mobile-pos`, `mobile-customer`, `mobile-driver`, `mobile-agent`).
 
 Consumed straight from source (`main` / `react-native` both point at `src/index.ts`)

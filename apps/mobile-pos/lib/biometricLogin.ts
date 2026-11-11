@@ -92,7 +92,7 @@ export async function disableBiometric(): Promise<void> {
 export async function signInWithBiometric(baseUrl: string): Promise<BiometricSession | null> {
   const token = await SecureStore.getItemAsync(TOKEN_KEY);
   if (!token) return null;
-  if (!(await confirm('Sign in to Kastra POS'))) return null;
+  if (!(await confirm('Sign in to Faida POS'))) return null;
 
   const res = await fetch(`${baseUrl}/auth/login/device`, {
     method: 'POST',

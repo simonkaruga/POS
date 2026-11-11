@@ -294,7 +294,7 @@ export class IntegrationsService {
 
     const xeroInvoice = {
       Type: 'ACCREC',
-      InvoiceNumber: sale.receiptNumber ?? `KASTRA-${sale.id.slice(0, 8)}`,
+      InvoiceNumber: sale.receiptNumber ?? `FAIDA-${sale.id.slice(0, 8)}`,
       Status: 'AUTHORISED',
       Date: sale.createdAt.toISOString().split('T')[0],
       DueDate: sale.createdAt.toISOString().split('T')[0],
@@ -355,7 +355,7 @@ export class IntegrationsService {
 
     const xeroInvoice = {
       Type: 'ACCREC',
-      InvoiceNumber: sale.receiptNumber ?? `KASTRA-${sale.id.slice(0, 8)}`,
+      InvoiceNumber: sale.receiptNumber ?? `FAIDA-${sale.id.slice(0, 8)}`,
       Status: 'AUTHORISED',
       Date: sale.createdAt.toISOString().split('T')[0],
       DueDate: sale.createdAt.toISOString().split('T')[0],
@@ -490,8 +490,8 @@ export class IntegrationsService {
         price: (item.unitPriceCents / 100).toFixed(2),
       })),
       financial_status: 'paid',
-      note: `KASTRA Receipt: ${sale.receiptNumber ?? sale.id}`,
-      tags: 'kastra-pos',
+      note: `Faida Receipt: ${sale.receiptNumber ?? sale.id}`,
+      tags: 'faida-pos',
     };
 
     const resp = await fetch(`${baseUrl}/orders.json`, {
@@ -533,8 +533,8 @@ export class IntegrationsService {
         price: (item.unitPriceCents / 100).toFixed(2),
       })),
       financial_status: 'paid',
-      note: `KASTRA Receipt: ${sale.receiptNumber ?? sale.id}`,
-      tags: 'kastra-pos',
+      note: `Faida Receipt: ${sale.receiptNumber ?? sale.id}`,
+      tags: 'faida-pos',
     };
 
     const resp = await fetch(`${baseUrl}/orders.json`, {
@@ -573,7 +573,7 @@ export class IntegrationsService {
     const wcOrder = {
       status: 'completed',
       set_paid: true,
-      meta_data: [{ key: '_kastra_receipt', value: sale.receiptNumber ?? sale.id }],
+      meta_data: [{ key: '_faida_receipt', value: sale.receiptNumber ?? sale.id }],
       line_items: sale.items.map(item => ({
         product_id: 0, // A product mapping table would be required for full automation
         name: item.name ?? `Item ${item.itemId}`,
@@ -581,10 +581,10 @@ export class IntegrationsService {
         subtotal: (item.totalCents / 100).toFixed(2),
         total: (item.totalCents / 100).toFixed(2),
       })),
-      payment_method: 'kastra_pos',
-      payment_method_title: 'KASTRA POS',
+      payment_method: 'faida_pos',
+      payment_method_title: 'Faida POS',
       total: (sale.totalCents / 100).toFixed(2),
-      customer_note: `KASTRA Receipt: ${sale.receiptNumber ?? sale.id}`,
+      customer_note: `Faida Receipt: ${sale.receiptNumber ?? sale.id}`,
     };
 
     const resp = await fetch(`${baseUrl}/orders`, {
@@ -623,7 +623,7 @@ export class IntegrationsService {
     const wcOrder = {
       status: 'completed',
       set_paid: true,
-      meta_data: [{ key: '_kastra_receipt', value: sale.receiptNumber ?? sale.id }],
+      meta_data: [{ key: '_faida_receipt', value: sale.receiptNumber ?? sale.id }],
       line_items: (sale.items ?? []).map((item: any) => ({
         product_id: 0,
         name: item.name ?? `Item ${item.itemId}`,
@@ -631,10 +631,10 @@ export class IntegrationsService {
         subtotal: (item.totalCents / 100).toFixed(2),
         total: (item.totalCents / 100).toFixed(2),
       })),
-      payment_method: 'kastra_pos',
-      payment_method_title: 'KASTRA POS',
+      payment_method: 'faida_pos',
+      payment_method_title: 'Faida POS',
       total: (sale.totalCents / 100).toFixed(2),
-      customer_note: `KASTRA Receipt: ${sale.receiptNumber ?? sale.id}`,
+      customer_note: `Faida Receipt: ${sale.receiptNumber ?? sale.id}`,
     };
 
     const resp = await fetch(`${baseUrl}/orders`, {
@@ -691,13 +691,13 @@ export class IntegrationsService {
   }
 
   private async handleWooCommerceOrder(payload: Record<string, unknown>) {
-    // Future: map WooCommerce order fields to a KASTRA Sale record
+    // Future: map WooCommerce order fields to a Faida Sale record
     this.logger.log(`Received WooCommerce order webhook: order_id=${payload['id']}`);
     return { success: true, saleId: null, message: 'WooCommerce order received (mapping pending)' };
   }
 
   private async handleShopifyOrder(payload: Record<string, unknown>) {
-    // Future: map Shopify order fields to a KASTRA Sale record
+    // Future: map Shopify order fields to a Faida Sale record
     this.logger.log(`Received Shopify order webhook: order_id=${payload['id']}`);
     return { success: true, saleId: null, message: 'Shopify order received (mapping pending)' };
   }

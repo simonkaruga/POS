@@ -605,7 +605,7 @@ export default function PaymentScreen() {
         void mobileApi.post('/loyalty/redeem', { customerId, points: redeemPoints, saleId: result.id }).catch(() => {});
       }
       const snap: PrintableReceipt = {
-        businessName: bizSettings?.name ?? 'KASTRA POS',
+        businessName: bizSettings?.name ?? 'Faida POS',
         receiptNumber: result.receiptNumber,
         dateISO: new Date().toISOString(),
         lines: billLines.map((l) => ({ name: l.name, quantity: l.quantity, unitPriceCents: unitPriceOf(l) })),

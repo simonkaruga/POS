@@ -90,7 +90,7 @@ function fmtDate(s?: string) {
 
 const DAYS: Day[] = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 const DAY_LABELS: Record<Day, string> = { MON: 'Mon', TUE: 'Tue', WED: 'Wed', THU: 'Thu', FRI: 'Fri', SAT: 'Sat', SUN: 'Sun' };
-const PRESET_COLORS = ['#8B4EFF', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
+const PRESET_COLORS = ['#3B7DFF', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
 
 const RUN_STATUS_STYLE: Record<RunStatus, string> = {
   PLANNED:     'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300',
@@ -152,7 +152,7 @@ function ProofOfDeliveryModal({
     const ctx = canvas.getContext('2d'); if (!ctx) return;
     const pos = getPos(e.nativeEvent, canvas);
     ctx.lineTo(pos.x, pos.y);
-    ctx.strokeStyle = '#531BB8'; ctx.lineWidth = 2.5;
+    ctx.strokeStyle = '#1245B5'; ctx.lineWidth = 2.5;
     ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
   }
 
@@ -174,7 +174,7 @@ function ProofOfDeliveryModal({
     const ctx = canvas.getContext('2d'); if (!ctx) return;
     const pos = getPos(e.nativeEvent, canvas);
     ctx.lineTo(pos.x, pos.y);
-    ctx.strokeStyle = '#531BB8'; ctx.lineWidth = 2.5;
+    ctx.strokeStyle = '#1245B5'; ctx.lineWidth = 2.5;
     ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.stroke();
   }
 
@@ -786,7 +786,7 @@ function RoutesTab({ businessId }: { businessId: string }) {
           <div key={r.id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden">
             <div className="flex items-center gap-3 px-4 py-3">
               {/* Color dot */}
-              <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: r.color ?? '#8B4EFF' }} />
+              <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: r.color ?? '#3B7DFF' }} />
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">

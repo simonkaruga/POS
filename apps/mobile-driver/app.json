@@ -1,24 +1,24 @@
 {
   "expo": {
-    "name": "KASTRA Driver",
-    "slug": "kastra-driver",
+    "name": "Faida Driver",
+    "slug": "faida-driver",
     "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme": "kastra-driver",
+    "scheme": "faida-driver",
     "userInterfaceStyle": "light",
     "androidStatusBar": {
       "barStyle": "dark-content",
-      "backgroundColor": "#F0F2F5"
+      "backgroundColor": "#F3F6FC"
     },
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#030712"
+      "backgroundColor": "#01275C"
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "co.ke.kastra.driver",
+      "bundleIdentifier": "co.ke.faida.driver",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "Location is used to show your position on the delivery map.",
         "NSLocationAlwaysUsageDescription": "Location is used for delivery tracking while the app is in the background.",
@@ -31,9 +31,9 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#030712"
+        "backgroundColor": "#01275C"
       },
-      "package": "co.ke.kastra.driver",
+      "package": "co.ke.faida.driver",
       "permissions": [
         "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION",
@@ -52,7 +52,7 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "Allow KASTRA Driver to use your location for delivery tracking."
+          "locationAlwaysAndWhenInUsePermission": "Allow Faida Driver to use your location for delivery tracking."
         }
       ],
       [
@@ -73,14 +73,7 @@
     "extra": {
       "router": {
         "origin": false
-      },
-      "eas": {
-        "projectId": "6ee35f40-36e3-47e6-83ee-3221b8274236"
       }
-    },
-    "owner": "kevrith",
-    "updates": {
-      "url": "https://u.expo.dev/6ee35f40-36e3-47e6-83ee-3221b8274236"
     }
   }
 }

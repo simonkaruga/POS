@@ -1,4 +1,4 @@
-/** Plain Node (no DOM). The integration test needs real PostgreSQL binaries and skips itself without KASTRA_PG_BIN. */
+/** Plain Node (no DOM). The integration test needs real PostgreSQL binaries and skips itself without FAIDA_PG_BIN. */
 const path = require('path');
 
 module.exports = {

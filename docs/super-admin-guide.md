@@ -1,13 +1,13 @@
 ---
-title: "KASTRA POS"
+title: "Faida POS"
 subtitle: "Super Admin Guide"
-author: "KASTRA Technologies"
-audience: "Platform operators running KASTRA as a service"
+author: "Faida Systems"
+audience: "Platform operators running Faida as a service"
 ---
 
 # Super Admin Guide
 
-**This console is for running the KASTRA platform itself — not for running a shop.**
+**This console is for running the Faida platform itself — not for running a shop.**
 Everything here acts across tenants. Your customers never see it.
 
 Signed in as super admin, you can change any business's plan, read any business's
@@ -139,7 +139,7 @@ revenue figures, so the numbers reflect actual money.
 
 For the offline (desktop) edition. A key is a plain code (`KPS-` and three groups of
 characters). **It is not what protects the licence**: the customer enters it once, in
-the app under *Licence*, and the KASTRA server answers with a signed licence that is
+the app under *Licence*, and the Faida server answers with a signed licence that is
 tied to that computer. The app checks the signature offline; nothing in the app can
 make one.
 
@@ -185,7 +185,7 @@ Distinct from affiliates — see below.
 
 ## 9. Affiliates
 
-External partners who promote KASTRA and earn **recurring commission**. Unlike
+External partners who promote Faida and earn **recurring commission**. Unlike
 referrals, affiliates are not necessarily customers.
 
 - Review and **approve or reject** applications

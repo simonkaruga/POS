@@ -181,9 +181,9 @@ function OtpLoginScreen({ onLogin }: { onLogin: (session: PortalSession) => void
         {/* Logo */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-indigo-600 mb-4">
-            <span className="text-white text-2xl font-extrabold">K</span>
+            <span className="text-white text-2xl font-extrabold">F</span>
           </div>
-          <h1 className="text-3xl font-extrabold text-white tracking-tight">KASTRA</h1>
+          <h1 className="text-3xl font-extrabold text-white tracking-tight">Faida</h1>
           <p className="text-slate-400 mt-1 text-sm">Customer Portal</p>
         </div>
 
@@ -725,7 +725,7 @@ function PortalDashboard({ session, onLogout }: { session: PortalSession; onLogo
       <div className="bg-slate-800 border-b border-slate-700 px-5 py-4 flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center flex-shrink-0">
-            <span className="text-white text-sm font-extrabold">K</span>
+            <span className="text-white text-sm font-extrabold">F</span>
           </div>
           <div>
             <p className="text-white font-bold text-sm leading-tight">{session.customerName}</p>

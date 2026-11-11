@@ -78,7 +78,7 @@ export default function EmailLoginScreen() {
             <View style={styles.logoCircle}>
               <Ionicons name="bag" size={32} color="#FFFFFF" />
             </View>
-            <Text style={styles.appName}>Kastra POS</Text>
+            <Text style={styles.appName}>Faida POS</Text>
           </View>
 
           <View style={styles.card}>

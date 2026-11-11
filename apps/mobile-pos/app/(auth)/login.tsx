@@ -33,7 +33,7 @@ const SERVER_URL_KEY  = 'pos_server_url';
 const BUSINESS_ID_KEY = 'pos_business_id';
 const BUSINESS_NM_KEY = 'pos_business_name';
 const BIO_DECLINED_KEY = 'pos_biometric_declined';
-const DEFAULT_URL     = 'https://pos-bhe5.onrender.com/api/v1';
+const DEFAULT_URL     = 'https://faida-api.onrender.com/api/v1';
 
 type Screen = 'SERVER_URL' | 'AUTH_MODE' | 'BUSINESS' | 'STAFF' | 'PIN_PAD' | 'EMAIL';
 
@@ -334,7 +334,7 @@ export default function LoginScreen() {
 
   // ── Google OAuth (system browser → deep link back) ────────────────────────
   function handleGoogleLogin() {
-    const url = `${serverUrl}/auth/google/mobile?scheme=kastra-pos`;
+    const url = `${serverUrl}/auth/google/mobile?scheme=faida-pos`;
     Linking.openURL(url).catch(() => {
       Alert.alert('Error', 'Could not open browser for Google sign-in. Check your server URL.');
     });
@@ -350,24 +350,24 @@ export default function LoginScreen() {
           <ScrollView contentContainerStyle={s.centered} keyboardShouldPersistTaps="handled">
             <View style={s.logoArea}>
               <View style={s.logoCircle}><Ionicons name="server" size={32} color="#FFF" /></View>
-              <Text style={s.appName}>Kastra POS</Text>
+              <Text style={s.appName}>Faida POS</Text>
               <Text style={s.appSub}>Server Setup</Text>
             </View>
             <View style={s.card}>
               <Text style={s.cardTitle}>API Server URL</Text>
-              <Text style={s.cardSub}>Enter the URL of your Kastra API server.{'\n'}For cloud users: leave as default.</Text>
+              <Text style={s.cardSub}>Enter the URL of your Faida API server.{'\n'}For cloud users: leave as default.</Text>
               {urlError ? <Text style={s.errorText}>{urlError}</Text> : null}
               <TextInput
                 style={s.input}
                 value={urlInput}
                 onChangeText={v => { setUrlInput(v); setUrlError(''); }}
-                placeholder="https://pos-bhe5.onrender.com/api/v1"
+                placeholder="https://faida-api.onrender.com/api/v1"
                 autoCapitalize="none"
                 autoCorrect={false}
                 keyboardType="url"
                 placeholderTextColor={Colors.textSecondary}
               />
-              <Text style={s.hintText}>Cloud (default): https://pos-bhe5.onrender.com/api/v1{'\n'}LAN server: http://192.168.x.x:3010/api/v1</Text>
+              <Text style={s.hintText}>Cloud (default): https://faida-api.onrender.com/api/v1{'\n'}LAN server: http://192.168.x.x:3010/api/v1</Text>
               <TouchableOpacity style={[s.btn, urlTesting && { opacity: 0.7 }]} onPress={handleSaveUrl} disabled={urlTesting}>
                 {urlTesting
                   ? <ActivityIndicator color="#FFF" />
@@ -388,7 +388,7 @@ export default function LoginScreen() {
         <ScrollView contentContainerStyle={s.centered}>
           <View style={s.logoArea}>
             <View style={s.logoCircle}><Ionicons name="bag" size={36} color="#FFF" /></View>
-            <Text style={s.appName}>Kastra POS</Text>
+            <Text style={s.appName}>Faida POS</Text>
             <Text style={s.appSub}>How would you like to sign in?</Text>
           </View>
           {biometricButton}

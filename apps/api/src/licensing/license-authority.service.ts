@@ -1,5 +1,5 @@
 /**
- * The KASTRA server's side of licensing: it decides who gets a licence and signs it.
+ * The Faida server's side of licensing: it decides who gets a licence and signs it.
  *
  * A computer asks with its licence key and its Machine ID. The first time (activate) the key is bound to that computer; after
  * that (renew) only that computer is served, so a key copied to a second computer is refused. A revoked or ended key gets no
@@ -56,7 +56,7 @@ export class LicenseAuthorityService {
 
   /** The checks every request passes: not cancelled, not ended. */
   private assertUsable(row: { isActive: boolean; expiresAt: Date | null }, now: Date): void {
-    if (!row.isActive) throw coded(ForbiddenException, 'REVOKED', 'This licence has been cancelled. Contact KASTRA support.');
+    if (!row.isActive) throw coded(ForbiddenException, 'REVOKED', 'This licence has been cancelled. Contact Faida support.');
     if (row.expiresAt && row.expiresAt <= now) throw coded(ForbiddenException, 'EXPIRED', 'This licence has ended. Renew your subscription to continue.');
   }
 
@@ -68,7 +68,7 @@ export class LicenseAuthorityService {
     this.assertUsable(row, now);
 
     if (row.machineId && row.machineId !== machineId) {
-      throw coded(ConflictException, 'OTHER_COMPUTER', 'This key is already used on another computer. If the shop has replaced its computer, ask KASTRA support to release the key.');
+      throw coded(ConflictException, 'OTHER_COMPUTER', 'This key is already used on another computer. If the shop has replaced its computer, ask Faida support to release the key.');
     }
     if (!row.machineId) {
       // Claim it only if it is still unclaimed, so two computers activating at once cannot both win.

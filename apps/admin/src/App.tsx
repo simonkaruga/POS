@@ -158,7 +158,7 @@ export default function App() {
               <Icon d={Icons.bolt} size={18} color="#fff" />
             </div>
             <div>
-              <div style={{ fontSize: '0.9375rem', fontWeight: 800, color: C.text, letterSpacing: '-0.01em' }}>KASTRA</div>
+              <div style={{ fontSize: '0.9375rem', fontWeight: 800, color: C.text, letterSpacing: '-0.01em' }}>Faida</div>
               <div style={{ fontSize: '0.6875rem', color: C.textMuted, marginTop: '1px' }}>Super Admin Console</div>
             </div>
           </div>
@@ -314,7 +314,7 @@ export default function App() {
               {NAV.find(n => n.id === page)?.label}
             </h1>
             <div style={{ fontSize: '0.75rem', color: C.textMuted, marginTop: '2px' }}>
-              KASTRA POS Platform Administration
+              Faida POS Platform Administration
             </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>

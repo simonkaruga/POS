@@ -3,7 +3,7 @@ import * as os from 'os';
 import * as path from 'path';
 import { canWrite, checkFolders } from '../src/folders';
 
-const tmp = () => fs.mkdtempSync(path.join(os.tmpdir(), 'kastra-fld-'));
+const tmp = () => fs.mkdtempSync(path.join(os.tmpdir(), 'faida-fld-'));
 const platform = process.platform as 'linux';
 
 describe('folder checks on a real disk', () => {
@@ -32,7 +32,7 @@ describe('folder checks on a real disk', () => {
     expect((r.dataDir as { reason: string }).reason).toMatch(/already contains files/i);
   });
 
-  it('accepts a folder that is already a KASTRA database (reinstall, new computer from a disk copy)', () => {
+  it('accepts a folder that is already a Faida database (reinstall, new computer from a disk copy)', () => {
     const root = tmp();
     const data = path.join(root, 'pgdata');
     fs.mkdirSync(data);

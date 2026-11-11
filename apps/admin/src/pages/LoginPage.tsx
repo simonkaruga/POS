@@ -65,7 +65,7 @@ export default function LoginPage({ onLogin }: Props) {
             fontSize: '2rem',
           }}><Zap size={28} color="#fff" aria-hidden /></div>
           <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: C.text, letterSpacing: '-0.02em' }}>
-            KASTRA Admin
+            Faida Admin
           </h1>
           <p style={{ color: C.textMuted, fontSize: '0.8125rem', marginTop: '4px' }}>
             Platform administration portal
@@ -81,7 +81,7 @@ export default function LoginPage({ onLogin }: Props) {
               </label>
               <input
                 type="email" value={email} onChange={e => setEmail(e.target.value)} required
-                autoFocus placeholder="admin@kastrapos.co.ke"
+                autoFocus placeholder="admin@faidapos.co.ke"
                 style={inputStyle}
                 onFocus={e => { e.target.style.borderColor = C.blue; }}
                 onBlur={e => { e.target.style.borderColor = C.cardBorder; }}
@@ -142,7 +142,7 @@ export default function LoginPage({ onLogin }: Props) {
           </form>
 
           <div style={{ marginTop: '1.5rem', textAlign: 'center', fontSize: '0.6875rem', color: C.textMuted }}>
-            KASTRA POS v1.01 · Secured admin console
+            Faida POS v1.01 · Secured admin console
           </div>
         </div>
       </div>

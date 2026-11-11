@@ -122,7 +122,7 @@ jobs:
       - name: Leave a stale setup file, as an earlier install would have
         shell: pwsh
         run: |
-          $cfg = "$env:APPDATA\kastra-pos"
+          $cfg = "$env:APPDATA\faida-pos"
           New-Item -ItemType Directory -Force $cfg | Out-Null
           Set-Content -Path "$cfg\mode.json" -Value '{"mode":"CLOUD"}'
 
@@ -132,7 +132,7 @@ jobs:
           $installer = (Resolve-Path "${{ steps.find.outputs.path }}").Path
           $p = Start-Process -FilePath $installer -ArgumentList '/S' -Wait -PassThru
           if ($p.ExitCode -ne 0) { throw "The installer exited with code $($p.ExitCode)" }
-          $dir = Get-ChildItem -Directory "$env:ProgramFiles" | Where-Object { $_.Name -like 'KASTRA*' } | Select-Object -First 1
+          $dir = Get-ChildItem -Directory "$env:ProgramFiles" | Where-Object { $_.Name -like 'Faida*' } | Select-Object -First 1
           if (-not $dir) { throw 'Nothing was installed under Program Files' }
           "INSTALL_DIR=$($dir.FullName)" | Out-File -Append -Encoding utf8 $env:GITHUB_ENV
           Write-Host "Installed to $($dir.FullName)"
@@ -141,7 +141,7 @@ jobs:
       - name: What the installer put on the computer
         shell: pwsh
         run: |
-          if (Test-Path "$env:APPDATA\kastra-pos\mode.json") { throw 'A fresh install kept the old setup file, so the app would open on the login screen instead of the wizard' }
+          if (Test-Path "$env:APPDATA\faida-pos\mode.json") { throw 'A fresh install kept the old setup file, so the app would open on the login screen instead of the wizard' }
           $exe = Get-ChildItem $env:INSTALL_DIR -Filter *.exe | Where-Object { $_.Name -notlike 'uninstall*' } | Select-Object -First 1
           if (-not $exe) { throw 'The program itself is missing' }
           if (-not (Test-Path "$env:INSTALL_DIR\uninstall.exe")) { throw 'There is no uninstaller' }
@@ -153,7 +153,7 @@ jobs:
           if ($built -ne $installed) { throw "The installed server file is $installed bytes but the built one is $built" }
           "SERVER_ARCHIVE=$archive" | Out-File -Append -Encoding utf8 $env:GITHUB_ENV
           Write-Host "Program: $($exe.Name); server file: $archive ($([math]::Round($installed/1MB)) MB)"
-          foreach ($name in 'KASTRA POS server (API)', 'KASTRA POS server (discovery)') {
+          foreach ($name in 'Faida POS server (API)', 'Faida POS server (discovery)') {
             $out = netsh advfirewall firewall show rule name="$name" | Out-String
             if ($out -notmatch 'Enabled:\s+Yes') { throw "Firewall rule missing: $name`n$out" }
             if ($out -notmatch 'Direction:\s+In') { throw "Firewall rule is not inbound: $name" }
@@ -187,7 +187,7 @@ jobs:
       - name: Installing over an existing installation keeps the setup
         shell: pwsh
         run: |
-          $cfg = "$env:APPDATA\kastra-pos"
+          $cfg = "$env:APPDATA\faida-pos"
           New-Item -ItemType Directory -Force $cfg | Out-Null
           Set-Content -Path "$cfg\mode.json" -Value '{"mode":"CLOUD"}'
           $installer = (Resolve-Path "${{ steps.find.outputs.path }}").Path
@@ -202,14 +202,14 @@ jobs:
       - name: Uninstall, and prove the data is untouched
         shell: pwsh
         run: |
-          $data = "$env:ProgramData\KASTRA"
+          $data = "$env:ProgramData\Faida"
           New-Item -ItemType Directory -Force $data | Out-Null
           Set-Content -Path "$data\canary.txt" -Value 'customer data'
           # _?= makes the uninstaller run in place and wait, instead of copying itself to a temp folder and returning at once.
           $p = Start-Process -FilePath "$env:INSTALL_DIR\uninstall.exe" -ArgumentList '/S', "_?=$env:INSTALL_DIR" -Wait -PassThru
           if ($p.ExitCode -ne 0) { throw "The uninstaller exited with code $($p.ExitCode)" }
           if (-not (Test-Path "$data\canary.txt")) { throw 'UNINSTALLING DELETED CUSTOMER DATA' }
-          foreach ($name in 'KASTRA POS server (API)', 'KASTRA POS server (discovery)') {
+          foreach ($name in 'Faida POS server (API)', 'Faida POS server (discovery)') {
             $out = netsh advfirewall firewall show rule name="$name" 2>&1 | Out-String
             if ($out -match 'Enabled:\s+Yes') { throw "Firewall rule was left behind: $name" }
           }
@@ -237,7 +237,7 @@ jobs:
       - name: Keep the installer for 7 days so it can be tried on a real PC
         uses: actions/upload-artifact@v4
         with:
-          name: kastra-pos-windows-installer-${{ steps.bundle.outputs.licensed == 'yes' && 'licensed' || 'UNLICENSED-test-build' }}
+          name: faida-pos-windows-installer-${{ steps.bundle.outputs.licensed == 'yes' && 'licensed' || 'UNLICENSED-test-build' }}
           path: ${{ steps.find.outputs.path }}
           retention-days: 7
           if-no-files-found: error

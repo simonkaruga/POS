@@ -1,7 +1,7 @@
 /**
  * The signed licence.
  *
- * The KASTRA server signs a small statement ("this computer may use this plan until this date") with a PRIVATE key that only
+ * The Faida server signs a small statement ("this computer may use this plan until this date") with a PRIVATE key that only
  * it holds. The offline app carries only the matching PUBLIC key, so it can check a licence but cannot make one: there is no
  * calculation inside the app that anyone could copy to forge a key. (The old check was a checksum whose recipe shipped in the
  * app.) Ed25519 is used: small keys and signatures, fast, no parameters to get wrong.

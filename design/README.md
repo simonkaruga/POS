@@ -1,6 +1,6 @@
-# KASTRA design tokens
+# Faida design tokens
 
-One source for the look of every app: **Signal Violet `#7A35FF` on Mist Gray `#F0F2F5`**.
+One source for the look of every app: **Faida Blue `#1F6BFF` and Faida Navy `#0A2A55` on Cloud `#F3F6FC`, with Faida Orange `#F26A0C` as the accent**, taken from the Faida POS logo.
 
 | File | Role |
 |---|---|
@@ -24,7 +24,7 @@ Generated from `tokens.json`:
   transparency: `${C.blue}1f`); `apps/admin/src/generated/tokens.css` and `apps/landing/tokens.css` - the same colours as
   CSS variables (`--bg`, `--card`, `--text`, `--accent`, `--brand-600` ...) for the admin's global rules and the landing site;
   `docs/templates/manual-tokens.css` is the same file, which `scripts/build-docs.sh` puts in front of the user manual's styles.
-  Both are the light Mist and Signal Violet look. Blue, purple, cyan and indigo are all brand shades there; green, amber and
+  Both are the light Mist and Faida Blue look. Blue, purple, cyan and indigo are all brand shades there; green, amber and
   red use the `statusText` shades so they stay readable on their own 12% tint.
 
 `apps/web/tailwind.config.js` reads `tokens.json` directly.
@@ -36,7 +36,7 @@ Generated from `tokens.json`:
   `gray`/`slate`/`zinc`/`stone` at the neutral scale, so existing pages are on-brand. Write new code with `brand-*` and
   `gray-*`. Use the components in `apps/web/src/components/ui` (Button, Input, Select, Card, Badge, Tabs, Menu, StatTile,
   EmptyState, PageHeader) instead of hand-built controls.
-- One violet primary action per screen. Colour carries meaning: green, amber and red are statuses; violet is the brand.
+- One Faida Blue primary action per screen. Colour carries meaning: green, amber and red are statuses; blue is the brand, navy carries it on dark panels and top bars, and orange is a small accent (never body text: use `accent.text`).
   A module does not get its own accent.
 - Text must reach 4.5:1 (3:1 for large text). `apps/web/src/styles/__tests__/tokens.test.ts` checks every pairing the
   theme uses; add a case when you add a pairing. The 600 shades of green, emerald, amber and orange are darkened for this.
@@ -56,7 +56,7 @@ Every card you can click uses one behaviour (defined in `apps/web/src/index.css`
 | `.bar-fill` | A progress bar that grows in from the left. |
 | `AnimatedValue` | A figure that counts up to its value. |
 
-Behaviour: a 2px lift, a violet border and glow, the icon tile fills with violet and the arrow leans forward on hover; it settles when pressed;
+Behaviour: a 2px lift, a Faida Blue border and glow, the icon tile fills with blue and the arrow leans forward on hover; it settles when pressed;
 a clear ring shows for the keyboard. Hover effects apply only where there is a real pointer, and everything stops for people who ask their
 system for reduced motion (spinners keep spinning). A card that only shows data (`StatTile`, `Card` without `interactive`) does not move.
 

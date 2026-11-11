@@ -273,7 +273,7 @@ export default function SupplierQuotePage() {
         </div>
       </div>
 
-      <p className="text-center text-xs text-gray-400 mt-4">Powered by KASTRA POS</p>
+      <p className="text-center text-xs text-gray-400 mt-4">Powered by Faida POS</p>
     </div>
   );
 }

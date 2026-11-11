@@ -125,7 +125,7 @@ export class EtimsService {
       const response = await this.callEtimsApi('/api/device/initialize', {
         kraPin: dto.kraPin,
         bhfId: '00', // branch ID — default head office
-        dvcSrlNo: `KASTRA-${dto.businessId.slice(0, 8).toUpperCase()}`,
+        dvcSrlNo: `FAIDA-${dto.businessId.slice(0, 8).toUpperCase()}`,
         txdtDt: new Date().toISOString().slice(0, 10).replace(/-/g, ''),
       });
 

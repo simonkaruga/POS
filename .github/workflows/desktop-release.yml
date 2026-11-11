@@ -174,13 +174,13 @@ jobs:
           # __VERSION__ is the app version from tauri.conf.json (checked against the tag above), so a by-hand run and a tag
           # push make the same release.
           tagName: desktop-v__VERSION__
-          releaseName: 'KASTRA POS Desktop v__VERSION__'
+          releaseName: 'Faida POS Desktop v__VERSION__'
           # Each platform's signed update file is added to latest.json on this release; the next job copies it to the fixed
           # address installed apps check (see update-manifest below).
           includeUpdaterJson: true
           updaterJsonPreferNsis: true
           releaseBody: |
-            ## KASTRA POS Desktop
+            ## Faida POS Desktop
 
             ### Downloads
             | Platform | File | Notes |
@@ -188,13 +188,13 @@ jobs:
             | Windows 10/11 | `.exe` | Setup. Includes the offline server: works with no internet |
             | macOS 11+ Intel | `.dmg` | For Intel Macs |
             | macOS 11+ Apple Silicon | `.dmg` | For M1/M2/M3 Macs |
-            | Ubuntu/Debian | `.deb` | `sudo dpkg -i kastra-pos_*.deb` |
+            | Ubuntu/Debian | `.deb` | `sudo dpkg -i faida-pos_*.deb` |
             | Linux (all) | `.AppImage` | Portable — `chmod +x` then run |
 
             ### First-time Setup
             1. Download and install for your platform
             2. Launch the app — the **Setup Wizard** opens automatically
-            3. Choose where your data lives: on this computer (works offline) or in KASTRA Cloud
+            3. Choose where your data lives: on this computer (works offline) or in Faida Cloud
             4. On this computer: choose server and till, server only, or till only; confirm the folders
             5. Register your business, or sign in
 
@@ -253,6 +253,6 @@ jobs:
           if ! gh release view desktop-updates --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             gh release create desktop-updates --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --prerelease \
               --title "Desktop update manifest" \
-              --notes "Not a download. Installed KASTRA desktop apps read latest.json from here to find the newest version."
+              --notes "Not a download. Installed Faida desktop apps read latest.json from here to find the newest version."
           fi
           gh release upload desktop-updates out/latest.json --repo "$GITHUB_REPOSITORY" --clobber

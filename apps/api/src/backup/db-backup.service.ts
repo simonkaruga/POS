@@ -10,7 +10,7 @@ const execAsync = promisify(exec);
 @Injectable()
 export class DbBackupService {
   private readonly logger = new Logger(DbBackupService.name);
-  private readonly backupDir = process.env.BACKUP_DIR ?? '/var/backups/kastra';
+  private readonly backupDir = process.env.BACKUP_DIR ?? '/var/backups/faida';
   private readonly retentionDays = parseInt(process.env.BACKUP_RETENTION_DAYS ?? '30', 10);
 
   /** Daily at 02:00 UTC (05:00 EAT) */
@@ -19,7 +19,7 @@ export class DbBackupService {
     // The offline desktop edition backs itself up (packages/local-server): verified, to the owner's folder, with its own
     // PostgreSQL tools. This job needs pg_dump and gzip on the PATH and a Linux folder, so on a customer's PC it would
     // only fail every night and leave a stray C:\var\backups behind.
-    if (process.env.KASTRA_EDITION === 'LOCAL') return;
+    if (process.env.FAIDA_EDITION === 'LOCAL') return;
 
     const dbUrl = process.env.DATABASE_URL;
     if (!dbUrl || !dbUrl.startsWith('postgresql')) {
@@ -35,7 +35,7 @@ export class DbBackupService {
     }
 
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
-    const filename = path.join(this.backupDir, `kastra_${timestamp}.sql.gz`);
+    const filename = path.join(this.backupDir, `faida_${timestamp}.sql.gz`);
 
     try {
       await execAsync(`pg_dump "${dbUrl}" | gzip > "${filename}"`);
@@ -51,7 +51,7 @@ export class DbBackupService {
 
   private async pruneOldBackups() {
     const cutoff = Date.now() - this.retentionDays * 86400000;
-    const files = fs.readdirSync(this.backupDir).filter((f) => f.startsWith('kastra_') && f.endsWith('.sql.gz'));
+    const files = fs.readdirSync(this.backupDir).filter((f) => f.startsWith('faida_') && f.endsWith('.sql.gz'));
 
     for (const file of files) {
       const filePath = path.join(this.backupDir, file);
@@ -68,7 +68,7 @@ export class DbBackupService {
     if (!fs.existsSync(this.backupDir)) return [];
     return fs
       .readdirSync(this.backupDir)
-      .filter((f) => f.startsWith('kastra_') && f.endsWith('.sql.gz'))
+      .filter((f) => f.startsWith('faida_') && f.endsWith('.sql.gz'))
       .map((f) => {
         const stats = fs.statSync(path.join(this.backupDir, f));
         return { name: f, sizeBytes: stats.size, createdAt: stats.mtime };

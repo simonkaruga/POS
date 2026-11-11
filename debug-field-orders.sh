@@ -94,7 +94,7 @@ echo "5. Database check..."
 echo "Checking FieldOrder table directly..."
 
 # Try to query database directly
-psql -U kastra -d kastra_pos -t -c "SELECT COUNT(*) FROM \"FieldOrder\" WHERE \"businessId\" = '$BUSINESS_ID';" 2>/dev/null || echo "  (Database query skipped - psql not available)"
+psql -U faida -d faida_pos -t -c "SELECT COUNT(*) FROM \"FieldOrder\" WHERE \"businessId\" = '$BUSINESS_ID';" 2>/dev/null || echo "  (Database query skipped - psql not available)"
 
 echo ""
 echo "============================="

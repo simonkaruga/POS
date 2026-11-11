@@ -84,6 +84,6 @@ describe('PaymentsController.paystackConfig', () => {
     // The old value was customer@pos.local — one fake address, invalid TLD,
     // shared by every card sale.
     expect(res.payerEmail).not.toContain('pos.local');
-    expect(res.payerEmail).toBe('pos-abc@kastrapos.co.ke');
+    expect(res.payerEmail).toBe('pos-abc@faidapos.co.ke');
   });
 });

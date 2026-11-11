@@ -1,4 +1,4 @@
-//! Launches and talks to KASTRA's local server program (`packages/local-server`, `cli.js`), which runs the private
+//! Launches and talks to Faida's local server program (`packages/local-server`, `cli.js`), which runs the private
 //! PostgreSQL and the API on this computer.
 //!
 //! No Tauri code in this file on purpose: it uses only the standard library and `serde_json`, so its tests build and run
@@ -88,7 +88,7 @@ impl ServerPaths {
         if missing.is_empty() {
             Ok(())
         } else {
-            Err(format!("These parts of the server are missing from this installation: {}. Reinstall KASTRA POS.", missing.join(", ")))
+            Err(format!("These parts of the server are missing from this installation: {}. Reinstall Faida POS.", missing.join(", ")))
         }
     }
 }
@@ -104,7 +104,7 @@ fn tar_program() -> PathBuf {
     }
 }
 
-const READY_MARKER: &str = ".kastra-ready";
+const READY_MARKER: &str = ".faida-ready";
 
 /// An archive smaller than this is the empty placeholder a developer build carries, not a real server.
 pub const MIN_REAL_ARCHIVE_BYTES: u64 = 1_000_000;
@@ -121,7 +121,7 @@ pub fn ensure_extracted(archive: &Path, versions_dir: &Path, key: &str) -> Resul
 
     let size = std::fs::metadata(archive).map(|m| m.len()).map_err(|e| format!("Cannot read the server package {}: {}", archive.display(), e))?;
     if size < MIN_REAL_ARCHIVE_BYTES {
-        return Err("This build of KASTRA POS does not include the offline server (it is a developer build). Install the full installer, or set KASTRA_DEV_REPO to run from a checkout.".to_string());
+        return Err("This build of Faida POS does not include the offline server (it is a developer build). Install the full installer, or set FAIDA_DEV_REPO to run from a checkout.".to_string());
     }
     let dest = versions_dir.join(key);
     if dest.join(READY_MARKER).exists() {
@@ -162,9 +162,9 @@ pub fn ensure_extracted(archive: &Path, versions_dir: &Path, key: &str) -> Resul
 /// What to run with.
 #[derive(Clone, Debug, Default)]
 pub struct LaunchOptions {
-    /// KASTRA's settings/secrets/logs folder; `None` uses the default (C:\ProgramData\KASTRA). Tests point it at a temp folder.
+    /// Faida's settings/secrets/logs folder; `None` uses the default (C:\ProgramData\Faida). Tests point it at a temp folder.
     pub root_dir: Option<String>,
-    /// Folder for the live database; `None` uses the default (C:\ProgramData\KASTRA\pgdata).
+    /// Folder for the live database; `None` uses the default (C:\ProgramData\Faida\pgdata).
     pub data_dir: Option<String>,
     pub backup_dir: Option<String>,
     pub lan_enabled: bool,
@@ -374,7 +374,7 @@ mod tests {
     }
 
     fn scratch(name: &str) -> PathBuf {
-        let d = std::env::temp_dir().join(format!("kastra-core-{}-{}", name, std::process::id()));
+        let d = std::env::temp_dir().join(format!("faida-core-{}-{}", name, std::process::id()));
         let _ = std::fs::remove_dir_all(&d);
         std::fs::create_dir_all(&d).unwrap();
         d
@@ -401,7 +401,7 @@ mod tests {
         let archive = make_archive(&d, "server.tar.gz");
         let versions = d.join("versions");
         let first = ensure_extracted(&archive, &versions, "1.0.0-abc").unwrap();
-        assert!(first.join(".kastra-ready").exists());
+        assert!(first.join(".faida-ready").exists());
         assert!(first.join("node_modules").join(".prisma").join("client").join("index.js").exists(), "dot-folders must survive");
         // the second call does not unpack again
         std::fs::write(first.join("touched"), "yes").unwrap();
@@ -431,7 +431,7 @@ mod tests {
         std::fs::write(versions.join("1.0.0-abc").join("junk"), "x").unwrap();
         std::fs::create_dir_all(versions.join("1.0.0-abc.unpacking")).unwrap();
         let dir = ensure_extracted(&archive, &versions, "1.0.0-abc").unwrap();
-        assert!(dir.join(".kastra-ready").exists());
+        assert!(dir.join(".faida-ready").exists());
         assert!(!dir.join("junk").exists());
         assert!(!versions.join("1.0.0-abc.unpacking").exists());
         let _ = std::fs::remove_dir_all(&d);

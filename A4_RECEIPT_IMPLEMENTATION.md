@@ -2,7 +2,7 @@
 
 ## Overview
 
-KASTRA POS now supports **multi-format receipt generation** with professional A4 PDF documents for enterprise use cases alongside thermal receipts for high-speed counter operations.
+Faida POS now supports **multi-format receipt generation** with professional A4 PDF documents for enterprise use cases alongside thermal receipts for high-speed counter operations.
 
 ---
 
@@ -309,7 +309,7 @@ async sendDeliveryReceipt(deliveryId: string, recipientEmail: string) {
   const pdfBuffer = await this.htmlToPdf(html);
   
   await this.resend.emails.send({
-    from: 'receipts@kastrapos.co.ke',
+    from: 'receipts@faidapos.co.ke',
     to: recipientEmail,
     subject: 'Delivery Receipt - Order Delivered',
     html: '<p>Please find your delivery receipt attached.</p>',
@@ -499,9 +499,9 @@ ${(delivery.notes ?? '').replace(/</g, '&lt;')}
 ## Support
 
 For issues or questions:
-- GitHub: [kastra-pos/issues](https://github.com/kastra-pos/issues)
-- Email: support@kastrapos.co.ke
-- Docs: https://docs.kastrapos.co.ke/receipts
+- GitHub: [faida-pos/issues](https://github.com/faida-pos/issues)
+- Email: support@faidapos.co.ke
+- Docs: https://docs.faidapos.co.ke/receipts
 
 ---
 

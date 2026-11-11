@@ -111,9 +111,9 @@ export enum UserRole {
   CASHIER = 'CASHIER',
   WAITER = 'WAITER',
   KITCHEN = 'KITCHEN',
-  /** Delivery driver — signs in on the Kastra Driver app with email + password. */
+  /** Delivery driver — signs in on the Faida Driver app with email + password. */
   DRIVER = 'DRIVER',
-  /** Field sales agent — signs in on the Kastra Agent app with email + password. */
+  /** Field sales agent — signs in on the Faida Agent app with email + password. */
   SALES_AGENT = 'SALES_AGENT',
 }
 

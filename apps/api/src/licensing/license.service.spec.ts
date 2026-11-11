@@ -41,15 +41,15 @@ const code = async (p: Promise<unknown>) => { try { await p; return 'OK'; } catc
 
 describe('the offline licence', () => {
   beforeEach(() => {
-    process.env.KASTRA_EDITION = 'LOCAL';
-    process.env.KASTRA_MACHINE_ID = MACHINE;
-    process.env.KASTRA_LICENSE_PUBLIC_KEY = server.publicKeyPem;
+    process.env.FAIDA_EDITION = 'LOCAL';
+    process.env.FAIDA_MACHINE_ID = MACHINE;
+    process.env.FAIDA_LICENSE_PUBLIC_KEY = server.publicKeyPem;
     delete process.env.LICENSE_SERVER_URL;
   });
-  afterAll(() => { for (const k of ['KASTRA_EDITION', 'KASTRA_MACHINE_ID', 'KASTRA_LICENSE_PUBLIC_KEY']) delete process.env[k]; });
+  afterAll(() => { for (const k of ['FAIDA_EDITION', 'FAIDA_MACHINE_ID', 'FAIDA_LICENSE_PUBLIC_KEY']) delete process.env[k]; });
 
   it('on the cloud server it does nothing and says cloud', async () => {
-    process.env.KASTRA_EDITION = 'CLOUD';
+    process.env.FAIDA_EDITION = 'CLOUD';
     const { svc } = setup();
     expect((await svc.status(T0)).edition).toBe('CLOUD');
     expect(await code(svc.activate('KPS-AAAA-BBBB-CCCC', T0))).not.toBe('OK');
@@ -119,7 +119,7 @@ describe('the offline licence', () => {
     const { svc } = setup();
     svc.http = answer(201, { token: token() });
     await svc.activate('KPS-AAAA-BBBB-CCCC', T0);
-    process.env.KASTRA_MACHINE_ID = 'a-different-computer';
+    process.env.FAIDA_MACHINE_ID = 'a-different-computer';
     expect((await svc.status(T0)).state).toBe('NONE');
   });
 

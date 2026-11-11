@@ -4,8 +4,8 @@ Three guides, three audiences, **one source each**. Everything else is generated
 
 | Source | Audience | Generated into |
 |---|---|---|
-| [user-guide.md](user-guide.md) | Owners, managers, cashiers, waiters, kitchen, accounts | `KASTRA_POS_User_Guide.pdf` · `apps/landing/kastra-pos-manual.html` |
-| [admin-guide.md](admin-guide.md) | Whoever installs and maintains the server | `KASTRA_POS_Admin_Guide.pdf` |
+| [user-guide.md](user-guide.md) | Owners, managers, cashiers, waiters, kitchen, accounts | `FAIDA_POS_User_Guide.pdf` · `apps/landing/faida-pos-manual.html` |
+| [admin-guide.md](admin-guide.md) | Whoever installs and maintains the server | `FAIDA_POS_Admin_Guide.pdf` |
 | [super-admin-guide.md](super-admin-guide.md) | Platform operators | `apps/admin/src/generated/superAdminGuide.ts` → the **Guide** page in the admin console |
 
 **Edit only the three markdown files.** Then:
@@ -23,8 +23,8 @@ imports the TypeScript module, so a build that skips them breaks both.
 ## Why it works this way
 
 The manual previously existed as **six hand-maintained copies**: four `USER_MANUAL_PART*.md`
-files, a concatenated `KASTRA_POS_COMPLETE_MANUAL.md`, a PDF, and a separately
-hand-written `apps/landing/kastra-pos-manual.html`.
+files, a concatenated `FAIDA_POS_COMPLETE_MANUAL.md`, a PDF, and a separately
+hand-written `apps/landing/faida-pos-manual.html`.
 
 They drifted, exactly as you would expect. The landing HTML covered franchise 14
 times while the markdown never mentioned it once; the markdown had no payroll tax

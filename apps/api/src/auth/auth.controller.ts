@@ -111,7 +111,7 @@ export class AuthController {
   /**
    * Mobile apps open this URL in the system browser to start Google OAuth.
    * After auth, the callback redirects to the app's deep link scheme.
-   * e.g. GET /auth/google/mobile?scheme=kastra-pos
+   * e.g. GET /auth/google/mobile?scheme=faida-pos
    */
   @Public()
   @SkipThrottle()
@@ -119,7 +119,7 @@ export class AuthController {
   mobileGoogleAuth(@Query('scheme') scheme: string, @Res() res: Response) {
     const clientId  = process.env.GOOGLE_CLIENT_ID ?? '';
     const callbackUrl = process.env.GOOGLE_CALLBACK_URL ?? '';
-    const safeScheme = /^[a-zA-Z0-9\-]+$/.test(scheme ?? '') ? scheme : 'kastra-pos';
+    const safeScheme = /^[a-zA-Z0-9\-]+$/.test(scheme ?? '') ? scheme : 'faida-pos';
     // Pass scheme via state so the callback can redirect to the right deep link
     const state = Buffer.from(JSON.stringify({ mobile: 1, scheme: safeScheme })).toString('base64url');
     const params = new URLSearchParams({
@@ -150,7 +150,7 @@ export class AuthController {
       try {
         const state = JSON.parse(Buffer.from(rawState, 'base64url').toString()) as { mobile?: number; scheme?: string };
         if (state.mobile && state.scheme) {
-          const scheme = /^[a-zA-Z0-9\-]+$/.test(state.scheme) ? state.scheme : 'kastra-pos';
+          const scheme = /^[a-zA-Z0-9\-]+$/.test(state.scheme) ? state.scheme : 'faida-pos';
           return {
             url: `${scheme}://auth/google?token=${accessToken}&id=${user.id}&businessId=${user.businessId}&role=${user.role}&name=${encodeURIComponent(user.name)}&email=${encodeURIComponent(user.email ?? '')}`,
           };
@@ -168,7 +168,7 @@ export class AuthController {
   /**
    * Frontend-initiated Google OAuth (used by @react-oauth/google).
    * Receives the Google access token from the browser, verifies it with Google,
-   * and returns a KASTRA JWT.
+   * and returns a Faida JWT.
    */
   @Public()
   @SkipThrottle()

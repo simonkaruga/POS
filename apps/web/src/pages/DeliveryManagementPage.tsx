@@ -117,7 +117,7 @@ function LiveGPSMap({ deliveries, driverLocations }: { deliveries: DeliveryOrder
       label: d.name,
       // Stale pins say "last seen" outright so nobody reads an old fix as live.
       sublabel: fresh === 'stale' ? `last seen ${formatAge(d.timestamp)}` : formatAge(d.timestamp),
-      color: fresh === 'stale' ? '#6b7280' : d.activeDeliveries > 0 ? '#7A35FF' : '#16a34a',
+      color: fresh === 'stale' ? '#6b7280' : d.activeDeliveries > 0 ? '#1F6BFF' : '#16a34a',
       muted: fresh === 'stale',
     };
   });
@@ -144,7 +144,7 @@ function LiveGPSMap({ deliveries, driverLocations }: { deliveries: DeliveryOrder
       <LiveMap
         points={points}
         height={320}
-        emptyMessage="No driver has reported a position yet. Drivers appear here once they sign in to the Kastra Driver app."
+        emptyMessage="No driver has reported a position yet. Drivers appear here once they sign in to the Faida Driver app."
       />
 
       {staleCount > 0 && (

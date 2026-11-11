@@ -10,7 +10,7 @@ export type StoreLink = { kind: 'link'; url: string } | { kind: 'unavailable'; r
 
 export interface StoreLinkInput {
   inDesktopApp: boolean;
-  /** localStorage 'kastra-server-url' (set by the desktop setup wizard); null when the app uses the cloud API. */
+  /** localStorage 'faida-server-url' (set by the desktop setup wizard); null when the app uses the cloud API. */
   serverUrl: string | null;
   /** window.location.origin (used by the hosted website). */
   origin: string;
@@ -42,14 +42,14 @@ export function onlineStoreLink(i: StoreLinkInput): StoreLink {
       kind: 'unavailable',
       reason:
         'This computer keeps your data on your own premises, so customers cannot reach it from the internet. ' +
-        'The online store is available to businesses connected to the KASTRA cloud.',
+        'The online store is available to businesses connected to the Faida cloud.',
     };
   }
   const base = (i.publicWebUrl ?? '').trim().replace(/\/$/, '');
   if (!base) {
     return {
       kind: 'unavailable',
-      reason: 'Open KASTRA in a web browser and find this card in Settings to get the store link and QR code to share.',
+      reason: 'Open Faida in a web browser and find this card in Settings to get the store link and QR code to share.',
     };
   }
   return { kind: 'link', url: `${base}${path}` };

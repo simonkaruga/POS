@@ -1,24 +1,24 @@
 {
   "expo": {
-    "name": "KASTRA Order",
-    "slug": "kastra-customer",
+    "name": "Faida Order",
+    "slug": "faida-customer",
     "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme": "kastra-order",
+    "scheme": "faida-order",
     "userInterfaceStyle": "light",
     "androidStatusBar": {
       "barStyle": "dark-content",
-      "backgroundColor": "#F0F2F5"
+      "backgroundColor": "#F3F6FC"
     },
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#030712"
+      "backgroundColor": "#01275C"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "co.ke.kastra.order",
+      "bundleIdentifier": "co.ke.faida.order",
       "infoPlist": {
         "NSAppTransportSecurity": {
           "NSAllowsArbitraryLoads": true,
@@ -29,9 +29,9 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#030712"
+        "backgroundColor": "#01275C"
       },
-      "package": "co.ke.kastra.order"
+      "package": "co.ke.faida.order"
     },
     "plugins": [
       "expo-router",
@@ -53,14 +53,7 @@
     "extra": {
       "router": {
         "origin": false
-      },
-      "eas": {
-        "projectId": "12b1a431-327b-43fa-bb56-981a3d085c0b"
       }
-    },
-    "owner": "kevrith",
-    "updates": {
-      "url": "https://u.expo.dev/12b1a431-327b-43fa-bb56-981a3d085c0b"
     }
   }
 }

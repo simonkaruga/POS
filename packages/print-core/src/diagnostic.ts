@@ -6,7 +6,7 @@
 import type { Block } from './layout';
 import { PAPER_COLUMNS, type PaperWidth } from './model';
 
-const QR_SAMPLE = 'https://etims.kra.go.ke/verify?test=KASTRA-PRINTER-TEST';
+const QR_SAMPLE = 'https://etims.kra.go.ke/verify?test=FAIDA-PRINTER-TEST';
 
 /** `1234567890` repeated to exactly `cols` characters, ends marked so a clipped edge is obvious. */
 export function columnRuler(cols: number): string {

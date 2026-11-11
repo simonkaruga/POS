@@ -33,7 +33,7 @@ describe('isPrivateAddress', () => {
     '%s is private',
     (u) => expect(isPrivateAddress(u)).toBe(true),
   );
-  it.each(['https://pos-bhe5.onrender.com', 'http://172.32.0.1', 'http://8.8.8.8', 'not a url'])('%s is not', (u) =>
+  it.each(['https://faida-api.onrender.com', 'http://172.32.0.1', 'http://8.8.8.8', 'not a url'])('%s is not', (u) =>
     expect(isPrivateAddress(u)).toBe(false),
   );
 });

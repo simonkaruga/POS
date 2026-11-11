@@ -1,7 +1,7 @@
 /**
  * Backups of the live database.
  *
- * A backup is one file, KASTRA-2026-11-06_103015-<reason>.kbk: a PostgreSQL custom-format dump made with -C, so a restore
+ * A backup is one file, FAIDA-2026-11-06_103015-<reason>.kbk: a PostgreSQL custom-format dump made with -C, so a restore
  * can recreate the database from nothing. Every backup is checked after it is written (pg_restore --list must read it),
  * written under a temporary name and renamed, so a half-written file is never mistaken for a good backup.
  *
@@ -24,12 +24,12 @@ export interface BackupInfo {
   reason: string;
 }
 
-const NAME = /^KASTRA-(\d{4})-(\d{2})-(\d{2})_(\d{2})(\d{2})(\d{2})-([a-z-]+)\.kbk$/;
+const NAME = /^FAIDA-(\d{4})-(\d{2})-(\d{2})_(\d{2})(\d{2})(\d{2})-([a-z-]+)\.kbk$/;
 
 const two = (n: number) => String(n).padStart(2, '0');
 
 export function backupFileName(at: Date, reason: BackupReason): string {
-  return `KASTRA-${at.getFullYear()}-${two(at.getMonth() + 1)}-${two(at.getDate())}_${two(at.getHours())}${two(at.getMinutes())}${two(at.getSeconds())}-${reason}.kbk`;
+  return `FAIDA-${at.getFullYear()}-${two(at.getMonth() + 1)}-${two(at.getDate())}_${two(at.getHours())}${two(at.getMinutes())}${two(at.getSeconds())}-${reason}.kbk`;
 }
 
 export function parseBackupName(name: string): { createdAt: Date; reason: string } | null {

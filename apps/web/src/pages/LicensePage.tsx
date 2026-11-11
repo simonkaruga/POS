@@ -50,7 +50,7 @@ export default function LicensePage() {
   if (status.edition !== 'LOCAL') {
     return (
       <div className="p-6">
-        <EmptyState icon={<KeyRound className="w-6 h-6" />} title="Your plan is managed online" description="This business runs in the KASTRA cloud, so its plan is under Settings, Subscription. Licence keys are for the offline edition." />
+        <EmptyState icon={<KeyRound className="w-6 h-6" />} title="Your plan is managed online" description="This business runs in the Faida cloud, so its plan is under Settings, Subscription. Licence keys are for the offline edition." />
       </div>
     );
   }
@@ -95,7 +95,7 @@ export default function LicensePage() {
             {status.state === 'ACTIVE' || status.state === 'EXPIRING_SOON' ? <Row label="Works offline until">{date(status.tokenExpiresAt)}</Row> : null}
             {status.state === 'GRACE' ? <Row label="Grace period ends">{date(status.graceEndsAt)}</Row> : null}
             {status.trial && !status.tier ? <Row label="Free trial">{status.trial.active ? `Ends ${date(status.trial.endsAt)}` : 'Ended'}</Row> : null}
-            {status.serverStatus && status.serverStatus !== 'OK' ? <Row label="Last message from KASTRA">{status.serverMessage ?? status.serverStatus}</Row> : null}
+            {status.serverStatus && status.serverStatus !== 'OK' ? <Row label="Last message from Faida">{status.serverMessage ?? status.serverStatus}</Row> : null}
             <Row label="This computer's ID">
               <span className="inline-flex items-center gap-2">
                 <span className="font-mono text-xs">{status.machineId ?? '—'}</span>
@@ -108,7 +108,7 @@ export default function LicensePage() {
 
       {!status.configured && (
         <p role="alert" className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
-          This copy of KASTRA was built without a licence key check, so a paid plan cannot be activated. Install the official version from KASTRA.
+          This copy of Faida was built without a licence key check, so a paid plan cannot be activated. Install the official version from Faida.
         </p>
       )}
 

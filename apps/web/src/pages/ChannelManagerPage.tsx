@@ -110,7 +110,7 @@ export default function ChannelManagerPage() {
   });
 
   function copyWebhook(channel: string) {
-    const url = `https://api.kastrapos.com/api/v1/integrations/channel/webhook/${channel.toLowerCase()}?businessId=${businessId}&storeId=${storeId}`;
+    const url = `https://api.faidapos.com/api/v1/integrations/channel/webhook/${channel.toLowerCase()}?businessId=${businessId}&storeId=${storeId}`;
     navigator.clipboard.writeText(url);
     setCopiedChannel(channel);
     setTimeout(() => setCopiedChannel(null), 2000);
@@ -269,7 +269,7 @@ export default function ChannelManagerPage() {
             Configure these webhook URLs in your OTA extranet to receive bookings automatically.
           </p>
           {CHANNELS.map((ch) => {
-            const url = `https://api.kastrapos.com/api/v1/integrations/channel/webhook/${ch.value.toLowerCase()}?businessId=${businessId}&storeId=${storeId}`;
+            const url = `https://api.faidapos.com/api/v1/integrations/channel/webhook/${ch.value.toLowerCase()}?businessId=${businessId}&storeId=${storeId}`;
             const copied = copiedChannel === ch.value;
             return (
               <div key={ch.value} className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-5">

@@ -20,7 +20,7 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Mist Gray is the page; cards are white on it. Dark mode swaps both through the variables in tokens.css. */
+  /* Cloud is the page; cards are white on it. Dark mode swaps both through the variables in tokens.css. */
   background-color: rgb(var(--c-page));
   color: rgb(var(--c-text-900));
 }
@@ -93,13 +93,13 @@ body {
 
 /* ─── Focus rings ─────────────────────────────────────────────────────────── */
 :focus-visible {
-  outline: 2px solid #7A35FF; /* Signal Violet */
+  outline: 2px solid #1F6BFF; /* Faida Blue */
   outline-offset: 2px;
 }
 
 /* ─── Selection ───────────────────────────────────────────────────────────── */
-::selection { background: #D9C7FF; color: #3F1690; }
-.dark ::selection { background: #531BB8; color: #EBE1FF; }
+::selection { background: #BCD3FF; color: #0F3A8F; }
+.dark ::selection { background: #1245B5; color: #DCE8FF; }
 
 /* ─── Utility layer ───────────────────────────────────────────────────────── */
 @layer components {
@@ -275,7 +275,7 @@ body {
       background-color var(--dur-fast) ease;
   }
   .surface-interactive:active, .lift:active { transform: translateY(0) scale(0.985); transition-duration: 80ms; }
-  .surface-interactive:focus-visible, .lift:focus-visible { outline: 2px solid #7A35FF; outline-offset: 2px; }
+  .surface-interactive:focus-visible, .lift:focus-visible { outline: 2px solid #1F6BFF; outline-offset: 2px; }
   .surface-interactive:disabled, .lift:disabled,
   .surface-interactive[aria-disabled='true'], .lift[aria-disabled='true'] { @apply opacity-60 cursor-not-allowed shadow-none; transform: none; }
 
@@ -300,22 +300,22 @@ body {
   .surface-interactive:hover:not(:disabled):not([aria-disabled='true']),
   .lift:hover:not(:disabled):not([aria-disabled='true']) {
     transform: translateY(-2px);
-    box-shadow: 0 10px 28px -8px rgb(122 53 255 / 0.22), 0 2px 6px -2px rgb(15 12 30 / 0.10);
+    box-shadow: 0 10px 28px -8px rgb(31 107 255 / 0.22), 0 2px 6px -2px rgb(11 31 63 / 0.10);
   }
   .surface-interactive:hover:not(:disabled):not([aria-disabled='true']) { border-color: rgb(var(--brand-bd-300)); }
   .surface-interactive:hover:not(:disabled):not([aria-disabled='true']) .surface-icon {
     transform: scale(1.08);
-    background-color: var(--tile-hover, #7A35FF);
+    background-color: var(--tile-hover, #1F6BFF);
     color: #fff;
   }
-  .surface-interactive:hover:not(:disabled):not([aria-disabled='true']) .surface-arrow { transform: translateX(3px); color: #7A35FF; }
+  .surface-interactive:hover:not(:disabled):not([aria-disabled='true']) .surface-arrow { transform: translateX(3px); color: #1F6BFF; }
 }
 .dark .surface-interactive:hover:not(:disabled):not([aria-disabled='true']) {
   box-shadow: 0 10px 28px -8px rgb(0 0 0 / 0.6), 0 0 0 1px rgb(var(--brand-bd-300));
 }
 
 /* ─── Sidebar ─────────────────────────────────────────────────────────────────
-   A menu item shows where you are (a violet bar that fills when active) and where you are about to go (the bar grows,
+   A menu item shows where you are (a Faida Blue bar that fills when active) and where you are about to go (the bar grows,
    the icon tile pops and the label leans forward on hover). Pressing it settles it, like every other clickable thing. */
 @layer components {
   .nav-item {
@@ -326,7 +326,7 @@ body {
     content: '';
     position: absolute; left: 0; top: 22%; bottom: 22%; width: 3px;
     border-radius: 0 3px 3px 0;
-    background: #7A35FF;
+    background: #1F6BFF;
     transform: scaleY(0); opacity: 0;
     transition: transform 240ms var(--ease-out), opacity var(--dur-fast) ease;
   }
@@ -339,7 +339,7 @@ body {
   .nav-item[aria-current='page'] .nav-icon { @apply bg-brand-600/15 text-brand-700 dark:bg-brand-400/20 dark:text-brand-300; }
 
   .nav-item:active { transform: scale(0.98); transition-duration: 80ms; }
-  .nav-item:focus-visible { outline: 2px solid #7A35FF; outline-offset: -2px; }
+  .nav-item:focus-visible { outline: 2px solid #1F6BFF; outline-offset: -2px; }
 
   .nav-chevron { transition: transform 240ms var(--ease-out), color var(--dur-fast) ease; }
   [aria-expanded='false'] > .nav-chevron { transform: rotate(-90deg); }
@@ -357,6 +357,20 @@ body {
 .progress-indeterminate { width: 40%; animation: indeterminate 1.1s var(--ease-out) infinite; }
 @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @keyframes fill-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* ─── Faida signature motion ──────────────────────────────────────────────────
+   From the Faida POS demo: product tiles that pop when tapped, and a tick that draws itself when a sale is paid. The
+   sign-in screen's scene, logo card and PIN pad live in styles/faida-login.css. Everything stops under
+   prefers-reduced-motion (the block below). */
+/* A product tile pops when it is added to the sale. */
+.tile-pop { animation: faida-pop 0.26s var(--ease-out); }
+
+/* A tick that draws itself when a sale is paid. */
+.paid-check circle { fill: currentColor; fill-opacity: 0.14; stroke: currentColor; stroke-width: 4; }
+.paid-check path { fill: none; stroke: currentColor; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 80; stroke-dashoffset: 80; animation: faida-draw 0.5s 0.15s var(--ease-out) forwards; }
+
+@keyframes faida-pop { 0% { transform: scale(1); } 40% { transform: scale(0.94); } 100% { transform: scale(1); } }
+@keyframes faida-draw { to { stroke-dashoffset: 0; } }
 
 /* People who ask their system for less motion get none: no lift, no slide, no entrance. Spinners keep spinning, because
    a loader that stops looks like a frozen page. */

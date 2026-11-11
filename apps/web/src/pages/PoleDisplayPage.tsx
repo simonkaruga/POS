@@ -51,7 +51,7 @@ function IdleScreen({ poleConfig }: { poleConfig: PoleConfig }) {
         <img src={poleConfig.idleLogoUrl} alt="Logo" className="h-16 w-auto mx-auto object-contain" />
       )}
       <div className="text-5xl font-black tracking-tight text-center leading-tight">
-        {poleConfig.name || 'KASTRA POS'}
+        {poleConfig.name || 'Faida POS'}
       </div>
       <div className="text-2xl font-light opacity-80">
         {poleConfig.idleMessage || 'Welcome!'}
@@ -164,7 +164,7 @@ function CompleteScreen({ state }: { state: PoleDisplayState }) {
 
 export default function PoleDisplayPage() {
   const [state, setState] = useState<PoleDisplayState>({
-    businessName: 'KASTRA POS',
+    businessName: 'Faida POS',
     items: [],
     subtotalCents: 0,
     discountCents: 0,
@@ -174,7 +174,7 @@ export default function PoleDisplayPage() {
   });
   const channelRef = useRef<BroadcastChannel | null>(null);
   const [poleConfig, setPoleConfig] = useState<PoleConfig>({
-    name: 'KASTRA POS',
+    name: 'Faida POS',
     idleMessage: 'Welcome!',
     idleLogoUrl: null,
   });
@@ -227,7 +227,7 @@ export default function PoleDisplayPage() {
 
       {/* Status bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-black/30 px-6 py-2 flex justify-between items-center">
-        <span className="text-white/30 text-xs">KASTRA POS — Customer Display</span>
+        <span className="text-white/30 text-xs">Faida POS — Customer Display</span>
         <span className="text-white/30 text-xs">
           {state.items.length} item{state.items.length !== 1 ? 's' : ''}
         </span>

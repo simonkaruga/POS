@@ -18,7 +18,7 @@ function Console() {
         <div className="max-w-3xl mx-auto px-6 py-5 flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center"><Server className="w-5 h-5" aria-hidden /></div>
           <div>
-            <h1 className="text-lg font-bold leading-tight">KASTRA Server</h1>
+            <h1 className="text-lg font-bold leading-tight">Faida Server</h1>
             <p className="text-sm text-white/80">Keep this computer switched on while the shop is open. Sell on the tills.</p>
           </div>
         </div>

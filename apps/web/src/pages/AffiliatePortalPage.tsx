@@ -82,7 +82,7 @@ function AuthView({ onAuth }: { onAuth: (s: Session) => void }) {
           <div className="w-16 h-16 rounded-2xl bg-indigo-600 mx-auto flex items-center justify-center mb-3">
             <Handshake className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">KASTRA Affiliate Program</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Faida Affiliate Program</h1>
           <p className="text-sm text-gray-500">Earn recurring commission for every business you refer that subscribes.</p>
         </div>
         <div className="bg-white rounded-2xl shadow-lg p-6">
@@ -214,7 +214,7 @@ function Dashboard({ onLogout }: { onLogout: () => void }) {
               className="flex-1 border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" />
             <button onClick={savePayout} className="px-4 py-2 bg-gray-800 text-white rounded-lg text-sm font-semibold">Save</button>
           </div>
-          <p className="text-xs text-gray-400 mt-2">Payouts are processed manually by the KASTRA team against your balance.</p>
+          <p className="text-xs text-gray-400 mt-2">Payouts are processed manually by the Faida team against your balance.</p>
         </div>
 
         {/* Tables */}

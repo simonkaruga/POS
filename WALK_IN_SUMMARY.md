@@ -349,9 +349,9 @@ Confusion: None (intuitive)
 ## Support
 
 For questions or implementation help:
-- Email: support@kastrapos.co.ke
-- Docs: https://docs.kastrapos.co.ke
-- GitHub: https://github.com/kastrapos/pos/issues
+- Email: support@faidapos.co.ke
+- Docs: https://docs.faidapos.co.ke
+- GitHub: https://github.com/faidapos/pos/issues
 
 ---
 

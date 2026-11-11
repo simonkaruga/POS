@@ -298,7 +298,7 @@ export default function ReportsScreen() {
 
   async function shareSummary() {
     const lines = [
-      `KASTRA POS — ${rangeLabel(range)}`,
+      `Faida POS — ${rangeLabel(range)}`,
       '',
       `Revenue:      ${formatKES(total)}`,
       `Transactions: ${txCount}`,

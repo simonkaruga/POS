@@ -1,8 +1,8 @@
 /// LAN server auto-discovery via UDP broadcast.
 ///
-/// Protocol (UDP port 47474):
-///   Client → broadcast  "KASTRA_DISCOVER"
-///   Server → unicast    "KASTRA_SERVER:{api_port}:{hostname}"
+/// Protocol (UDP port 47480):
+///   Client → broadcast  "FAIDA_DISCOVER"
+///   Server → unicast    "FAIDA_SERVER:{api_port}:{hostname}"
 ///
 /// The client broadcasts, waits 2 s, returns all responding servers.
 /// The server listens permanently and replies to every valid broadcast.
@@ -12,8 +12,8 @@ use tokio::net::UdpSocket;
 use std::sync::atomic::{AtomicBool, Ordering};
 use tokio::time::Duration;
 
-pub const DISCOVERY_PORT: u16 = 47474;
-const DISCOVERY_MAGIC: &str = "KASTRA_DISCOVER";
+pub const DISCOVERY_PORT: u16 = 47480;
+const DISCOVERY_MAGIC: &str = "FAIDA_DISCOVER";
 const API_PORT: u16 = 3010;
 
 /// Is the responder allowed to answer right now? Off when other computers may not connect to this server.
@@ -78,14 +78,14 @@ pub async fn discover_servers() -> Result<Vec<DiscoveredServer>, String> {
 }
 
 fn parse_response(msg: &str, ip: String) -> Option<DiscoveredServer> {
-    // Expected: "KASTRA_SERVER:{port}:{hostname}"
-    if !msg.starts_with("KASTRA_SERVER:") {
+    // Expected: "FAIDA_SERVER:{port}:{hostname}"
+    if !msg.starts_with("FAIDA_SERVER:") {
         return None;
     }
-    let body = &msg["KASTRA_SERVER:".len()..];
+    let body = &msg["FAIDA_SERVER:".len()..];
     let mut parts = body.splitn(2, ':');
     let port: u16 = parts.next()?.parse().unwrap_or(API_PORT);
-    let hostname = parts.next().unwrap_or("KASTRA Server").trim().to_string();
+    let hostname = parts.next().unwrap_or("Faida Server").trim().to_string();
     let url = format!("http://{}:{}", ip, port);
     Some(DiscoveredServer { ip, port, hostname, url })
 }
@@ -102,7 +102,7 @@ pub fn start_discovery_responder(api_port: u16) {
     }
     let my_hostname = hostname::get()
         .map(|h| h.to_string_lossy().to_string())
-        .unwrap_or_else(|_| "KASTRA-Server".to_string());
+        .unwrap_or_else(|_| "FAIDA-Server".to_string());
 
     tokio::spawn(async move {
         let bind_addr = format!("0.0.0.0:{}", DISCOVERY_PORT);
@@ -117,7 +117,7 @@ pub fn start_discovery_responder(api_port: u16) {
             eprintln!("[Discovery] Cannot enable broadcast: {}", e);
         }
 
-        let response = format!("KASTRA_SERVER:{}:{}", api_port, my_hostname);
+        let response = format!("FAIDA_SERVER:{}:{}", api_port, my_hostname);
         let mut buf = [0u8; 512];
 
         eprintln!("[Discovery] Listening on UDP {} as '{}'", DISCOVERY_PORT, my_hostname);

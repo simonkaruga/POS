@@ -75,7 +75,7 @@ export class WebAuthnService {
 
     return {
       challenge,
-      rp: { id: rp.rpId, name: 'KASTRA POS' },
+      rp: { id: rp.rpId, name: 'Faida POS' },
       user: {
         id: Buffer.from(user.id).toString('base64url'),
         name: user.email ?? user.name,

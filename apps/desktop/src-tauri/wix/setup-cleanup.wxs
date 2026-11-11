@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Removes the saved setup config (%APPDATA%\kastra-pos\mode.json) when KASTRA POS
+  Removes the saved setup config (%APPDATA%\faida-pos\mode.json) when Faida POS
   is uninstalled, so the next fresh install opens the setup wizard instead of
   jumping straight to login. The condition skips upgrades: during a major upgrade
   Windows Installer removes the old product with UPGRADINGPRODUCTCODE set.
@@ -11,22 +11,22 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>
     <DirectoryRef Id="TARGETDIR">
-      <Component Id="KastraSetupCleanup" Guid="*">
-        <RegistryKey Root="HKCU" Key="Software\KASTRA\POS" Action="createAndRemoveOnUninstall">
+      <Component Id="FaidaSetupCleanup" Guid="*">
+        <RegistryKey Root="HKCU" Key="Software\Faida\POS" Action="createAndRemoveOnUninstall">
           <RegistryValue Name="SetupCleanup" Type="integer" Value="1" KeyPath="yes" />
         </RegistryKey>
       </Component>
     </DirectoryRef>
 
     <CustomAction
-      Id="KastraRemoveSetupConfig"
+      Id="FaidaRemoveSetupConfig"
       Directory="TARGETDIR"
-      ExeCommand="cmd.exe /c del /q &quot;%APPDATA%\kastra-pos\mode.json&quot;"
+      ExeCommand="cmd.exe /c del /q &quot;%APPDATA%\faida-pos\mode.json&quot;"
       Execute="immediate"
       Return="ignore" />
 
     <InstallExecuteSequence>
-      <Custom Action="KastraRemoveSetupConfig" After="InstallInitialize">REMOVE="ALL" AND NOT UPGRADINGPRODUCTCODE</Custom>
+      <Custom Action="FaidaRemoveSetupConfig" After="InstallInitialize">REMOVE="ALL" AND NOT UPGRADINGPRODUCTCODE</Custom>
     </InstallExecuteSequence>
   </Fragment>
 </Wix>

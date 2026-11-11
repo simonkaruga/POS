@@ -4,8 +4,8 @@
  */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const SALES_QUEUE_KEY = 'kastra:sales_queue';
-const ITEMS_CACHE_KEY = 'kastra:items_cache';
+const SALES_QUEUE_KEY = 'faida:sales_queue';
+const ITEMS_CACHE_KEY = 'faida:items_cache';
 
 export interface QueuedSale {
   id: number;

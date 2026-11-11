@@ -199,14 +199,14 @@ function AddUserModal({
               <option value="CASHIER">Cashier — POS + PIN login</option>
               <option value="WAITER">Waiter — Hospitality + PIN login</option>
               <option value="KITCHEN">Kitchen Staff — KDS only + PIN</option>
-              <option value="DRIVER">Driver — Kastra Driver app (email + password)</option>
-              <option value="SALES_AGENT">Sales Agent — Kastra Agent app (email + password)</option>
+              <option value="DRIVER">Driver — Faida Driver app (email + password)</option>
+              <option value="SALES_AGENT">Sales Agent — Faida Agent app (email + password)</option>
             </select>
             {['DRIVER', 'SALES_AGENT'].includes(form.role) && (
               <p className="mt-1.5 text-xs text-gray-500">
                 {form.role === 'DRIVER'
-                  ? 'Drivers sign in on the Kastra Driver app and will appear in the driver picker for delivery runs.'
-                  : 'Sales agents sign in on the Kastra Agent app and can raise field orders on their route.'}
+                  ? 'Drivers sign in on the Faida Driver app and will appear in the driver picker for delivery runs.'
+                  : 'Sales agents sign in on the Faida Agent app and can raise field orders on their route.'}
               </p>
             )}
           </div>
@@ -1373,7 +1373,7 @@ export default function SettingsPage() {
         {/* ── Online Store link card ── */}
         {(() => {
           let serverUrl: string | null = null;
-          try { serverUrl = localStorage.getItem('kastra-server-url'); } catch { /* storage unavailable */ }
+          try { serverUrl = localStorage.getItem('faida-server-url'); } catch { /* storage unavailable */ }
           const store = onlineStoreLink({
             inDesktopApp: inDesktopApp(),
             serverUrl,
@@ -1812,7 +1812,7 @@ export default function SettingsPage() {
                   {form.receiptFooter && (
                     <div className="text-center text-gray-600 dark:text-gray-300 whitespace-pre-wrap border-t border-dashed border-gray-300 dark:border-gray-600 pt-2 mt-2">{form.receiptFooter}</div>
                   )}
-                  <div className="text-center text-gray-400 text-[10px] mt-1">Powered by Kastra Systems</div>
+                  <div className="text-center text-gray-400 text-[10px] mt-1">Powered by Faida Systems</div>
                 </div>
               </div>
             )}

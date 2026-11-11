@@ -1,5 +1,5 @@
 {
-  "name": "kastra-pos",
+  "name": "faida-pos",
   "version": "1.0.0",
   "private": true,
   "workspaces": [
@@ -10,6 +10,8 @@
     "packages/*"
   ],
   "scripts": {
+    "start": "npm run dev",
+    "predev": "npm run build --workspace=packages/shared",
     "install-all": "npm install && cd apps/api && npm install && cd ../web && npm install && cd ../admin && npm install",
     "setup": "npm run install-all && cd apps/api && npx prisma generate --schema ../../prisma/schema.prisma",
     "dev:api": "cd apps/api && npm run start:dev",

@@ -51,7 +51,7 @@ async function main(): Promise<void> {
     return;
   }
   if (command !== 'run') {
-    process.stderr.write('Usage: kastra-server run|validate|defaults ...\n');
+    process.stderr.write('Usage: faida-server run|validate|defaults ...\n');
     process.exit(2);
   }
   const a = parseArgs(rest);

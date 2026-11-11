@@ -57,7 +57,7 @@ function invoke<T>(cmd: string, args?: Record<string, unknown>): Promise<T> {
   if (cmd === 'reset_setup')            return Promise.resolve(true as T);
   if (cmd === 'test_server_connection') return Promise.resolve(true as T);
   if (cmd === 'discover_servers')       return Promise.resolve([] as T);
-  if (cmd === 'get_cloud_url')          return Promise.resolve('https://pos-bhe5.onrender.com' as T);
+  if (cmd === 'get_cloud_url')          return Promise.resolve('https://faida-api.onrender.com' as T);
   return Promise.resolve(null as T);
 }
 
@@ -94,7 +94,7 @@ const PLACES: Array<Card & { value: Place }> = [
   },
   {
     value: 'CLOUD',
-    label: 'KASTRA Cloud (online)',
+    label: 'Faida Cloud (online)',
     icon: Cloud,
     desc: 'Your data is kept online and is reachable from anywhere.',
     details: [
@@ -286,7 +286,7 @@ export default function DesktopSetupPage() {
   const [connectStatus, setConnectStatus] = useState<'idle' | 'testing' | 'ok' | 'fail'>('idle');
   const [scanning,      setScanning]      = useState(false);
   const [discovered,    setDiscovered]    = useState<DiscoveredServer[]>([]);
-  const [cloudUrl,      setCloudUrl]      = useState('https://pos-bhe5.onrender.com');
+  const [cloudUrl,      setCloudUrl]      = useState('https://faida-api.onrender.com');
   const [terminalName,  setTerminalName]  = useState('');
   const [businessName,  setBusinessName]  = useState('');
   const [saving,        setSaving]        = useState(false);
@@ -429,7 +429,7 @@ export default function DesktopSetupPage() {
         topology, deviceRole, serverUrl, terminalName, businessName, dataDir, backupDir, lanEnabled,
       });
       await invoke('set_setup_mode', payload.invokeArgs);
-      localStorage.setItem('kastra-server-url', payload.apiServerUrl);
+      localStorage.setItem('faida-server-url', payload.apiServerUrl);
 
       localStorage.setItem('desktop-setup-done', '1');
       if (businessName.trim()) localStorage.setItem('desktop-business-name', businessName.trim());
@@ -450,7 +450,7 @@ export default function DesktopSetupPage() {
           const status = await waitForLocalServer(serverStatus, { onProgress: setLaunchNote });
           const base = localServerUrl(status.apiPort);
           // The server may have taken another port than the usual one; the app must use the one it really has.
-          localStorage.setItem('kastra-server-url', base);
+          localStorage.setItem('faida-server-url', base);
           setLaunchNote('Creating your account');
           const { accessToken, user } = await registerOwner(base, { name: ownerName, email: ownerEmail, password: ownerPassword, businessName });
           setToken(accessToken);
@@ -494,7 +494,7 @@ export default function DesktopSetupPage() {
                 <ShoppingCart className="w-10 h-10 text-white" />
               </div>
               <div>
-                <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">KASTRA POS</h1>
+                <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Faida POS</h1>
                 <p className="text-gray-500 mt-1 text-sm">Enterprise Point of Sale · Desktop Edition</p>
                 <div className="mt-3 inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1.5 rounded-full">
                   <Shield className="w-3.5 h-3.5" /> First-time installation wizard
@@ -541,7 +541,7 @@ export default function DesktopSetupPage() {
               </div>
 
               <div className="bg-gray-50 rounded-xl p-4 space-y-2 text-sm text-gray-600">
-                <p>When you have bought a plan, open <strong>Licence</strong> in the menu and enter your key. KASTRA ties it to this computer and checks it with our server once; after that it renews itself whenever the computer is online.</p>
+                <p>When you have bought a plan, open <strong>Licence</strong> in the menu and enter your key. Faida ties it to this computer and checks it with our server once; after that it renews itself whenever the computer is online.</p>
                 <p>Without the internet it keeps working. If it cannot reach us for a long time you get a warning first, and your data stays safe whatever happens.</p>
               </div>
 
@@ -940,19 +940,19 @@ export default function DesktopSetupPage() {
                   }
                 </div>
                 <h2 className="text-xl font-bold text-gray-900">
-                  {topology === 'CLOUD' ? 'Connect to KASTRA Cloud' : 'Connect to LAN Server'}
+                  {topology === 'CLOUD' ? 'Connect to Faida Cloud' : 'Connect to LAN Server'}
                 </h2>
                 <p className="text-gray-500 text-sm mt-1">
                   {topology === 'CLOUD'
                     ? 'Your data is stored securely in the cloud.'
-                    : 'Find the KASTRA Server on your network or enter its IP manually.'}
+                    : 'Find the Faida Server on your network or enter its IP manually.'}
                 </p>
               </div>
 
               {topology === 'CLOUD' && (
                 <div className="bg-sky-50 border border-sky-200 rounded-xl p-4">
                   <div className="flex items-center gap-2 text-sky-700 font-semibold text-sm mb-1">
-                    <Shield className="w-4 h-4" /> KASTRA Cloud
+                    <Shield className="w-4 h-4" /> Faida Cloud
                   </div>
                   <div className="font-mono text-sm text-sky-800 bg-white border border-sky-200 rounded-lg px-3 py-2">{cloudUrl}</div>
                   <p className="text-xs text-sky-600 mt-1">Official cloud server — your data is isolated and encrypted.</p>
@@ -968,7 +968,7 @@ export default function DesktopSetupPage() {
                   >
                     {scanning
                       ? <><Loader2 className="w-4 h-4 animate-spin" /> Scanning…</>
-                      : <><RefreshCw className="w-4 h-4" /> Scan for KASTRA Servers</>
+                      : <><RefreshCw className="w-4 h-4" /> Scan for Faida Servers</>
                     }
                   </button>
 
@@ -1154,7 +1154,7 @@ export default function DesktopSetupPage() {
               >
                 {saving
                   ? <><Loader2 className="w-5 h-5 animate-spin" /> {launchNote ? `${launchNote}…` : 'Launching…'}</>
-                  : <><ArrowRight className="w-5 h-5" /> {wantsOwner ? 'Create my account and launch' : 'Launch KASTRA POS'}</>
+                  : <><ArrowRight className="w-5 h-5" /> {wantsOwner ? 'Create my account and launch' : 'Launch Faida POS'}</>
                 }
               </button>
 

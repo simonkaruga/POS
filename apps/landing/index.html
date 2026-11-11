@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KASTRA POS — Kenya's Enterprise Point of Sale Platform</title>
+  <title>Faida POS — Kenya's Enterprise Point of Sale Platform</title>
   <meta name="description" content="KRA eTIMS-compliant enterprise POS for Kenyan businesses. Offline-first, M-Pesa integrated, multi-store, AI-powered. Trusted by leading Kenyan businesses." />
   <link rel="icon" type="image/png" href="posfav.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -45,7 +45,7 @@
     .btn-ghost { background: rgba(21,18,31,.06); color: var(--text); border: 1px solid var(--border2); }
     .btn-ghost:hover { background: rgba(21,18,31,.1); border-color: rgba(21,18,31,.2); }
     .btn-outline-blue { background: transparent; color: var(--blue2); border: 1px solid rgba(96,165,250,.35); }
-    .btn-outline-blue:hover { background: rgba(122,53,255,.1); border-color: var(--blue); }
+    .btn-outline-blue:hover { background: rgba(31,107,255,.1); border-color: var(--blue); }
     .btn-lg { padding: 15px 32px; font-size: 1rem; border-radius: 12px; }
     .btn-sm { padding: 8px 16px; font-size: .8125rem; border-radius: 8px; }
 
@@ -93,9 +93,9 @@
     @media(max-width: 480px) { .hero { padding: 96px 0 48px; } }
     .hero-bg {
       position: absolute; inset: 0; z-index: 0;
-      background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(122,53,255,.18) 0%, transparent 60%),
+      background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(31,107,255,.18) 0%, transparent 60%),
                   radial-gradient(ellipse 60% 40% at 80% 50%, rgba(101,34,224,.1) 0%, transparent 60%),
-                  radial-gradient(ellipse 60% 40% at 20% 70%, rgba(122,53,255,.08) 0%, transparent 60%);
+                  radial-gradient(ellipse 60% 40% at 20% 70%, rgba(31,107,255,.08) 0%, transparent 60%);
     }
     .hero-grid {
       position: absolute; inset: 0; z-index: 0;
@@ -106,7 +106,7 @@
     .hero-content { position: relative; z-index: 1; text-align: center; }
     .hero-badge {
       display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(122,53,255,.1); border: 1px solid rgba(122,53,255,.25);
+      background: rgba(31,107,255,.1); border: 1px solid rgba(31,107,255,.25);
       color: var(--blue2); font-size: .8125rem; font-weight: 600;
       padding: 7px 16px; border-radius: 100px; margin-bottom: 28px;
       animation: fadeDown .6s ease both;
@@ -165,7 +165,7 @@
     }
     .feature-card::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(122,53,255,.4), transparent);
+      background: linear-gradient(90deg, transparent, rgba(31,107,255,.4), transparent);
       opacity: 0; transition: opacity .3s;
     }
     .feature-card:hover { border-color: var(--border2); transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,0,0,.3); }
@@ -179,8 +179,8 @@
        Colour is now reserved for meaning: category (industries below), and
        state (success / warning / error). Everything else is brand blue. */
     .fi-blue, .fi-green, .fi-purple, .fi-cyan, .fi-amber, .fi-red {
-      background: rgba(122,53,255,.10);
-      border: 1px solid rgba(122,53,255,.18);
+      background: rgba(31,107,255,.10);
+      border: 1px solid rgba(31,107,255,.18);
       color: var(--blue2);
     }
     .feature-icon svg  { width: 21px; height: 21px; }
@@ -208,7 +208,7 @@
     .compliance-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
     .cbadge { display: inline-flex; align-items: center; gap: 5px; font-size: .75rem; font-weight: 700; padding: 5px 12px; border-radius: 100px; }
     .cbadge-green { background: rgba(22,101,52,.1); color: var(--green); border: 1px solid rgba(22,101,52,.25); }
-    .cbadge-blue  { background: rgba(122,53,255,.1);  color: var(--blue2); border: 1px solid rgba(122,53,255,.25); }
+    .cbadge-blue  { background: rgba(31,107,255,.1);  color: var(--blue2); border: 1px solid rgba(31,107,255,.25); }
     .cbadge-amber { background: rgba(146,64,14,.1);  color: var(--amber); border: 1px solid rgba(146,64,14,.25); }
     .alert-box { background: rgba(185,28,28,.06); border: 1px solid rgba(185,28,28,.2); border-radius: 10px; padding: 16px 18px; margin-bottom: 20px; }
     .alert-box strong { color: var(--red); font-size: .875rem; }
@@ -232,7 +232,7 @@
     .pm-mpesa { background: linear-gradient(135deg, rgba(76,175,80,.15), rgba(76,175,80,.05)); border: 1px solid rgba(76,175,80,.25); border-radius: 8px; padding: 10px 14px; display: flex; align-items: center; gap: 8px; margin-top: 12px; }
     .pm-mpesa-dot { width: 8px; height: 8px; border-radius: 50%; background: #4caf50; box-shadow: 0 0 8px #4caf50; animation: pulse 2s infinite; }
     .pm-mpesa-text { font-size: .8125rem; color: var(--green); font-weight: 600; }
-    .pm-etims { background: rgba(122,53,255,.08); border: 1px solid rgba(122,53,255,.2); border-radius: 8px; padding: 8px 12px; display: flex; align-items: center; gap: 6px; margin-top: 8px; font-size: .75rem; color: var(--blue2); font-weight: 600; }
+    .pm-etims { background: rgba(31,107,255,.08); border: 1px solid rgba(31,107,255,.2); border-radius: 8px; padding: 8px 12px; display: flex; align-items: center; gap: 6px; margin-top: 8px; font-size: .75rem; color: var(--blue2); font-weight: 600; }
 
     /* ── Stats bar ── */
     .stats-bar { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
@@ -262,12 +262,12 @@
     /* ── Pricing ── */
     .billing-toggle { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 40px; flex-wrap: wrap; }
     .billing-btn { padding: 9px 22px; border-radius: 100px; border: 1px solid var(--border2); background: rgba(21,18,31,.04); font-size: .875rem; font-weight: 600; color: var(--text2); cursor: pointer; transition: all .2s; }
-    .billing-btn.active { border-color: var(--blue); background: rgba(122,53,255,.15); color: var(--text); }
+    .billing-btn.active { border-color: var(--blue); background: rgba(31,107,255,.15); color: var(--text); }
     .billing-btn:hover:not(.active) { border-color: var(--border2); color: var(--text); background: rgba(21,18,31,.06); }
     .save-pill { background: rgba(22,101,52,.12); color: var(--green); font-size: .6875rem; font-weight: 700; padding: 2px 8px; border-radius: 100px; border: 1px solid rgba(22,101,52,.2); margin-left: 6px; }
     .pricing-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 36px; display: flex; flex-direction: column; transition: border-color .2s, transform .2s; }
     .pricing-card:hover { border-color: var(--border2); transform: translateY(-2px); }
-    .pricing-card.featured { border-color: rgba(122,53,255,.4); background: linear-gradient(180deg, rgba(122,53,255,.08) 0%, var(--bg2) 40%); position: relative; }
+    .pricing-card.featured { border-color: rgba(31,107,255,.4); background: linear-gradient(180deg, rgba(31,107,255,.08) 0%, var(--bg2) 40%); position: relative; }
     .popular-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--blue); color: #fff; font-size: .75rem; font-weight: 700; padding: 5px 16px; border-radius: 100px; white-space: nowrap; box-shadow: 0 4px 16px var(--blue-glow); }
     .pricing-tier { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--blue2); margin-bottom: 8px; }
     .pricing-price { font-size: 2.25rem; font-weight: 900; color: var(--text); margin-bottom: 6px; letter-spacing: -.03em; line-height: 1; }
@@ -295,20 +295,20 @@
     .faq-item { border-bottom: 1px solid var(--border); }
     .faq-q { font-size: 1rem; font-weight: 600; cursor: pointer; color: var(--text); display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 22px 0; user-select: none; }
     .faq-q .faq-icon { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; font-size: .9rem; color: var(--blue2); flex-shrink: 0; transition: transform .2s, background .2s; }
-    .faq-item.open .faq-q .faq-icon { transform: rotate(45deg); background: rgba(122,53,255,.1); }
+    .faq-item.open .faq-q .faq-icon { transform: rotate(45deg); background: rgba(31,107,255,.1); }
     .faq-a { font-size: .9375rem; color: var(--text2); padding-bottom: 22px; line-height: 1.7; display: none; }
     .faq-item.open .faq-a { display: block; }
 
     /* ── CTA ── */
     .cta-section {
-      background: linear-gradient(135deg, rgba(122,53,255,.12) 0%, rgba(101,34,224,.08) 50%, rgba(122,53,255,.06) 100%);
-      border: 1px solid rgba(122,53,255,.2);
+      background: linear-gradient(135deg, rgba(31,107,255,.12) 0%, rgba(101,34,224,.08) 50%, rgba(31,107,255,.06) 100%);
+      border: 1px solid rgba(31,107,255,.2);
       border-radius: 24px; padding: 56px 32px; text-align: center; position: relative; overflow: hidden;
     }
     @media(max-width: 480px) { .cta-section { padding: 40px 20px; border-radius: 16px; } }
     .cta-section::before {
       content: ''; position: absolute; inset: 0;
-      background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(122,53,255,.06) 0%, transparent 70%);
+      background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(31,107,255,.06) 0%, transparent 70%);
     }
     .cta-section h2 { font-size: clamp(1.75rem, 3.5vw, 2.5rem); font-weight: 900; letter-spacing: -.03em; margin-bottom: 14px; position: relative; }
     .cta-section p { color: var(--text2); font-size: 1.0625rem; margin-bottom: 32px; max-width: 480px; margin-left: auto; margin-right: auto; position: relative; }
@@ -402,8 +402,8 @@
     .industry-features li { font-size: .8125rem; color: var(--text2); display: flex; align-items: flex-start; gap: 8px; line-height: 1.45; }
     .industry-features li::before { content: '✓'; font-size: .6875rem; font-weight: 800; flex-shrink: 0; margin-top: 1px; }
     /* accent colours per industry */
-    .ind-retail   .industry-icon { background: rgba(122,53,255,.12); }
-    .ind-retail   .industry-tag  { background: rgba(122,53,255,.12); color: var(--blue2); border: 1px solid rgba(122,53,255,.25); }
+    .ind-retail   .industry-icon { background: rgba(31,107,255,.12); }
+    .ind-retail   .industry-tag  { background: rgba(31,107,255,.12); color: var(--blue2); border: 1px solid rgba(31,107,255,.25); }
     .ind-retail   .industry-features li::before { color: var(--blue2); }
     .ind-resto    .industry-icon { background: rgba(146,64,14,.12); }
     .ind-resto    .industry-tag  { background: rgba(146,64,14,.12); color: var(--amber); border: 1px solid rgba(146,64,14,.25); }
@@ -417,8 +417,8 @@
     .ind-fuel     .industry-icon { background: rgba(185,28,28,.12); }
     .ind-fuel     .industry-tag  { background: rgba(185,28,28,.12); color: var(--red); border: 1px solid rgba(185,28,28,.25); }
     .ind-fuel     .industry-features li::before { color: var(--red); }
-    .ind-cyber    .industry-icon { background: rgba(122,53,255,.12); }
-    .ind-cyber    .industry-tag  { background: rgba(122,53,255,.12); color: var(--cyan); border: 1px solid rgba(122,53,255,.25); }
+    .ind-cyber    .industry-icon { background: rgba(31,107,255,.12); }
+    .ind-cyber    .industry-tag  { background: rgba(31,107,255,.12); color: var(--cyan); border: 1px solid rgba(31,107,255,.25); }
     .ind-cyber    .industry-features li::before { color: var(--cyan); }
     .ind-hardware .industry-icon { background: rgba(146,64,14,.12); }
     .ind-hardware .industry-tag  { background: rgba(146,64,14,.12); color: var(--amber); border: 1px solid rgba(146,64,14,.25); }
@@ -435,8 +435,8 @@
 <nav id="main-nav">
   <div class="container nav-inner">
     <div class="nav-logo">
-      <img src="posfav.png" alt="KASTRA" style="width:34px;height:34px;object-fit:contain;border-radius:9px;">
-      <div class="nav-logo-text">KASTRA<span> POS</span></div>
+      <img src="posfav.png" alt="Faida" style="width:34px;height:34px;object-fit:contain;border-radius:9px;">
+      <div class="nav-logo-text">Faida<span> POS</span></div>
     </div>
     <ul class="nav-links hide-mobile">
       <li><a href="#features">Features</a></li>
@@ -445,12 +445,12 @@
       <li><a href="#pricing">Pricing</a></li>
       <li><a href="#compare">Compare</a></li>
       <li><a href="#faq">FAQ</a></li>
-      <li><a href="https://pos-web-sigma.vercel.app/affiliate">Affiliates</a></li>
+      <li><a href="https://faida-pos.vercel.app/affiliate">Affiliates</a></li>
     </ul>
     <div class="nav-actions">
       <span class="nav-pill hide-mobile">✓ KRA eTIMS Ready</span>
-      <a href="https://pos-web-sigma.vercel.app/login" class="btn btn-ghost btn-sm hide-mobile">Log in</a>
-      <a href="https://pos-web-sigma.vercel.app/login?mode=register" class="btn btn-primary btn-sm">Start Free →</a>
+      <a href="https://faida-pos.vercel.app/login" class="btn btn-ghost btn-sm hide-mobile">Log in</a>
+      <a href="https://faida-pos.vercel.app/login?mode=register" class="btn btn-primary btn-sm">Start Free →</a>
       <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" onclick="toggleMobileMenu()">
         <span></span><span></span><span></span>
       </button>
@@ -466,11 +466,11 @@
   <a href="#pricing" onclick="closeMobileMenu()">Pricing</a>
   <a href="#compare" onclick="closeMobileMenu()">Compare</a>
   <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
-  <a href="https://pos-web-sigma.vercel.app/affiliate" onclick="closeMobileMenu()">Affiliates</a>
-  <a href="kastra-pos-manual.html" target="_blank" onclick="closeMobileMenu()">User Manual</a>
+  <a href="https://faida-pos.vercel.app/affiliate" onclick="closeMobileMenu()">Affiliates</a>
+  <a href="faida-pos-manual.html" target="_blank" onclick="closeMobileMenu()">User Manual</a>
   <div class="mobile-menu-actions">
-    <a href="https://pos-web-sigma.vercel.app/login" class="btn btn-ghost">Log in</a>
-    <a href="https://pos-web-sigma.vercel.app/login?mode=register" class="btn btn-primary">Start Free →</a>
+    <a href="https://faida-pos.vercel.app/login" class="btn btn-ghost">Log in</a>
+    <a href="https://faida-pos.vercel.app/login?mode=register" class="btn btn-primary">Start Free →</a>
   </div>
 </div>
 
@@ -488,11 +488,11 @@
       Stay compliant with <span class="accent">KRA</span>.
     </h1>
     <p class="hero-sub">
-      From a single kiosk to a fifty-branch chain — KASTRA runs the till, the stock
+      From a single kiosk to a fifty-branch chain — Faida runs the till, the stock
       and the staff, files every sale to eTIMS, and keeps selling when the internet drops.
     </p>
     <div class="hero-cta">
-      <a href="https://pos-web-sigma.vercel.app/login?mode=register" class="btn btn-primary btn-lg">Start free for 30 days</a>
+      <a href="https://faida-pos.vercel.app/login?mode=register" class="btn btn-primary btn-lg">Start free for 30 days</a>
       <a href="#counter" class="btn btn-ghost btn-lg">See it at the counter</a>
     </div>
     <p class="hero-cta-note">No card needed &nbsp;·&nbsp; Every feature unlocked &nbsp;·&nbsp; Cancel whenever</p>
@@ -524,7 +524,7 @@
             <div class="pm-dot" style="background:#ef4444;"></div>
             <div class="pm-dot" style="background:#f59e0b;"></div>
             <div class="pm-dot" style="background:var(--green);"></div>
-            <span style="font-size:.75rem;color:var(--text3);margin-left:8px;">KASTRA POS — Premier Café, Nairobi</span>
+            <span style="font-size:.75rem;color:var(--text3);margin-left:8px;">Faida POS — Premier Café, Nairobi</span>
           </div>
           <div class="pos-mockup-body">
             <div class="pm-header">
@@ -566,7 +566,7 @@
           <li><span class="check-icon">✓</span>Offline mode — never miss a sale during outages</li>
         </ul>
         <div style="margin-top:28px;">
-          <a href="https://pos-web-sigma.vercel.app//login?mode=register" class="btn btn-primary">Try it free for 14 days →</a>
+          <a href="https://faida-pos.vercel.app//login?mode=register" class="btn btn-primary">Try it free for 14 days →</a>
         </div>
       </div>
     </div>
@@ -624,7 +624,7 @@
     <div class="section-header center reveal">
       <div class="section-label">Platform Features</div>
       <h2 class="section-title">Everything Your Business Needs</h2>
-      <p class="section-sub">From the counter to the boardroom — KASTRA covers every part of your operation in one platform.</p>
+      <p class="section-sub">From the counter to the boardroom — Faida covers every part of your operation in one platform.</p>
     </div>
     <div class="grid-4">
       <div class="feature-card reveal">
@@ -889,7 +889,7 @@
         <div class="section-label">Compliance &amp; Security</div>
         <h2 class="section-title">Built for Kenya's Regulatory Framework</h2>
         <p class="section-sub" style="margin-bottom:32px;">
-          KASTRA is pre-integrated with KRA's eTIMS API and fully compliant with Kenya's Data Protection Act. Security is a core feature, not an add-on.
+          Faida is pre-integrated with KRA's eTIMS API and fully compliant with Kenya's Data Protection Act. Security is a core feature, not an add-on.
         </p>
         <ul class="check-list">
           <li><span class="check-icon">✓</span>Automatic eTIMS invoice submission after every sale</li>
@@ -915,9 +915,9 @@
           </div>
           <div class="alert-box">
             <strong>⚠ KRA Penalty Alert</strong>
-            <p>From 2024, KRA requires all VAT-registered businesses to submit invoices via eTIMS in real time. Non-compliance penalties can reach <strong style="color:var(--red);">KES 1 million per year</strong>. KASTRA handles this automatically.</p>
+            <p>From 2024, KRA requires all VAT-registered businesses to submit invoices via eTIMS in real time. Non-compliance penalties can reach <strong style="color:var(--red);">KES 1 million per year</strong>. Faida handles this automatically.</p>
           </div>
-          <h4 style="font-size:.9375rem;font-weight:700;color:var(--text);margin-bottom:14px;">What KASTRA does automatically:</h4>
+          <h4 style="font-size:.9375rem;font-weight:700;color:var(--text);margin-bottom:14px;">What Faida does automatically:</h4>
           <ul class="check-list" style="font-size:.875rem;">
             <li><span class="check-icon">✓</span>Submits every invoice to KRA after checkout (background)</li>
             <li><span class="check-icon">✓</span>Queues failed submissions for retry when online</li>
@@ -947,7 +947,7 @@
         <div class="section-label">Multi-Store &amp; Franchise</div>
         <h2 class="section-title">Built to Scale With Your Business</h2>
         <p class="section-sub" style="margin-bottom:32px;">
-          Whether you have 2 branches or 200, KASTRA gives you consolidated visibility, per-store controls, and franchise management tools out of the box.
+          Whether you have 2 branches or 200, Faida gives you consolidated visibility, per-store controls, and franchise management tools out of the box.
         </p>
         <ul class="check-list">
           <li><span class="check-icon">✓</span>Owner dashboard: cross-store P&amp;L, stock, and GMV</li>
@@ -961,7 +961,7 @@
         <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:36px;">
           <p style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:20px;">Enterprise Scale</p>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-            <div style="background:rgba(122,53,255,.08);border:1px solid rgba(122,53,255,.2);border-radius:12px;padding:20px;text-align:center;">
+            <div style="background:rgba(31,107,255,.08);border:1px solid rgba(31,107,255,.2);border-radius:12px;padding:20px;text-align:center;">
               <div style="font-size:2rem;font-weight:900;color:var(--blue2);">5</div>
               <div style="font-size:.75rem;color:var(--text3);margin-top:4px;">Stores — Pro Plan</div>
             </div>
@@ -993,12 +993,12 @@
     <div class="section-header center reveal">
       <div class="section-label">Customer Stories</div>
       <h2 class="section-title">Trusted Across Kenya</h2>
-      <p class="section-sub">Businesses from Nairobi to Kisumu rely on KASTRA to run their daily operations.</p>
+      <p class="section-sub">Businesses from Nairobi to Kisumu rely on Faida to run their daily operations.</p>
     </div>
     <div class="grid-3">
       <div class="testimonial-card reveal">
         <div class="stars">★★★★★</div>
-        <p class="testimonial-text">"eTIMS submission used to be a nightmare — we'd spend hours on KRA's portal. With KASTRA it happens automatically after every sale. KRA audits are no longer a stress."</p>
+        <p class="testimonial-text">"eTIMS submission used to be a nightmare — we'd spend hours on KRA's portal. With Faida it happens automatically after every sale. KRA audits are no longer a stress."</p>
         <div class="testimonial-author">
           <div class="t-avatar" style="background:linear-gradient(135deg,var(--accent),var(--accent-dark));">JM</div>
           <div>
@@ -1073,7 +1073,7 @@
           <li><span class="pf-check muted">—</span><span class="muted">Reports suite</span></li>
           <li><span class="pf-check muted">—</span><span class="muted">Offline mode + PWA</span></li>
         </ul>
-        <a href="https://pos-web-sigma.vercel.app//login?mode=register&plan=FREE" class="btn btn-ghost" style="width:100%;">Start Free — No Card</a>
+        <a href="https://faida-pos.vercel.app//login?mode=register&plan=FREE" class="btn btn-ghost" style="width:100%;">Start Free — No Card</a>
       </div>
 
       <!-- Starter -->
@@ -1103,7 +1103,7 @@
           <li><span class="pf-check muted">—</span><span class="muted">Hospitality &amp; supplier modules</span></li>
           <li><span class="pf-check muted">—</span><span class="muted">HR &amp; payroll</span></li>
         </ul>
-        <a href="https://pos-web-sigma.vercel.app//login?mode=register&plan=STARTER" class="btn btn-outline-blue" style="width:100%;">Start 30-Day Trial</a>
+        <a href="https://faida-pos.vercel.app//login?mode=register&plan=STARTER" class="btn btn-outline-blue" style="width:100%;">Start 30-Day Trial</a>
       </div>
 
       <!-- Growth -->
@@ -1132,7 +1132,7 @@
           <li><span class="pf-check muted">—</span><span class="muted">HR, payroll &amp; reconciliation</span></li>
           <li><span class="pf-check muted">—</span><span class="muted">Webhooks &amp; API keys</span></li>
         </ul>
-        <a href="https://pos-web-sigma.vercel.app/login?mode=register&plan=GROWTH" class="btn btn-outline-blue" style="width:100%;">Start 30-Day Trial</a>
+        <a href="https://faida-pos.vercel.app/login?mode=register&plan=GROWTH" class="btn btn-outline-blue" style="width:100%;">Start 30-Day Trial</a>
       </div>
 
     </div>
@@ -1168,7 +1168,7 @@
           <li><span class="pf-check">✓</span>Cheques &amp; general ledger</li>
           <li><span class="pf-check">✓</span>Scheduled email reports</li>
         </ul>
-        <a href="https://pos-web-sigma.vercel.app/login?mode=register&plan=PRO" class="btn btn-primary" style="width:100%;margin-top:auto;">Start 30-Day Trial</a>
+        <a href="https://faida-pos.vercel.app/login?mode=register&plan=PRO" class="btn btn-primary" style="width:100%;margin-top:auto;">Start 30-Day Trial</a>
       </div>
 
       <!-- Enterprise -->
@@ -1198,7 +1198,7 @@
           <li><span class="pf-check">✓</span>Custom branding &amp; white-label receipts</li>
           <li><span class="pf-check">✓</span>SLA uptime guarantee + dedicated account manager</li>
         </ul>
-        <a href="mailto:hello@kastrapos.co.ke" class="btn btn-ghost" style="width:100%;margin-top:auto;">Contact Sales →</a>
+        <a href="mailto:hello@faidapos.co.ke" class="btn btn-ghost" style="width:100%;margin-top:auto;">Contact Sales →</a>
       </div>
 
     </div>
@@ -1214,14 +1214,14 @@
   <div class="container">
     <div class="section-header center reveal">
       <div class="section-label">How We Compare</div>
-      <h2 class="section-title">KASTRA vs. The Alternatives</h2>
+      <h2 class="section-title">Faida vs. The Alternatives</h2>
     </div>
     <div style="overflow-x:auto;" class="reveal">
       <table class="compare-table">
         <thead>
           <tr>
             <th>Feature</th>
-            <th style="color:var(--blue2);">KASTRA POS</th>
+            <th style="color:var(--blue2);">Faida POS</th>
             <th>Generic POS</th>
             <th>International POS</th>
           </tr>
@@ -1252,20 +1252,20 @@
     </div>
     <div class="reveal">
       <div class="faq-item">
-        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Does KASTRA work without internet? <span class="faq-icon">+</span></div>
-        <div class="faq-a">Yes — KASTRA is offline-first. All sales, inventory, and payments are stored locally in your browser's IndexedDB (via Dexie.js). Data syncs automatically to the cloud when your connection is restored. You can sell through power cuts, weak signal, and full outages without losing a single transaction. The desktop (Tauri) app also includes a local SQLite database for fully disconnected operation.</div>
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Does Faida work without internet? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Yes — Faida is offline-first. All sales, inventory, and payments are stored locally in your browser's IndexedDB (via Dexie.js). Data syncs automatically to the cloud when your connection is restored. You can sell through power cuts, weak signal, and full outages without losing a single transaction. The desktop (Tauri) app also includes a local SQLite database for fully disconnected operation.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Is KASTRA KRA eTIMS compliant? <span class="faq-icon">+</span></div>
-        <div class="faq-a">KASTRA integrates with KRA's official eTIMS v2.0 API (Tax Invoice Management System). Every checkout triggers an automatic invoice submission in the background. If the submission fails (e.g. no internet), the receipt is watermarked "PENDING KRA SUBMISSION" and the invoice is queued for retry. Once connectivity is restored, the queue processes automatically. KASTRA also supports eTIMS void and amendment (orgInvcNo) per KRA specification.</div>
+        <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Is Faida KRA eTIMS compliant? <span class="faq-icon">+</span></div>
+        <div class="faq-a">Faida integrates with KRA's official eTIMS v2.0 API (Tax Invoice Management System). Every checkout triggers an automatic invoice submission in the background. If the submission fails (e.g. no internet), the receipt is watermarked "PENDING KRA SUBMISSION" and the invoice is queued for retry. Once connectivity is restored, the queue processes automatically. Faida also supports eTIMS void and amendment (orgInvcNo) per KRA specification.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">How does M-Pesa integration work? <span class="faq-icon">+</span></div>
-        <div class="faq-a">KASTRA uses Safaricom's official Daraja API. When a customer pays by M-Pesa, you enter the amount — they receive an STK push on their phone immediately. Alternatively, a dynamic QR code (changing per transaction) is generated for self-service scanning. Both methods provide real-time confirmation at the POS. Bank transfer, Paystack card, gift cards, and split payments are also supported.</div>
+        <div class="faq-a">Faida uses Safaricom's official Daraja API. When a customer pays by M-Pesa, you enter the amount — they receive an STK push on their phone immediately. Alternatively, a dynamic QR code (changing per transaction) is generated for self-service scanning. Both methods provide real-time confirmation at the POS. Bank transfer, Paystack card, gift cards, and split payments are also supported.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What hardware do I need? <span class="faq-icon">+</span></div>
-        <div class="faq-a">KASTRA runs in any modern browser — no proprietary hardware required. Works on Windows/Mac/Linux laptops and tablets. For receipts, standard 58mm/80mm ESC/POS thermal printers via USB or network are supported. USB and camera barcode scanners work out of the box. The Tauri desktop app provides a native Windows/Linux experience with hardware receipt printing. A pole display (customer-facing screen) is also supported via any second monitor.</div>
+        <div class="faq-a">Faida runs in any modern browser — no proprietary hardware required. Works on Windows/Mac/Linux laptops and tablets. For receipts, standard 58mm/80mm ESC/POS thermal printers via USB or network are supported. USB and camera barcode scanners work out of the box. The Tauri desktop app provides a native Windows/Linux experience with hardware receipt printing. A pole display (customer-facing screen) is also supported via any second monitor.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">What is the difference between Monthly, Annual, and Lifetime pricing? <span class="faq-icon">+</span></div>
@@ -1273,7 +1273,7 @@
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">How is my business data protected? <span class="faq-icon">+</span></div>
-        <div class="faq-a">All sensitive credentials — M-Pesa API keys, eTIMS certificates, Africa's Talking keys — are encrypted with AES-256-CBC before storage. KASTRA is compliant with Kenya's Data Protection Act (KDPA 2019): customers can request data deletion, which triggers full PII anonymisation with a signed audit trail. Access is protected by JWT tokens (15-min expiry), PIN auto-lock on inactivity, optional TOTP two-factor authentication, and Google OAuth. All audit actions are recorded in a tamper-evident chain.</div>
+        <div class="faq-a">All sensitive credentials — M-Pesa API keys, eTIMS certificates, Africa's Talking keys — are encrypted with AES-256-CBC before storage. Faida is compliant with Kenya's Data Protection Act (KDPA 2019): customers can request data deletion, which triggers full PII anonymisation with a signed audit trail. Access is protected by JWT tokens (15-min expiry), PIN auto-lock on inactivity, optional TOTP two-factor authentication, and Google OAuth. All audit actions are recorded in a tamper-evident chain.</div>
       </div>
       <div class="faq-item">
         <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">Can I switch plans or cancel anytime? <span class="faq-icon">+</span></div>
@@ -1284,11 +1284,11 @@
 </section>
 
 <!-- ── Download / Get the App ── -->
-<section id="download" style="padding:72px 0;background:linear-gradient(180deg,rgba(122,53,255,.03) 0%,transparent 100%);">
+<section id="download" style="padding:72px 0;background:linear-gradient(180deg,rgba(31,107,255,.03) 0%,transparent 100%);">
   <div class="container">
     <!-- Header -->
     <div style="text-align:center;margin-bottom:40px;">
-      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(22,101,52,.1);border:1px solid rgba(22,101,52,.25);color:var(--green);font-size:12px;font-weight:700;padding:5px 14px;border-radius:999px;margin-bottom:16px;letter-spacing:.08em;text-transform:uppercase;">⬇ Get KASTRA POS</div>
+      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(22,101,52,.1);border:1px solid rgba(22,101,52,.25);color:var(--green);font-size:12px;font-weight:700;padding:5px 14px;border-radius:999px;margin-bottom:16px;letter-spacing:.08em;text-transform:uppercase;">⬇ Get Faida POS</div>
       <h2 style="font-size:clamp(1.75rem,3.5vw,2.75rem);font-weight:900;letter-spacing:-.03em;margin-bottom:14px;">Available on every<br/><span style="background:linear-gradient(135deg,var(--blue2),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">platform you use</span></h2>
       <p style="color:var(--text2);max-width:520px;margin:0 auto;font-size:1.0625rem;">Web app available now. Desktop and mobile apps launching soon — join the early access list to be first.</p>
     </div>
@@ -1301,15 +1301,15 @@
         <div style="flex:1;min-width:16px;height:2px;background:linear-gradient(90deg,transparent,var(--border));"></div>
         <span style="background:rgba(22,101,52,.12);border:1px solid rgba(22,101,52,.3);color:var(--green);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap;">✓ LIVE</span>
       </div>
-      <div style="background:linear-gradient(135deg,rgba(122,53,255,.08),rgba(22,101,52,.05));border:1px solid rgba(122,53,255,.2);border-radius:20px;padding:24px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+      <div style="background:linear-gradient(135deg,rgba(31,107,255,.08),rgba(22,101,52,.05));border:1px solid rgba(31,107,255,.2);border-radius:20px;padding:24px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
         <div style="flex:1;min-width:220px;">
           <div style="font-size:20px;font-weight:800;color:var(--text);margin-bottom:8px;">Start in your browser — no install needed</div>
-          <p style="color:var(--text2);font-size:14px;line-height:1.6;margin:0 0 20px;">The full KASTRA POS experience runs in any modern browser. Chrome, Firefox, Edge, Safari. Works on tablets, laptops, and desktops. Offline-capable via PWA.</p>
+          <p style="color:var(--text2);font-size:14px;line-height:1.6;margin:0 0 20px;">The full Faida POS experience runs in any modern browser. Chrome, Firefox, Edge, Safari. Works on tablets, laptops, and desktops. Offline-capable via PWA.</p>
           <div style="display:flex;gap:12px;flex-wrap:wrap;">
-            <a href="https://pos-web-sigma.vercel.app" style="display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;font-size:14px;font-weight:700;padding:12px 24px;border-radius:10px;text-decoration:none;transition:all .15s;" onmouseover="this.style.background='var(--accent)'" onmouseout="this.style.background='var(--blue)'">
+            <a href="https://faida-pos.vercel.app" style="display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;font-size:14px;font-weight:700;padding:12px 24px;border-radius:10px;text-decoration:none;transition:all .15s;" onmouseover="this.style.background='var(--accent)'" onmouseout="this.style.background='var(--blue)'">
               Open Web App →
             </a>
-            <a href="https://pos-web-sigma.vercel.app/login?mode=register" style="display:inline-flex;align-items:center;gap:8px;background:rgba(21,18,31,.06);border:1px solid var(--border2);color:var(--text);font-size:14px;font-weight:600;padding:12px 24px;border-radius:10px;text-decoration:none;" onmouseover="this.style.borderColor='rgba(21,18,31,.25)'" onmouseout="this.style.borderColor='var(--border2)'">
+            <a href="https://faida-pos.vercel.app/login?mode=register" style="display:inline-flex;align-items:center;gap:8px;background:rgba(21,18,31,.06);border:1px solid var(--border2);color:var(--text);font-size:14px;font-weight:600;padding:12px 24px;border-radius:10px;text-decoration:none;" onmouseover="this.style.borderColor='rgba(21,18,31,.25)'" onmouseout="this.style.borderColor='var(--border2)'">
               Start Free Trial
             </a>
           </div>
@@ -1341,7 +1341,7 @@
       </div>
 
       <!-- Why desktop callout -->
-      <div style="margin-bottom:16px;background:rgba(122,53,255,.05);border:1px solid rgba(122,53,255,.12);border-radius:12px;padding:14px 20px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
+      <div style="margin-bottom:16px;background:rgba(31,107,255,.05);border:1px solid rgba(31,107,255,.12);border-radius:12px;padding:14px 20px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
         <span style="font-size:13px;font-weight:700;color:var(--blue2);">Why install the desktop app?</span>
         <span style="font-size:13px;color:var(--text2);">✓ Sell offline with VSCU (no internet needed)</span>
         <span style="font-size:13px;color:var(--text2);">✓ LAN sync across all terminals</span>
@@ -1361,7 +1361,7 @@
             <span style="background:rgba(21,18,31,.05);padding:2px 8px;border-radius:4px;">.exe</span>
             <span style="background:rgba(21,18,31,.05);padding:2px 8px;border-radius:4px;">.msi</span>
           </div>
-          <a href="https://github.com/kevrith/POS/releases/latest" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(0,120,215,.12);border:1px solid rgba(0,120,215,.3);color:var(--blue2);font-size:13px;font-weight:700;padding:10px;border-radius:8px;text-decoration:none;transition:all .15s;" onmouseover="this.style.background='rgba(0,120,215,.22)'" onmouseout="this.style.background='rgba(0,120,215,.12)'">
+          <a href="https://github.com/simonkaruga/POS/releases/latest" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(0,120,215,.12);border:1px solid rgba(0,120,215,.3);color:var(--blue2);font-size:13px;font-weight:700;padding:10px;border-radius:8px;text-decoration:none;transition:all .15s;" onmouseover="this.style.background='rgba(0,120,215,.22)'" onmouseout="this.style.background='rgba(0,120,215,.12)'">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Download .msi / .exe
           </a>
@@ -1376,7 +1376,7 @@
           <div style="font-size:12px;color:var(--text3);margin-bottom:14px;display:flex;gap:6px;">
             <span style="background:rgba(21,18,31,.05);padding:2px 8px;border-radius:4px;">.dmg</span>
           </div>
-          <a href="https://github.com/kevrith/POS/releases/latest" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(21,18,31,.06);border:1px solid var(--border2);color:var(--text2);font-size:13px;font-weight:700;padding:10px;border-radius:8px;text-decoration:none;transition:all .15s;" onmouseover="this.style.borderColor='rgba(21,18,31,.25)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">
+          <a href="https://github.com/simonkaruga/POS/releases/latest" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(21,18,31,.06);border:1px solid var(--border2);color:var(--text2);font-size:13px;font-weight:700;padding:10px;border-radius:8px;text-decoration:none;transition:all .15s;" onmouseover="this.style.borderColor='rgba(21,18,31,.25)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Download .dmg (Intel)
           </a>
@@ -1391,7 +1391,7 @@
           <div style="font-size:12px;color:var(--text3);margin-bottom:14px;display:flex;gap:6px;">
             <span style="background:rgba(21,18,31,.05);padding:2px 8px;border-radius:4px;">.dmg</span>
           </div>
-          <a href="https://github.com/kevrith/POS/releases/latest" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(21,18,31,.06);border:1px solid var(--border2);color:var(--text2);font-size:13px;font-weight:700;padding:10px;border-radius:8px;text-decoration:none;transition:all .15s;" onmouseover="this.style.borderColor='rgba(21,18,31,.25)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">
+          <a href="https://github.com/simonkaruga/POS/releases/latest" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(21,18,31,.06);border:1px solid var(--border2);color:var(--text2);font-size:13px;font-weight:700;padding:10px;border-radius:8px;text-decoration:none;transition:all .15s;" onmouseover="this.style.borderColor='rgba(21,18,31,.25)';this.style.color='var(--text)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text2)'">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Download .dmg (Apple Silicon)
           </a>
@@ -1407,7 +1407,7 @@
             <span style="background:rgba(21,18,31,.05);padding:2px 8px;border-radius:4px;">.AppImage</span>
             <span style="background:rgba(21,18,31,.05);padding:2px 8px;border-radius:4px;">.deb</span>
           </div>
-          <a href="https://github.com/kevrith/POS/releases/latest" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(146,64,14,.08);border:1px solid rgba(146,64,14,.2);color:var(--amber);font-size:13px;font-weight:700;padding:10px;border-radius:8px;text-decoration:none;transition:all .15s;" onmouseover="this.style.background='rgba(146,64,14,.16)'" onmouseout="this.style.background='rgba(146,64,14,.08)'">
+          <a href="https://github.com/simonkaruga/POS/releases/latest" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(146,64,14,.08);border:1px solid rgba(146,64,14,.2);color:var(--amber);font-size:13px;font-weight:700;padding:10px;border-radius:8px;text-decoration:none;transition:all .15s;" onmouseover="this.style.background='rgba(146,64,14,.16)'" onmouseout="this.style.background='rgba(146,64,14,.08)'">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Download .AppImage / .deb
           </a>
@@ -1425,22 +1425,22 @@
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;">
 
-        <!-- KASTRA POS (Cashier) -->
-        <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:28px;transition:all .2s;" onmouseover="this.style.borderColor='rgba(122,53,255,.4)'" onmouseout="this.style.borderColor='var(--border2)'">
+        <!-- Faida POS (Cashier) -->
+        <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:28px;transition:all .2s;" onmouseover="this.style.borderColor='rgba(31,107,255,.4)'" onmouseout="this.style.borderColor='var(--border2)'">
           <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;">
             <div style="width:56px;height:56px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:24px;height:24px;"><path d="M2 7 4 3h16l2 4"/><path d="M2 7h20v3a3 3 0 0 1-6 0 3 3 0 0 1-6 0 3 3 0 0 1-6 0Z"/><path d="M4 12v9h16v-9"/><path d="M9 21v-5h6v5"/></svg></div>
             <div>
-              <div style="font-weight:700;font-size:16px;color:var(--text);">KASTRA POS</div>
+              <div style="font-weight:700;font-size:16px;color:var(--text);">Faida POS</div>
               <div style="font-size:12px;color:var(--text3);margin-top:2px;">For Cashiers &amp; Managers</div>
               <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">
-                <span style="background:rgba(122,53,255,.15);color:var(--blue2);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;">CASHIER</span>
-                <span style="background:rgba(122,53,255,.15);color:var(--blue2);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;">MANAGER</span>
+                <span style="background:rgba(31,107,255,.15);color:var(--blue2);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;">CASHIER</span>
+                <span style="background:rgba(31,107,255,.15);color:var(--blue2);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;">MANAGER</span>
                 <span style="background:rgba(22,101,52,.1);color:var(--green);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;">ANDROID &amp; iOS</span>
               </div>
             </div>
           </div>
           <p style="font-size:13px;color:var(--text2);margin:0 0 20px;line-height:1.5;">Full POS on your phone. Barcode scanning, M-Pesa payments, offline sales queue, X-reports, customer management. Perfect for mobile salespeople and pop-up locations.</p>
-          <a href="https://github.com/kevrith/POS/releases/download/mobile-latest/kastra-pos-cashier.apk" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,rgba(37,99,235,.2),rgba(124,58,237,.15));border:1px solid rgba(122,53,255,.35);color:var(--blue2);font-size:14px;font-weight:700;padding:12px;border-radius:10px;text-decoration:none;transition:all .15s;" onmouseover="this.style.borderColor='rgba(122,53,255,.6)'" onmouseout="this.style.borderColor='rgba(122,53,255,.35)'">
+          <a href="https://github.com/simonkaruga/POS/releases/download/mobile-latest/faida-pos-cashier.apk" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,rgba(37,99,235,.2),rgba(31,107,255,.15));border:1px solid rgba(31,107,255,.35);color:var(--blue2);font-size:14px;font-weight:700;padding:12px;border-radius:10px;text-decoration:none;transition:all .15s;" onmouseover="this.style.borderColor='rgba(31,107,255,.6)'" onmouseout="this.style.borderColor='rgba(31,107,255,.35)'">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Download APK (Android)
           </a>
@@ -1456,34 +1456,34 @@
           </div>
         </div>
 
-        <!-- KASTRA Order (Customer) -->
+        <!-- Faida Order (Customer) -->
         <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:28px;transition:all .2s;" onmouseover="this.style.borderColor='rgba(22,101,52,.4)'" onmouseout="this.style.borderColor='var(--border2)'">
           <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;">
             <div style="width:56px;height:56px;background:linear-gradient(135deg,var(--green),#0891b2);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:24px;height:24px;"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg></div>
             <div>
-              <div style="font-weight:700;font-size:16px;color:var(--text);">KASTRA Order</div>
+              <div style="font-weight:700;font-size:16px;color:var(--text);">Faida Order</div>
               <div style="font-size:12px;color:var(--text3);margin-top:2px;">Self-Service for Customers</div>
               <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">
                 <span style="background:rgba(22,101,52,.15);color:var(--green);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;">CUSTOMER</span>
-                <span style="background:rgba(122,53,255,.15);color:var(--blue2);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;">RESTAURANT</span>
+                <span style="background:rgba(31,107,255,.15);color:var(--blue2);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;">RESTAURANT</span>
                 <span style="background:rgba(22,101,52,.1);color:var(--green);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;">ANDROID &amp; iOS</span>
               </div>
             </div>
           </div>
           <p style="font-size:13px;color:var(--text2);margin:0 0 20px;line-height:1.5;">Customers browse your menu, build a cart, and place orders directly from their phone. Live order tracking, loyalty points, and table QR-code support for restaurants.</p>
-          <a href="https://github.com/kevrith/POS/releases/download/mobile-latest/kastra-order-customer.apk" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,rgba(5,150,105,.15),rgba(8,145,178,.12));border:1px solid rgba(22,101,52,.3);color:var(--green);font-size:14px;font-weight:700;padding:12px;border-radius:10px;text-decoration:none;transition:all .15s;" onmouseover="this.style.borderColor='rgba(22,101,52,.55)'" onmouseout="this.style.borderColor='rgba(22,101,52,.3)'">
+          <a href="https://github.com/simonkaruga/POS/releases/download/mobile-latest/faida-order-customer.apk" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,rgba(5,150,105,.15),rgba(8,145,178,.12));border:1px solid rgba(22,101,52,.3);color:var(--green);font-size:14px;font-weight:700;padding:12px;border-radius:10px;text-decoration:none;transition:all .15s;" onmouseover="this.style.borderColor='rgba(22,101,52,.55)'" onmouseout="this.style.borderColor='rgba(22,101,52,.3)'">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Download APK (Android)
           </a>
           <div style="margin-top:10px;text-align:center;font-size:11px;color:var(--text3);">Coming to Google Play &amp; App Store</div>
         </div>
 
-        <!-- KASTRA Driver -->
+        <!-- Faida Driver -->
         <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:28px;transition:all .2s;" onmouseover="this.style.borderColor='rgba(146,64,14,.4)'" onmouseout="this.style.borderColor='var(--border2)'">
           <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;">
             <div style="width:56px;height:56px;background:linear-gradient(135deg,var(--amber),var(--red));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:24px;height:24px;"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg></div>
             <div>
-              <div style="font-weight:700;font-size:16px;color:var(--text);">KASTRA Driver</div>
+              <div style="font-weight:700;font-size:16px;color:var(--text);">Faida Driver</div>
               <div style="font-size:12px;color:var(--text3);margin-top:2px;">For Delivery Riders</div>
               <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">
                 <span style="background:rgba(146,64,14,.15);color:var(--amber);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;">DRIVER</span>
@@ -1493,19 +1493,19 @@
             </div>
           </div>
           <p style="font-size:13px;color:var(--text2);margin:0 0 20px;line-height:1.5;">Delivery riders get a full dispatch app — active delivery list, map navigation (Google Maps &amp; Waze), proof of delivery photo, earnings dashboard, and call-customer shortcut.</p>
-          <a href="https://github.com/kevrith/POS/releases/download/mobile-latest/kastra-driver.apk" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,rgba(217,119,6,.12),rgba(220,38,38,.1));border:1px solid rgba(146,64,14,.3);color:var(--amber);font-size:14px;font-weight:700;padding:12px;border-radius:10px;text-decoration:none;transition:all .15s;" onmouseover="this.style.borderColor='rgba(146,64,14,.55)'" onmouseout="this.style.borderColor='rgba(146,64,14,.3)'">
+          <a href="https://github.com/simonkaruga/POS/releases/download/mobile-latest/faida-driver.apk" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,rgba(217,119,6,.12),rgba(220,38,38,.1));border:1px solid rgba(146,64,14,.3);color:var(--amber);font-size:14px;font-weight:700;padding:12px;border-radius:10px;text-decoration:none;transition:all .15s;" onmouseover="this.style.borderColor='rgba(146,64,14,.55)'" onmouseout="this.style.borderColor='rgba(146,64,14,.3)'">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Download APK (Android)
           </a>
           <div style="margin-top:10px;text-align:center;font-size:11px;color:var(--text3);">Coming to Google Play &amp; App Store</div>
         </div>
 
-        <!-- KASTRA Agent -->
+        <!-- Faida Agent -->
         <div style="background:var(--bg3);border:1px solid var(--border2);border-radius:20px;padding:28px;transition:all .2s;" onmouseover="this.style.borderColor='rgba(146,64,14,.4)'" onmouseout="this.style.borderColor='var(--border2)'">
           <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;">
             <div style="width:56px;height:56px;background:linear-gradient(135deg,#ea580c,#9a3412);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:24px;height:24px;"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></div>
             <div>
-              <div style="font-weight:700;font-size:16px;color:var(--text);">KASTRA Agent</div>
+              <div style="font-weight:700;font-size:16px;color:var(--text);">Faida Agent</div>
               <div style="font-size:12px;color:var(--text3);margin-top:2px;">For Field Sales Reps</div>
               <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">
                 <span style="background:rgba(146,64,14,.15);color:var(--amber);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;">FIELD SALES</span>
@@ -1515,7 +1515,7 @@
             </div>
           </div>
           <p style="font-size:13px;color:var(--text2);margin:0 0 20px;line-height:1.5;">Field agents work the route from their phone — daily call plan, register new shops with GPS, capture orders against the live catalogue, collect cash &amp; M-Pesa payments, and track commission. Works on patchy connections.</p>
-          <a href="https://github.com/kevrith/POS/releases/download/mobile-latest/kastra-agent.apk" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,rgba(146,64,14,.14),rgba(154,52,18,.1));border:1px solid rgba(146,64,14,.3);color:var(--amber);font-size:14px;font-weight:700;padding:12px;border-radius:10px;text-decoration:none;transition:all .15s;" onmouseover="this.style.borderColor='rgba(146,64,14,.55)'" onmouseout="this.style.borderColor='rgba(146,64,14,.3)'">
+          <a href="https://github.com/simonkaruga/POS/releases/download/mobile-latest/faida-agent.apk" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,rgba(146,64,14,.14),rgba(154,52,18,.1));border:1px solid rgba(146,64,14,.3);color:var(--amber);font-size:14px;font-weight:700;padding:12px;border-radius:10px;text-decoration:none;transition:all .15s;" onmouseover="this.style.borderColor='rgba(146,64,14,.55)'" onmouseout="this.style.borderColor='rgba(146,64,14,.3)'">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Download APK (Android)
           </a>
@@ -1531,7 +1531,7 @@
           <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px;">Enterprise &amp; MDM Distribution</div>
           <div style="font-size:13px;color:var(--text2);line-height:1.5;">Need to deploy across 50+ devices? We provide direct APK packages, MDM-compatible bundles, and white-label options for enterprise deployments. Ideal for banks, hotel chains, and retail franchises.</div>
         </div>
-        <a href="mailto:enterprise@kastrapos.co.ke?subject=Enterprise Mobile Distribution Enquiry" style="flex-shrink:0;align-self:center;display:inline-flex;align-items:center;gap:8px;background:rgba(101,34,224,.15);border:1px solid rgba(101,34,224,.3);color:var(--blue2);font-size:13px;font-weight:700;padding:10px 18px;border-radius:8px;text-decoration:none;white-space:nowrap;transition:all .15s;" onmouseover="this.style.background='rgba(101,34,224,.25)'" onmouseout="this.style.background='rgba(101,34,224,.15)'">
+        <a href="mailto:enterprise@faidapos.co.ke?subject=Enterprise Mobile Distribution Enquiry" style="flex-shrink:0;align-self:center;display:inline-flex;align-items:center;gap:8px;background:rgba(101,34,224,.15);border:1px solid rgba(101,34,224,.3);color:var(--blue2);font-size:13px;font-weight:700;padding:10px 18px;border-radius:8px;text-decoration:none;white-space:nowrap;transition:all .15s;" onmouseover="this.style.background='rgba(101,34,224,.25)'" onmouseout="this.style.background='rgba(101,34,224,.15)'">
           Contact Enterprise Sales →
         </a>
       </div>
@@ -1540,40 +1540,40 @@
 </section>
 
 <!-- ── Resources Section ── -->
-<section style="padding:64px 0;background:linear-gradient(180deg,transparent,rgba(122,53,255,.04));">
+<section style="padding:64px 0;background:linear-gradient(180deg,transparent,rgba(31,107,255,.04));">
   <div class="container">
     <div style="text-align:center;margin-bottom:48px;">
-      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(122,53,255,.12);border:1px solid rgba(122,53,255,.25);color:var(--blue2);font-size:12px;font-weight:700;padding:5px 14px;border-radius:999px;margin-bottom:16px;letter-spacing:.08em;text-transform:uppercase;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:14px;height:14px;vertical-align:-2px;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg> Resources</div>
+      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(31,107,255,.12);border:1px solid rgba(31,107,255,.25);color:var(--blue2);font-size:12px;font-weight:700;padding:5px 14px;border-radius:999px;margin-bottom:16px;letter-spacing:.08em;text-transform:uppercase;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:14px;height:14px;vertical-align:-2px;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg> Resources</div>
       <h2 style="font-size:clamp(1.75rem,3.5vw,2.5rem);font-weight:900;letter-spacing:-.03em;margin-bottom:12px;">Everything you need to<br/><span class="accent">get up and running</span></h2>
-      <p style="color:var(--text2);max-width:480px;margin:0 auto;">Comprehensive documentation, guides, and support resources for KASTRA POS.</p>
+      <p style="color:var(--text2);max-width:480px;margin:0 auto;">Comprehensive documentation, guides, and support resources for Faida POS.</p>
     </div>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;max-width:1000px;margin:0 auto;">
       <!-- User Manual Card -->
-      <a href="kastra-pos-manual.html" target="_blank" style="display:block;background:var(--bg3);border:1px solid var(--border2);border-radius:16px;padding:28px;transition:all .2s;text-decoration:none;position:relative;overflow:hidden;" onmouseover="this.style.borderColor='rgba(122,53,255,.5)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border2)';this.style.transform='none'">
-        <div style="width:48px;height:48px;background:linear-gradient(135deg,rgba(122,53,255,.2),rgba(101,34,224,.2));border:1px solid rgba(122,53,255,.3);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:22px;height:22px;"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg></div>
+      <a href="faida-pos-manual.html" target="_blank" style="display:block;background:var(--bg3);border:1px solid var(--border2);border-radius:16px;padding:28px;transition:all .2s;text-decoration:none;position:relative;overflow:hidden;" onmouseover="this.style.borderColor='rgba(31,107,255,.5)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border2)';this.style.transform='none'">
+        <div style="width:48px;height:48px;background:linear-gradient(135deg,rgba(31,107,255,.2),rgba(101,34,224,.2));border:1px solid rgba(31,107,255,.3);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:22px;height:22px;"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg></div>
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
           <h3 style="font-size:16px;font-weight:700;color:var(--text);margin:0;">Enterprise User Manual</h3>
-          <span style="background:rgba(122,53,255,.15);color:var(--blue2);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;text-transform:uppercase;letter-spacing:.06em;">v2.0</span>
+          <span style="background:rgba(31,107,255,.15);color:var(--blue2);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;text-transform:uppercase;letter-spacing:.06em;">v2.0</span>
         </div>
         <p style="font-size:13px;color:var(--text2);margin:0 0 16px;line-height:1.5;">Complete 100-page reference guide. All 25 modules, SVG diagrams, permission matrix, payroll tables, eTIMS setup, troubleshooting. Print to PDF.</p>
         <div style="display:flex;align-items:center;gap:6px;color:var(--blue2);font-size:13px;font-weight:600;">View Manual <span style="font-size:16px;">→</span></div>
       </a>
       <!-- Installation Guide Card -->
-      <a href="kastra-pos-manual.html#ch4" target="_blank" style="display:block;background:var(--bg3);border:1px solid var(--border2);border-radius:16px;padding:28px;transition:all .2s;text-decoration:none;" onmouseover="this.style.borderColor='rgba(22,101,52,.4)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border2)';this.style.transform='none'">
+      <a href="faida-pos-manual.html#ch4" target="_blank" style="display:block;background:var(--bg3);border:1px solid var(--border2);border-radius:16px;padding:28px;transition:all .2s;text-decoration:none;" onmouseover="this.style.borderColor='rgba(22,101,52,.4)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border2)';this.style.transform='none'">
         <div style="width:48px;height:48px;background:rgba(22,101,52,.1);border:1px solid rgba(22,101,52,.25);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px;">⚙️</div>
         <h3 style="font-size:16px;font-weight:700;color:var(--text);margin:0 0 8px;">Installation Guide</h3>
         <p style="font-size:13px;color:var(--text2);margin:0 0 16px;line-height:1.5;">Step-by-step Ubuntu 22.04 production setup. Node.js, PostgreSQL, Nginx, SSL, PM2, firewall, and environment configuration.</p>
         <div style="display:flex;align-items:center;gap:6px;color:var(--green);font-size:13px;font-weight:600;">View Guide →</div>
       </a>
       <!-- KRA eTIMS Card -->
-      <a href="kastra-pos-manual.html#ch17" target="_blank" style="display:block;background:var(--bg3);border:1px solid var(--border2);border-radius:16px;padding:28px;transition:all .2s;text-decoration:none;" onmouseover="this.style.borderColor='rgba(185,28,28,.4)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border2)';this.style.transform='none'">
+      <a href="faida-pos-manual.html#ch17" target="_blank" style="display:block;background:var(--bg3);border:1px solid var(--border2);border-radius:16px;padding:28px;transition:all .2s;text-decoration:none;" onmouseover="this.style.borderColor='rgba(185,28,28,.4)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border2)';this.style.transform='none'">
         <div style="width:48px;height:48px;background:rgba(185,28,28,.1);border:1px solid rgba(185,28,28,.25);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px;">🇰🇪</div>
         <h3 style="font-size:16px;font-weight:700;color:var(--text);margin:0 0 8px;">KRA eTIMS Setup Guide</h3>
         <p style="font-size:13px;color:var(--text2);margin:0 0 16px;line-height:1.5;">Full eTIMS configuration — sandbox to production. Credentials, VSCU offline mode, batch submissions, void &amp; amendment, error codes.</p>
         <div style="display:flex;align-items:center;gap:6px;color:var(--red);font-size:13px;font-weight:600;">View Guide →</div>
       </a>
       <!-- API Reference Card -->
-      <a href="kastra-pos-manual.html#ch25" target="_blank" style="display:block;background:var(--bg3);border:1px solid var(--border2);border-radius:16px;padding:28px;transition:all .2s;text-decoration:none;" onmouseover="this.style.borderColor='rgba(146,64,14,.4)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border2)';this.style.transform='none'">
+      <a href="faida-pos-manual.html#ch25" target="_blank" style="display:block;background:var(--bg3);border:1px solid var(--border2);border-radius:16px;padding:28px;transition:all .2s;text-decoration:none;" onmouseover="this.style.borderColor='rgba(146,64,14,.4)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--border2)';this.style.transform='none'">
         <div style="width:48px;height:48px;background:rgba(146,64,14,.1);border:1px solid rgba(146,64,14,.25);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width:22px;height:22px;"><path d="M9 2v6"/><path d="M15 2v6"/><path d="M6 8h12v3a6 6 0 0 1-12 0Z"/><path d="M12 17v5"/></svg></div>
         <h3 style="font-size:16px;font-weight:700;color:var(--text);margin:0 0 8px;">API Reference</h3>
         <p style="font-size:13px;color:var(--text2);margin:0 0 16px;line-height:1.5;">REST API endpoints, authentication, webhook signatures, and integration examples for QuickBooks, Xero, Shopify, and WooCommerce.</p>
@@ -1582,7 +1582,7 @@
     </div>
     <!-- Download button -->
     <div style="text-align:center;margin-top:40px;">
-      <a href="kastra-pos-manual.html" target="_blank" style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,#4f46e5,var(--accent-dark));color:#fff;font-size:15px;font-weight:700;padding:14px 32px;border-radius:12px;text-decoration:none;box-shadow:0 0 32px rgba(122,53,255,.35);transition:all .2s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 0 48px rgba(122,53,255,.5)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 0 32px rgba(122,53,255,.35)'">
+      <a href="faida-pos-manual.html" target="_blank" style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;font-size:15px;font-weight:700;padding:14px 32px;border-radius:12px;text-decoration:none;box-shadow:0 0 32px rgba(31,107,255,.35);transition:all .2s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 0 48px rgba(31,107,255,.5)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 0 32px rgba(31,107,255,.35)'">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v10M5 8l4 4 4-4M3 14h12" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Download Enterprise Manual (PDF)
       </a>
@@ -1596,10 +1596,10 @@
   <div class="container">
     <div class="cta-section reveal">
       <h2>Ready to modernise your<br/><span class="accent">Kenyan business?</span></h2>
-      <p>Join forward-thinking Kenyan businesses using KASTRA POS. Full platform access for 30 days — no credit card, no commitment.</p>
+      <p>Join forward-thinking Kenyan businesses using Faida POS. Full platform access for 30 days — no credit card, no commitment.</p>
       <div class="cta-actions">
-        <a href="https://pos-web-sigma.vercel.app/login?mode=register" class="btn btn-primary btn-lg">Start 30-Day Free Trial</a>
-        <a href="mailto:hello@kastrapos.co.ke" class="btn btn-ghost btn-lg">Talk to Sales →</a>
+        <a href="https://faida-pos.vercel.app/login?mode=register" class="btn btn-primary btn-lg">Start 30-Day Free Trial</a>
+        <a href="mailto:hello@faidapos.co.ke" class="btn btn-ghost btn-lg">Talk to Sales →</a>
       </div>
       <div class="cta-trust">
         <div class="cta-trust-item"><span class="t-dot"></span>No credit card required</div>
@@ -1617,8 +1617,8 @@
     <div class="footer-top">
       <div>
         <div class="footer-brand-logo">
-          <img src="posfav.png" alt="KASTRA" style="width:32px;height:32px;object-fit:contain;border-radius:8px;">
-          <div class="footer-brand-name">KASTRA POS</div>
+          <img src="posfav.png" alt="Faida" style="width:32px;height:32px;object-fit:contain;border-radius:8px;">
+          <div class="footer-brand-name">Faida POS</div>
         </div>
         <p class="footer-desc">Kenya's most complete KRA eTIMS-compliant point of sale platform. Offline-first, M-Pesa integrated, built for serious business.</p>
         <div class="footer-social">
@@ -1634,15 +1634,15 @@
           <li><a href="#pricing">Pricing</a></li>
           <li><a href="#compliance">Compliance</a></li>
           <li><a href="#compare">Compare</a></li>
-          <li><a href="https://pos-bhe5.onrender.com/api/docs">API Docs</a></li>
+          <li><a href="https://faida-api.onrender.com/api/docs">API Docs</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Company</h4>
         <ul>
           <li><a href="contact.html">Contact Us</a></li>
-          <li><a href="https://pos-web-sigma.vercel.app/affiliate">Affiliate Program</a></li>
-          <li><a href="about.html">About Kastra Systems</a></li>
+          <li><a href="https://faida-pos.vercel.app/affiliate">Affiliate Program</a></li>
+          <li><a href="about.html">About Faida Systems</a></li>
           <li><a href="privacy.html">Privacy Policy</a></li>
           <li><a href="terms.html">Terms of Service</a></li>
           <li><a href="kdpa.html">KDPA Statement</a></li>
@@ -1652,9 +1652,9 @@
         <h4>Resources</h4>
         <ul>
           <li><a href="setup-guide.html">Setup Guide</a></li>
-          <li><a href="about.html">About Kastra Systems</a></li>
+          <li><a href="about.html">About Faida Systems</a></li>
           <li><a href="index.html#faq">FAQ</a></li>
-          <li><a href="mailto:support@kastrapos.co.ke">Email Support</a></li>
+          <li><a href="mailto:support@faidapos.co.ke">Email Support</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -1667,7 +1667,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span class="footer-copy">© 2026 Kastra Systems. All rights reserved. Built in 🇰🇪 Kenya.</span>
+      <span class="footer-copy">© 2026 Faida Systems. All rights reserved. Built in 🇰🇪 Kenya.</span>
       <div class="footer-badges">
         <span class="fbadge">🇰🇪 Made for Kenya</span>
         <span class="fbadge">KRA eTIMS Ready</span>

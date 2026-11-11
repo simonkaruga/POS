@@ -100,7 +100,7 @@ class POSDatabase extends Dexie {
   meta!: Table<MetaEntry>;
 
   constructor() {
-    super('KastraPOSDB');
+    super('FaidaPOSDB');
 
     this.version(1).stores({
       items: 'id, businessId, storeId, [businessId+storeId], barcode, category',

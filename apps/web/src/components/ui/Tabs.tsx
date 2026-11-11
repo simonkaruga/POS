@@ -5,7 +5,7 @@ export interface TabItem<T extends string> { id: T; label: string; icon?: ReactN
 
 /**
  * Tabs that never clip: the row scrolls sideways when it is too wide, and the active tab scrolls into view.
- * One look everywhere: a violet underline on the active tab.
+ * One look everywhere: a Faida Blue underline on the active tab.
  */
 export function Tabs<T extends string>({ tabs, value, onChange, className }: { tabs: Array<TabItem<T>>; value: T; onChange: (id: T) => void; className?: string }) {
   const activeRef = useRef<HTMLButtonElement>(null);

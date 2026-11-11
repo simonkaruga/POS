@@ -1,6 +1,6 @@
 # @pos/local-server
 
-Runs KASTRA's own PostgreSQL and API on one computer: the engine of the offline desktop edition. The desktop app
+Runs Faida's own PostgreSQL and API on one computer: the engine of the offline desktop edition. The desktop app
 (Tauri) only launches `cli.js` and reads its status; everything that can go wrong at a shop counter lives here, in
 TypeScript, where it is tested against a real database.
 
@@ -8,7 +8,7 @@ TypeScript, where it is tested against a real database.
 
 | Piece | File | Job |
 |---|---|---|
-| Folders | `paths.ts` | Windows defaults (`C:\ProgramData\KASTRA` for the live database, `Documents\KASTRA Backups` for backups) and the rules that refuse unsafe database folders: network shares, OneDrive/Dropbox/Google Drive, Documents/Desktop/Pictures (Windows redirects them to OneDrive), Program Files, a whole drive |
+| Folders | `paths.ts` | Windows defaults (`C:\ProgramData\Faida` for the live database, `Documents\Faida Backups` for backups) and the rules that refuse unsafe database folders: network shares, OneDrive/Dropbox/Google Drive, Documents/Desktop/Pictures (Windows redirects them to OneDrive), Program Files, a whole drive |
 | Settings and secrets | `config.ts` | `server.json`: ports, and secrets generated once on first run and never regenerated (database password, login-token secret, the key that encrypts saved M-Pesa/eTIMS credentials). Written atomically, owner-only |
 | Database | `postgres.ts` | `initdb` on first run (refuses a folder that already holds files), start/stop with `pg_ctl`, localhost only, full durability (fsync on). Recovers by itself after a power cut |
 | Updates | `migrate.ts` | `prisma migrate deploy` on every start; first run also creates the empty database |
@@ -27,7 +27,7 @@ The integration test starts a real PostgreSQL and the real API. It needs the Pos
 `postgres`, `pg_dump`, `pg_restore`), the API built (`apps/api/dist`) and Prisma installed:
 
 ```bash
-KASTRA_PG_BIN=/path/to/postgres/bin [KASTRA_PG_LIB=/path/to/lib] npm test
+FAIDA_PG_BIN=/path/to/postgres/bin [FAIDA_PG_LIB=/path/to/lib] npm test
 ```
 
 It runs in a temporary folder on free ports and never touches real data.
@@ -43,9 +43,9 @@ It runs in a temporary folder on free ports and never touches real data.
 
 ## Licensing
 
-The server program passes the API what it needs to check a licence: `--machine-id` (`KASTRA_MACHINE_ID`),
+The server program passes the API what it needs to check a licence: `--machine-id` (`FAIDA_MACHINE_ID`),
 `--license-server` (`LICENSE_SERVER_URL`) and `--license-public-key <file>` (read and handed over as
-`KASTRA_LICENSE_PUBLIC_KEY`). Without the public key the API can never accept a paid plan. The checking itself is in
+`FAIDA_LICENSE_PUBLIC_KEY`). Without the public key the API can never accept a paid plan. The checking itself is in
 `apps/api/src/licensing`; `__tests__/licensing.integration.test.ts` runs the real API against a stand-in licence server.
 
 ## Also in this package

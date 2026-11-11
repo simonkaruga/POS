@@ -93,7 +93,7 @@ const PRICE_LEVEL_LABELS: Record<PriceLevel, string> = {
 
 // Department icon map (category name → colour)
 const DEPT_COLORS: Record<string, string> = {
-  fresh: '#22c55e', dairy: '#9F6EFF', beverages: '#f59e0b',
+  fresh: '#22c55e', dairy: '#5A91FF', beverages: '#f59e0b',
   bread: '#f97316', household: '#a78bfa', frozen: '#06b6d4',
   snacks: '#ec4899', cleaning: '#14b8a6', pharmacy: '#ef4444',
   electronics: '#8b5cf6', default: '#6b7280',
@@ -391,7 +391,7 @@ export default function SupermarketPOSPage() {
         const changeCents = cashPayment ? Math.max(0, cashPayment.amountCents - totalCents) : 0;
         const ch = new BroadcastChannel('pos-pole-display');
         ch.postMessage({
-          businessName: businessSettings?.name ?? 'KASTRA POS',
+          businessName: businessSettings?.name ?? 'Faida POS',
           items: [],
           subtotalCents: 0,
           discountCents: 0,
@@ -405,7 +405,7 @@ export default function SupermarketPOSPage() {
         setTimeout(() => {
           try {
             const ch2 = new BroadcastChannel('pos-pole-display');
-            ch2.postMessage({ businessName: businessSettings?.name ?? 'KASTRA POS', items: [], subtotalCents: 0, discountCents: 0, vatCents: 0, totalCents: 0, status: 'idle' });
+            ch2.postMessage({ businessName: businessSettings?.name ?? 'Faida POS', items: [], subtotalCents: 0, discountCents: 0, vatCents: 0, totalCents: 0, status: 'idle' });
             ch2.close();
           } catch { /* ignore */ }
         }, 4000);
@@ -425,7 +425,7 @@ export default function SupermarketPOSPage() {
 
       const receipt: ReceiptData = {
         receiptNumber: result.receiptNumber,
-        businessName: businessSettings?.name ?? 'KASTRA POS',
+        businessName: businessSettings?.name ?? 'Faida POS',
         storeName: effectiveStoreName,
         date: new Date().toISOString(),
         cashierName: user?.name ?? 'Cashier',
@@ -501,7 +501,7 @@ export default function SupermarketPOSPage() {
   });
 
   // ─── Pole Display Broadcast ───────────────────────────────────
-  const businessNameForPole = businessSettings?.name ?? 'KASTRA POS';
+  const businessNameForPole = businessSettings?.name ?? 'Faida POS';
 
   // Store businessId so PoleDisplayPage can fetch its config
   useEffect(() => {
@@ -595,7 +595,7 @@ export default function SupermarketPOSPage() {
             <div className="w-6 h-6 rounded bg-blue-600 flex items-center justify-center">
               <Zap className="w-3.5 h-3.5 text-white" />
             </div>
-            <span className="font-black text-white tracking-wide text-sm hidden sm:inline">KASTRA</span>
+            <span className="font-black text-white tracking-wide text-sm hidden sm:inline">Faida</span>
           </div>
           <div className="h-4 w-px bg-slate-700 hidden sm:block" />
           <span className="text-xs bg-blue-900 text-blue-300 px-2 py-0.5 rounded font-mono shrink-0">

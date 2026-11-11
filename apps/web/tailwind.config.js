@@ -7,6 +7,8 @@ import { buildPalette } from './tailwind.palette.js';
 const tokens = JSON.parse(fs.readFileSync(new URL('../../design/tokens.json', import.meta.url), 'utf8'));
 const v = (name) => `rgb(var(--${name}) / <alpha-value>)`;
 const palette = buildPalette(tokens, colors);
+// Token groups carry a `_comment` key for people; Tailwind must not see it as a colour.
+const strip = ({ _comment, ...rest }) => rest;
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -23,9 +25,12 @@ export default {
     },
     extend: {
       colors: {
-        // The brand is Signal Violet. The old blue / indigo / purple families all point at it, so a page written
+        // The brand is Faida Blue. The old blue / indigo / purple families all point at it, so a page written
         // with `bg-blue-600` or `text-indigo-700` is on-brand without being rewritten.
         brand: tokens.brand,
+        // Faida Navy (the logo wordmark) and Faida Orange (the logo stroke): `bg-navy`, `text-accent-text`, `bg-accent`.
+        navy: strip(tokens.navy),
+        accent: strip(tokens.accent),
         blue: tokens.brand,
         indigo: tokens.brand,
         purple: tokens.brand,
@@ -39,7 +44,7 @@ export default {
         orange: { ...colors.orange, 600: tokens.statusShades.orange600 },
         // A second green family used as a module accent is the one success green.
         teal: { ...colors.emerald, 600: tokens.statusShades.emerald600 },
-        // Neutrals are a cool, slightly violet grey; gray-100 is Mist Gray.
+        // Neutrals are a cool, slightly violet grey; gray-100 is Cloud.
         gray: tokens.neutral,
         slate: tokens.neutral,
         zinc: tokens.neutral,
@@ -76,7 +81,7 @@ export default {
         'card-lg': '0 8px 32px -4px rgba(0,0,0,0.12), 0 2px 8px -2px rgba(0,0,0,0.06)',
         'modal': '0 24px 64px -12px rgba(0,0,0,0.35)',
         'modal-sm': '0 12px 36px -8px rgba(0,0,0,0.25)',
-        'glow-blue': '0 0 24px rgba(122,53,255,0.35)',
+        'glow-blue': '0 0 24px rgba(31,107,255,0.35)',
         'glow-green': '0 0 24px rgba(16,185,129,0.3)',
         'inner-sm': 'inset 0 1px 3px rgba(0,0,0,0.07)',
         'btn': '0 1px 2px rgba(0,0,0,0.08), 0 1px 1px rgba(0,0,0,0.04)',

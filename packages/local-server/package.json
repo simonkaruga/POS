@@ -2,10 +2,10 @@
   "name": "@pos/local-server",
   "version": "1.0.0",
   "private": true,
-  "description": "Runs KASTRA's own PostgreSQL and API on one computer (the offline desktop edition): setup, start/stop, backups, restore",
+  "description": "Runs Faida's own PostgreSQL and API on one computer (the offline desktop edition): setup, start/stop, backups, restore",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "bin": { "kastra-server": "dist/cli.js" },
+  "bin": { "faida-server": "dist/cli.js" },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "test": "jest --watchman=false",

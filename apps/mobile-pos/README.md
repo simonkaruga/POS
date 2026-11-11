@@ -1,9 +1,9 @@
-# KASTRA POS — Cashier App (mobile-pos)
+# Faida POS — Cashier App (mobile-pos)
 
 Expo / React Native app for cashiers, waiters and managers. A **floor app**: selling
 first, with a role-gated Manage section for the people who actually run the shop.
 
-- Store name: **KASTRA POS** · slug `kastra-pos-cashier` · package `co.ke.kastra.pos`
+- Store name: **Faida POS** · slug `faida-pos-cashier` · package `co.ke.faida.pos`
 - Router: `expo-router` (file-based)
 
 ---

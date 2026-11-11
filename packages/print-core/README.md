@@ -1,6 +1,6 @@
 # @pos/print-core
 
-One receipt, kitchen-ticket and bill layout for every KASTRA print path. Pure TypeScript with a
+One receipt, kitchen-ticket and bill layout for every Faida print path. Pure TypeScript with a
 single dependency (`qrcode-generator`), so it runs in the web app, the Expo apps and plain Node.
 
 ## Why it exists

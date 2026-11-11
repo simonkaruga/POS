@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# KASTRA POS - Development Startup Script
+# Faida POS - Development Startup Script
 # Starts API backend and Web frontend concurrently
 
-echo "🚀 Starting KASTRA POS Development Environment..."
+echo "🚀 Starting Faida POS Development Environment..."
 echo ""
 
 # Check if dependencies are installed

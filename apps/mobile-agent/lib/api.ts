@@ -4,7 +4,7 @@ import { secondsUntilExpiry } from './jwt';
 
 export const SERVER_URL_KEY = 'agent_server_url';
 // Same deployed API the web app uses (apps/web/vercel.json proxies /api here).
-export const DEFAULT_BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'https://pos-bhe5.onrender.com/api/v1';
+export const DEFAULT_BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'https://faida-api.onrender.com/api/v1';
 const TOKEN_KEY = 'agent_token';
 
 export async function getBaseUrl(): Promise<string> {

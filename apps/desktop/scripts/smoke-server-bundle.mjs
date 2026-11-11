@@ -42,7 +42,7 @@ if (!fs.existsSync(path.join(SOURCE, 'local-server', 'dist', 'cli.js'))) {
   process.exit(2);
 }
 
-const work = fs.mkdtempSync(path.join(os.tmpdir(), 'kastra-smoke-'));
+const work = fs.mkdtempSync(path.join(os.tmpdir(), 'faida-smoke-'));
 const bundle = args['in-place'] ? SOURCE : path.join(work, 'server');
 if (!args['in-place']) {
   console.log(`copying the bundle to ${bundle} (outside the repository) ...`);
@@ -116,9 +116,9 @@ try {
   const health = await fetch(`http://127.0.0.1:${apiPort}/api/v1/health`).then((r) => r.ok, () => false);
   check('the API answers its health check', health);
   const post = (p, body) => fetch(`http://127.0.0.1:${apiPort}/api/v1${p}`, { method: 'POST', headers: { 'Content-Type': 'application/json', Origin: 'http://tauri.localhost' }, body: JSON.stringify(body) });
-  const reg = await post('/auth/register', { name: 'Smoke Owner', email: 'smoke@kastra-test.invalid', password: PASSWORD, businessName: 'Smoke Shop' });
+  const reg = await post('/auth/register', { name: 'Smoke Owner', email: 'smoke@faida-test.invalid', password: PASSWORD, businessName: 'Smoke Shop' });
   check('a business can be registered (the encryption key, database and API all work together)', reg.status === 201, `(${reg.status})`);
-  const login = await post('/auth/login', { email: 'smoke@kastra-test.invalid', password: PASSWORD });
+  const login = await post('/auth/login', { email: 'smoke@faida-test.invalid', password: PASSWORD });
   check('and the owner can sign in', login.status === 201, `(${login.status})`);
 
   // 3. a backup that verifies

@@ -1,17 +1,17 @@
 ---
-title: "KASTRA POS"
+title: "Faida POS"
 subtitle: "User Guide"
-author: "KASTRA Technologies"
+author: "Faida Systems"
 audience: "Business owners, managers, cashiers, waiters, kitchen and accounts staff"
 ---
 
-# KASTRA POS — User Guide
+# Faida POS — User Guide
 
-**This guide is for the people who use KASTRA POS to run a business.** Owners,
+**This guide is for the people who use Faida POS to run a business.** Owners,
 managers, cashiers, waiters, kitchen staff and accountants.
 
 You do not need to understand servers, databases or code to read it. If you are
-installing KASTRA on a server, you want the **Admin & Installation Guide** instead.
+installing Faida on a server, you want the **Admin & Installation Guide** instead.
 
 Everything here is written as a task: *how do I take a sale*, *how do I refund
 someone*, *how do I close the day*. Find your task, follow the steps.
@@ -72,7 +72,7 @@ someone*, *how do I close the day*. Find your task, follow the steps.
 
 ## 1. Who does what
 
-KASTRA gives each person only what their job needs. If a screen described in this
+Faida gives each person only what their job needs. If a screen described in this
 guide is missing for you, it is almost certainly your role — ask the owner.
 
 | Role | What they can do |
@@ -103,7 +103,7 @@ involving money, staff or settings.
 
 **PIN** — for the shop floor. Four to six digits, and the session lasts **12 hours**,
 so a cashier is not retyping a password all shift. Tap your name, enter your PIN.
-Every person needs their **own** PIN: KASTRA refuses to save a PIN that a colleague
+Every person needs their **own** PIN: Faida refuses to save a PIN that a colleague
 already uses, because a PIN is how it knows who rang up a sale or approved a void. If
 two staff already share one from before, they can still sign in by tapping their name
 first; a manager override will ask the owner to give each manager a different PIN.
@@ -126,7 +126,7 @@ Owners may also enable:
 3. Click the item. It lands in the cart on the right.
 4. Click **Charge** (or press **F1** for a straight cash sale).
 5. Pick how the customer is paying.
-6. Enter what they handed over. KASTRA shows the change.
+6. Enter what they handed over. Faida shows the change.
 7. **Complete**. The receipt prints or sends.
 
 That is the whole loop. Everything below is detail on top of it.
@@ -169,7 +169,7 @@ costs KES 500**. `3×500` and `3*500` work too. This is built for market stalls 
 kiosks where staff know goods by price rather than name. Note it matches on **price,
 not quantity of shillings** — if two items both cost 500, it takes the first.
 
-**Weighed goods** — scan the label a weighing scale prints (a GS1 barcode). KASTRA
+**Weighed goods** — scan the label a weighing scale prints (a GS1 barcode). Faida
 reads the weight, subtracts the **tare** (the container's own weight, set per item),
 and prices the net. A toast confirms: *"Scanned: Beef — Net: 1.240 kg (tare: 0.010 kg
 deducted)"*.
@@ -182,9 +182,9 @@ your name.
 
 Two things may interrupt you, by design:
 
-- **Age gate** — for age-restricted goods, KASTRA asks you to confirm the customer's
+- **Age gate** — for age-restricted goods, Faida asks you to confirm the customer's
   age before the line is added.
-- **Expiry warning** — if stock about to be sold is expired or close to it, KASTRA
+- **Expiry warning** — if stock about to be sold is expired or close to it, Faida
   stops and shows you which batch. See [section 16](#16-expiry-dates-and-batches).
 
 ## 6. Taking payment
@@ -207,10 +207,10 @@ Click **Charge**. The payment window offers:
 | **Split Pay** | Any combination of the above |
 
 **Split payments** are the common real-world case: KES 1,000 in cash and the rest on
-M-Pesa. Choose **Split Pay**, add each part, and KASTRA tracks *Remaining to pay*
+M-Pesa. Choose **Split Pay**, add each part, and Faida tracks *Remaining to pay*
 until it reaches zero.
 
-**On credit sales**, if the amount would push the customer past their limit, KASTRA
+**On credit sales**, if the amount would push the customer past their limit, Faida
 blocks it and says *"Credit limit exceeded"*. A manager can raise the limit on the
 customer's record.
 
@@ -242,7 +242,7 @@ on that computer, including thermal printers, and you pick one. Nothing has to b
 3. Choose the **Paper size**: 58 mm for small rolls, 80 mm for standard thermal printers.
 4. Press **Print test receipt**, pick your thermal printer in the print window, and check the slip.
 
-In the **KASTRA POS desktop app** the first choice is **Installed printer, no print window**. Pick your
+In the **Faida POS desktop app** the first choice is **Installed printer, no print window**. Pick your
 thermal printer from the list of printers installed on the computer, press **Print test receipt**, and every
 sale then prints straight to it with no window. It needs a thermal receipt printer (it sends receipt
 commands, so a laser or inkjet printer would print them as text).
@@ -285,7 +285,7 @@ nothing has been recorded and no stock has moved.
 ## 9. Fixing mistakes: cart edit, void, refund
 
 This is the section worth reading twice, because the three are genuinely different
-and KASTRA treats them differently on purpose.
+and Faida treats them differently on purpose.
 
 ### Before payment — just edit the cart
 
@@ -341,7 +341,7 @@ Set the earn and redeem rates in Settings.
 
 # Your kind of business
 
-KASTRA runs one till that changes shape depending on your business type. Set it in
+Faida runs one till that changes shape depending on your business type. Set it in
 **Settings → Business type**.
 
 ## 11. Restaurant, café and bar
@@ -350,7 +350,7 @@ KASTRA runs one till that changes shape depending on your business type. Set it 
 continue its order. Tables can be **merged**, **transferred** to another table, and
 **split** for separate bills.
 
-**The order is not a sale.** Food goes to the kitchen long before anyone pays. KASTRA
+**The order is not a sale.** Food goes to the kitchen long before anyone pays. Faida
 keeps *orders* (what the kitchen is making) separate from *sales* (money that
 changed hands). The order becomes a sale when the bill is settled.
 
@@ -382,7 +382,7 @@ set its stock policy to Block.
 station — **Kitchen**, **Bar** or **Dessert** — so the bartender sees only the drinks
 and the cook only the food. Each ticket has a number that restarts at #1 every day.
 Set where an item is made on the item itself (**Inventory, Edit item, Made at**).
-Leave it on *Automatic* and KASTRA guesses from the name and category, with the
+Leave it on *Automatic* and Faida guesses from the name and category, with the
 kitchen as the fallback. Each station's tickets print on the printer set up for it in
 Settings, Printers.
 
@@ -497,7 +497,7 @@ from a **recipe**.
 you actually received is recorded, so short deliveries show up in the **GRN
 Discrepancy** report rather than quietly vanishing.
 
-**Stocktake** — open a stocktake session, count, and enter counts. KASTRA shows
+**Stocktake** — open a stocktake session, count, and enter counts. Faida shows
 counted against expected, you review the variance, then commit. The adjustment is
 recorded with your name on it.
 
@@ -515,7 +515,7 @@ If you sell food, medicine or anything else that goes off, turn on batch trackin
 those items.
 
 - Stock is received in **batches**, each with its own expiry date
-- KASTRA sells **oldest-first (FEFO)** automatically — first expired, first out
+- Faida sells **oldest-first (FEFO)** automatically — first expired, first out
 - You get **expiry alerts** ahead of time so stock can be moved or discounted
 - If someone tries to sell expired stock, the till **stops them** and names the batch
 - A **recall** can pull a whole batch, and tell you which customers bought from it
@@ -548,7 +548,7 @@ advance) so the drawer stays explainable.
 **Z-report.** The end-of-day close. It totals the day, closes it off, and is the
 number your books are built on.
 
-**Counting down.** Enter what is physically in the drawer. KASTRA shows the
+**Counting down.** Enter what is physically in the drawer. Faida shows the
 difference against what it expected — over, under, or exact. Differences are
 recorded, which is the point.
 
@@ -590,9 +590,9 @@ also export to **PDF**. Reports can be **scheduled** to email themselves to you.
 
 ## 21. KRA, VAT and eTIMS
 
-KASTRA is built for Kenyan tax compliance.
+Faida is built for Kenyan tax compliance.
 
-- **VAT is inclusive.** The price on the shelf is what the customer pays; KASTRA
+- **VAT is inclusive.** The price on the shelf is what the customer pays; Faida
   extracts the VAT within it. It does not add VAT on top at the till.
 - **TOT** (turnover tax) is supported for businesses not on VAT.
 - **eTIMS** — sales are submitted to KRA automatically after checkout. Voids and
@@ -678,10 +678,10 @@ Four separate Android apps, each for one job.
 
 | App | Who | What it does |
 |---|---|---|
-| **KASTRA POS** | Cashiers, managers | A full till in your hand, plus a Manage section for stock, counts, transfers, approvals and day-close |
-| **KASTRA Order** | Your customers | Browse the menu, order, pay by M-Pesa, book a table, check points |
-| **KASTRA Driver** | Drivers | Assigned drops, navigation hand-off, delivery confirmation, earnings |
-| **KASTRA Agent** | Field sales agents | Call plan, orders, collections, new shop registration |
+| **Faida POS** | Cashiers, managers | A full till in your hand, plus a Manage section for stock, counts, transfers, approvals and day-close |
+| **Faida Order** | Your customers | Browse the menu, order, pay by M-Pesa, book a table, check points |
+| **Faida Driver** | Drivers | Assigned drops, navigation hand-off, delivery confirmation, earnings |
+| **Faida Agent** | Field sales agents | Call plan, orders, collections, new shop registration |
 
 All four work offline and sync when signal returns.
 
@@ -750,17 +750,17 @@ If a menu item is missing, it is on a higher plan. Clicking it explains which.
 
 ### Referring other businesses
 
-If you recommend KASTRA to another business and they sign up, you earn a reward
+If you recommend Faida to another business and they sign up, you earn a reward
 through the **referral programme**. Your referral link is in Settings.
 
-There is also a separate **affiliate programme** for people who promote KASTRA
-commercially and earn ongoing commission — you do not need to be a KASTRA customer to
+There is also a separate **affiliate programme** for people who promote Faida
+commercially and earn ongoing commission — you do not need to be a Faida customer to
 join it. Affiliates get their own sign-in at `/affiliate`, which is separate from your
 POS login and gives no access to any business's data.
 
 ## 29. Working offline
 
-KASTRA is built to keep selling when the internet does not.
+Faida is built to keep selling when the internet does not.
 
 **What still works offline:** taking sales, printing receipts, looking up cached
 items and customers.

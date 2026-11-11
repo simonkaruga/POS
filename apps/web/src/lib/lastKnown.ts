@@ -6,7 +6,7 @@
  * back it showed the RETAIL menu, and a restaurant, fuel station or pharmacy then watched it rebuild. Over a slow link
  * to a remote database that took seconds. Nothing secret is stored: it is what the menu already shows.
  */
-const PREFIX = 'kastra:last:';
+const PREFIX = 'faida:last:';
 
 export function readLastKnown<T>(key: string): T | undefined {
   try {

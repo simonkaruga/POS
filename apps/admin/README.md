@@ -1,6 +1,6 @@
-# KASTRA POS — Super Admin Console
+# Faida POS — Super Admin Console
 
-React 18 + Vite platform console for the people who run KASTRA itself — not for
+React 18 + Vite platform console for the people who run Faida itself — not for
 tenants. Tenant staff never see this app.
 
 Dev server: **http://localhost:3012** (proxies `/api` → `http://localhost:3010`).
@@ -84,7 +84,7 @@ dev proxy (or the hosting rewrite) routes it.
 
 ## Look
 
-Light Mist Gray with Signal Violet, the same as the web app. Colours come from
+Light Cloud with Faida Blue, the same as the web app. Colours come from
 [`design/tokens.json`](../../design/tokens.json) via `npm run tokens`: pages import `C` from
 `src/generated/tokens.ts` (no hex in a page; add two hex digits for transparency, `${C.blue}1f`), and
 `src/global.css` uses the CSS variables in `src/generated/tokens.css`. Blue, purple, cyan and indigo are all

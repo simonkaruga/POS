@@ -1244,7 +1244,7 @@ Cola 300ml,Drinks,40,35,30,25,9988776655,150,2025-12-31,""`;
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'kastra_items_import_sample.csv';
+    a.download = 'faida_items_import_sample.csv';
     a.click();
     URL.revokeObjectURL(url);
   }

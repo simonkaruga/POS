@@ -1,5 +1,5 @@
 /**
- * Runs KASTRA's API (the same NestJS server as the cloud) as a child process, watches it, and restarts it if it dies.
+ * Runs Faida's API (the same NestJS server as the cloud) as a child process, watches it, and restarts it if it dies.
  */
 import { ChildProcess, spawn } from 'child_process';
 import * as fs from 'fs';
@@ -22,7 +22,7 @@ export interface ApiOptions {
   appVersion?: string;
   /** This computer's id, as the licence is bound to it. */
   machineId?: string;
-  /** Where licences are issued and renewed (the KASTRA cloud). */
+  /** Where licences are issued and renewed (the Faida cloud). */
   licenseServerUrl?: string;
   /** The PUBLIC key licences are checked against (PEM text). Without it nothing can be verified, so no paid plan is granted. */
   licensePublicKey?: string;
@@ -46,11 +46,11 @@ export function apiEnvironment(cfg: ServerConfig, o: ApiOptions): NodeJS.Process
     FRONTEND_URL: DESKTOP_ORIGINS[0],
     ADMIN_URL: DESKTOP_ORIGINS[0],
     EXTRA_ORIGINS: [...DESKTOP_ORIGINS, ...(o.extraOrigins ?? [])].join(','),
-    KASTRA_EDITION: 'LOCAL',
-    ...(o.appVersion ? { KASTRA_APP_VERSION: o.appVersion } : {}),
-    ...(o.machineId ? { KASTRA_MACHINE_ID: o.machineId } : {}),
+    FAIDA_EDITION: 'LOCAL',
+    ...(o.appVersion ? { FAIDA_APP_VERSION: o.appVersion } : {}),
+    ...(o.machineId ? { FAIDA_MACHINE_ID: o.machineId } : {}),
     ...(o.licenseServerUrl ? { LICENSE_SERVER_URL: o.licenseServerUrl } : {}),
-    ...(o.licensePublicKey ? { KASTRA_LICENSE_PUBLIC_KEY: o.licensePublicKey } : {}),
+    ...(o.licensePublicKey ? { FAIDA_LICENSE_PUBLIC_KEY: o.licensePublicKey } : {}),
   };
 }
 

@@ -13,7 +13,7 @@ import * as nodePath from 'path';
 export type Platform = 'win32' | 'linux' | 'darwin';
 
 export interface Dirs {
-  /** KASTRA's root folder: settings, secrets, logs. */
+  /** Faida's root folder: settings, secrets, logs. */
   rootDir: string;
   /** PostgreSQL's data directory (the live database). */
   pgDataDir: string;
@@ -30,25 +30,25 @@ export interface Env {
 
 const pathFor = (platform: Platform) => (platform === 'win32' ? nodePath.win32 : nodePath.posix);
 
-/** The folders a fresh install uses (C:\ProgramData\KASTRA and Documents\KASTRA Backups on Windows). */
+/** The folders a fresh install uses (C:\ProgramData\Faida and Documents\Faida Backups on Windows). */
 export function defaultDirs(platform: Platform, env: Env, home: string): Dirs {
   const p = pathFor(platform);
   let root: string;
   let documents: string;
   if (platform === 'win32') {
-    root = p.join(env.ProgramData || 'C:\\ProgramData', 'KASTRA');
+    root = p.join(env.ProgramData || 'C:\\ProgramData', 'Faida');
     documents = p.join(env.USERPROFILE || home, 'Documents');
   } else if (platform === 'darwin') {
-    root = p.join(home, 'Library', 'Application Support', 'KASTRA');
+    root = p.join(home, 'Library', 'Application Support', 'Faida');
     documents = p.join(home, 'Documents');
   } else {
-    root = p.join(env.XDG_DATA_HOME || p.join(home, '.local', 'share'), 'kastra');
+    root = p.join(env.XDG_DATA_HOME || p.join(home, '.local', 'share'), 'faida');
     documents = p.join(home, 'Documents');
   }
   return {
     rootDir: root,
     pgDataDir: p.join(root, 'pgdata'),
-    backupDir: p.join(documents, 'KASTRA Backups'),
+    backupDir: p.join(documents, 'Faida Backups'),
     logDir: p.join(root, 'logs'),
     configFile: p.join(root, 'server.json'),
   };
@@ -65,26 +65,26 @@ export function validateDataDir(dir: string, platform: Platform, env: Env = {}):
   const p = pathFor(platform);
   const raw = (dir ?? '').trim();
   if (!raw) return { ok: false, reason: 'Choose a folder for the database.' };
-  if (!p.isAbsolute(raw)) return { ok: false, reason: 'Use a full folder path, for example C:\\KastraData.' };
+  if (!p.isAbsolute(raw)) return { ok: false, reason: 'Use a full folder path, for example C:\\FaidaData.' };
   if (platform === 'win32' && /^[\\/]{2}/.test(raw)) {
     return { ok: false, reason: 'The database cannot live on a network share (a path starting with \\\\). Choose a folder on this computer.' };
   }
   const norm = p.normalize(raw);
   if (p.parse(norm).root === norm || p.parse(norm).root === norm + p.sep) {
-    return { ok: false, reason: 'Choose a folder, not the whole drive, so KASTRA does not mix its files with yours.' };
+    return { ok: false, reason: 'Choose a folder, not the whole drive, so Faida does not mix its files with yours.' };
   }
   const cmp = platform === 'win32' ? (s: string) => s.toLowerCase() : (s: string) => s;
   for (const key of ['OneDrive', 'OneDriveConsumer', 'OneDriveCommercial']) {
     const od = env[key];
     if (od && cmp(norm).startsWith(cmp(p.normalize(od)))) {
-      return { ok: false, reason: 'This folder is synced by OneDrive. Syncing damages a live database. Choose a folder outside OneDrive, such as C:\\ProgramData\\KASTRA.' };
+      return { ok: false, reason: 'This folder is synced by OneDrive. Syncing damages a live database. Choose a folder outside OneDrive, such as C:\\ProgramData\\Faida.' };
     }
   }
   if (SYNC_FOLDER.test(norm)) {
     return { ok: false, reason: 'This folder looks like a cloud-synced folder (OneDrive, Dropbox, Google Drive, iCloud). Syncing damages a live database. Choose a folder that is not synced.' };
   }
   if (platform === 'win32' && REDIRECTED_USER_FOLDER.test(norm)) {
-    return { ok: false, reason: 'Documents, Desktop, Pictures and Downloads are often synced to OneDrive by Windows. Choose a folder such as C:\\ProgramData\\KASTRA instead. Backups can still go to Documents.' };
+    return { ok: false, reason: 'Documents, Desktop, Pictures and Downloads are often synced to OneDrive by Windows. Choose a folder such as C:\\ProgramData\\Faida instead. Backups can still go to Documents.' };
   }
   if (platform === 'win32' && PROGRAM_FILES.test(norm)) {
     return { ok: false, reason: 'Program Files and Windows are read-only for normal users. Choose another folder.' };

@@ -1,4 +1,4 @@
-import type { RefObject } from 'react';
+import { useState, type RefObject } from 'react';
 import { Search, ShoppingCart, Camera, Monitor, User, Star, X } from 'lucide-react';
 import type { ApiItem, PriceLevel } from '../../stores/pos';
 
@@ -69,6 +69,8 @@ export default function ItemGrid({
   onAddItem, onBarcodeSearch, onOpenCamera, enableBarcodeScanner = true, onSelectCustomer,
   onClearCustomer, onToggleLoyalty, onAgeRestrictedItem,
 }: Props) {
+  /** The tile that was just added to the sale; it pops once (.tile-pop in index.css). */
+  const [popped, setPopped] = useState<string | null>(null);
   return (
     <div className="flex-1 flex flex-col overflow-hidden bg-slate-950">
       {/* Search + Price Level bar */}
@@ -216,6 +218,7 @@ export default function ItemGrid({
                 return;
               }
               onAddItem(item);
+              setPopped(item.id);
             };
 
             return (
@@ -223,7 +226,8 @@ export default function ItemGrid({
                 key={item.id}
                 onClick={handleClick}
                 disabled={hardDisabled}
-                className={`p-3 rounded-xl border-2 text-left transition-all relative touch-manipulation ${
+                onAnimationEnd={() => { if (popped === item.id) setPopped(null); }}
+                className={`${popped === item.id ? 'tile-pop ' : ''}p-3 rounded-xl border-2 text-left transition-all relative touch-manipulation ${
                   hardDisabled
                     ? 'border-slate-800 bg-slate-900/30 opacity-50 cursor-not-allowed'
                     : outOfStock && canOversell

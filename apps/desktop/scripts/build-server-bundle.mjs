@@ -9,7 +9,7 @@
  *   node_modules/               exactly the packages the API (and Prisma) need at run time, copied from the repo's own
  *                               install so they are the versions that were tested, native parts included
  *   prisma/                     schema.prisma and migrations/
- *   postgres/{bin,lib,share}    PostgreSQL, trimmed to what KASTRA uses
+ *   postgres/{bin,lib,share}    PostgreSQL, trimmed to what Faida uses
  *
  * Run it on the machine type you are building FOR (Windows for the Windows installer): the packages copied include native
  * parts (bcrypt, Prisma's engines) that exist only for the platform that ran `npm ci`.
@@ -40,7 +40,7 @@ import { fileURLToPath } from 'node:url';
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const DESKTOP = path.resolve(HERE, '..');
 const REPO = path.resolve(DESKTOP, '..', '..');
-const MARKER = '.kastra-server-bundle';
+const MARKER = '.faida-server-bundle';
 
 // ───────────────────────── arguments ─────────────────────────
 
@@ -286,7 +286,7 @@ async function addNode() {
   }
   if (!windows) die('For Linux pass --node PATH (only Windows downloads Node).');
   const zip = await pinned(pins.node['win32-x64']);
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'kastra-node-'));
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'faida-node-'));
   try {
     const folder = `node-${pins.node.version}-win-x64`;
     extractZip(zip, tmp, [`${folder}/node.exe`, `${folder}/LICENSE`]);
@@ -297,13 +297,13 @@ async function addNode() {
   }
 }
 
-/** The six programs KASTRA runs, plus two for support. Everything else in bin/ (pgbench, pg_upgrade, ...) is dead weight. */
+/** The six programs Faida runs, plus two for support. Everything else in bin/ (pgbench, pg_upgrade, ...) is dead weight. */
 const PG_PROGRAMS = ['initdb', 'pg_ctl', 'postgres', 'pg_dump', 'pg_restore', 'psql', 'pg_isready', 'pg_controldata'];
 
 async function addPostgres() {
   log('PostgreSQL');
   const dest = path.join(OUT, 'postgres');
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'kastra-pg-'));
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'faida-pg-'));
   try {
     let root;
     if (args['pg-dir']) {

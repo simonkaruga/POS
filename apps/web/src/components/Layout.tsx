@@ -249,7 +249,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const businessType = businessSettings?.posMode ?? 'RETAIL';
   const enabledModules = parseEnabledModules(businessSettings?.enabledModules);
-  const businessName = businessSettings?.name ?? 'KASTRA POS';
+  const businessName = businessSettings?.name ?? 'Faida POS';
   const currentStore = businessSettings?.stores?.find(s => s.id === user?.storeId);
 
   // ─── Live clock ───────────────────────────────────────────────────────────
@@ -665,7 +665,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <aside className={`hidden md:flex flex-col flex-shrink-0 bg-white dark:bg-gray-900 border-r border-gray-200/80 dark:border-white/[0.055] relative transition-all duration-300 ease-in-out overflow-hidden ${sidebarCollapsed ? 'w-0 border-r-0' : 'w-[260px]'}`}>
 
         {/* 2px gradient accent line at the very top */}
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-brand-400 via-brand-600 to-brand-500 z-10" />
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-accent via-accent to-brand-600 z-10" />
 
         {/* ── Brand header ──────────────────────────────────────────────── */}
         <div className="px-4 pt-6 pb-4 mt-[2px]">
@@ -675,7 +675,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div className="relative flex-shrink-0">
               <img
                 src="/logo.png"
-                alt="KASTRA POS"
+                alt="Faida POS"
                 className="w-10 h-10 object-contain rounded-[10px]"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none';
@@ -684,7 +684,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               />
               {/* Fallback gradient icon shown only if logo fails to load */}
               <div className="w-10 h-10 rounded-[10px] bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 items-center justify-center shadow-lg shadow-blue-500/30 ring-1 ring-inset ring-white/15 hidden">
-                <span className="text-white font-extrabold text-lg">K</span>
+                <span className="text-white font-extrabold text-lg">F</span>
               </div>
               {/* Online dot */}
               <div className="absolute -bottom-0.5 -right-0.5 w-[11px] h-[11px] bg-emerald-400 rounded-full border-2 border-white dark:border-gray-900 shadow-sm" />
@@ -914,7 +914,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <OfflineBanner />
 
         {/* ── Top header bar (desktop) ──────────────────────────────────── */}
-        <header className="hidden md:flex items-center justify-between px-5 h-[52px] bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-200/60 dark:border-white/[0.055] flex-shrink-0 z-10">
+        <header className="hidden md:flex items-center justify-between px-5 h-[52px] bg-white/95 backdrop-blur-sm border-b-[3px] border-b-accent dark:border-b dark:border-b-white/[0.06] dark:bg-gradient-to-r dark:from-[#0d1a3a] dark:via-navy-soft dark:to-[#182a57] shadow-[0_4px_18px_rgb(10_42_85_/_0.08)] flex-shrink-0 z-10">
           {/* Left: Sidebar toggle + Page title */}
           <div className="flex items-center gap-2 min-w-0">
             {/* Sidebar collapse / expand toggle */}

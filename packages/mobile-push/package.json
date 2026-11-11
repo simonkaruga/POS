@@ -2,7 +2,7 @@
   "name": "@pos/mobile-push",
   "version": "1.0.0",
   "private": true,
-  "description": "Shared Expo push-notification client used by all KASTRA mobile apps",
+  "description": "Shared Expo push-notification client used by all Faida mobile apps",
   "main": "src/index.ts",
   "react-native": "src/index.ts",
   "types": "types/index.d.ts",

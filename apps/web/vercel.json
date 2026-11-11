@@ -12,7 +12,7 @@
     }
   ],
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://pos-bhe5.onrender.com/api/:path*" },
+    { "source": "/api/:path*", "destination": "https://faida-api.onrender.com/api/:path*" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }

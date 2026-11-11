@@ -14,3 +14,4 @@ export { PageHeader } from './PageHeader';
 export { SideNav, type SideNavItem, type SideNavGroup } from './SideNav';
 export { Switch } from './Switch';
 export { ErrorState, describeLoadError } from './ErrorState';
+export { PaidCheck } from './PaidCheck';

@@ -123,7 +123,7 @@ export default function ReservationWidgetPage() {
         </button>
 
         <p className="text-center text-xs text-gray-400 mt-4">
-          Powered by KASTRA POS
+          Powered by Faida POS
         </p>
       </div>
     </div>

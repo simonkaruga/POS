@@ -23,8 +23,8 @@ export default function LocalServerGate({ enabled, children }: { enabled: boolea
   useEffect(() => {
     if (!enabled || status.phase !== 'running' || !status.apiPort) return;
     const url = `http://127.0.0.1:${status.apiPort}`;
-    if (localStorage.getItem('kastra-server-url') !== url) {
-      localStorage.setItem('kastra-server-url', url);
+    if (localStorage.getItem('faida-server-url') !== url) {
+      localStorage.setItem('faida-server-url', url);
       window.location.reload();
     }
   }, [enabled, status.phase, status.apiPort]);
@@ -55,7 +55,7 @@ export default function LocalServerGate({ enabled, children }: { enabled: boolea
             <span>The server is restarting. This takes about ten seconds.</span>
           ) : (
             <>
-              <span>The KASTRA server is not running: {status.message}</span>
+              <span>The Faida server is not running: {status.message}</span>
               <button onClick={() => void tryAgain()} disabled={retrying} className="underline underline-offset-2 disabled:opacity-60">
                 {retrying ? 'Restarting…' : 'Try again'}
               </button>
@@ -75,7 +75,7 @@ export default function LocalServerGate({ enabled, children }: { enabled: boolea
           {failed ? <AlertTriangle className="w-7 h-7" aria-hidden /> : <Loader2 className="w-7 h-7 animate-spin" aria-hidden />}
         </div>
         <div>
-          <h1 className="text-xl font-bold text-gray-900">{failed ? 'KASTRA could not start' : 'Starting KASTRA'}</h1>
+          <h1 className="text-xl font-bold text-gray-900">{failed ? 'Faida could not start' : 'Starting Faida'}</h1>
           <p className="text-sm text-gray-600 mt-2 break-words">{status.message}</p>
         </div>
         {!failed && (

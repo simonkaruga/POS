@@ -1,5 +1,5 @@
 /**
- * Checks that need the real disk, on top of the pure rules in paths.ts: does the folder exist, is it empty, can KASTRA
+ * Checks that need the real disk, on top of the pure rules in paths.ts: does the folder exist, is it empty, can Faida
  * write there. Used by the setup wizard before it commits to a choice.
  */
 import * as fs from 'fs';
@@ -22,7 +22,7 @@ export function canWrite(dir: string): Check {
     const existing = nearestExisting(dir);
     if (existing === dir) {
       if (!fs.statSync(dir).isDirectory()) return { ok: false, reason: 'That path is a file, not a folder.' };
-      const probe = nodePath.join(dir, `.kastra-write-test-${process.pid}`);
+      const probe = nodePath.join(dir, `.faida-write-test-${process.pid}`);
       fs.writeFileSync(probe, 'x');
       fs.rmSync(probe, { force: true });
     } else {
@@ -30,7 +30,7 @@ export function canWrite(dir: string): Check {
     }
     return { ok: true };
   } catch {
-    return { ok: false, reason: 'KASTRA cannot write to this folder. Choose another one, or run the installer again as an administrator.' };
+    return { ok: false, reason: 'Faida cannot write to this folder. Choose another one, or run the installer again as an administrator.' };
   }
 }
 

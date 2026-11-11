@@ -27,7 +27,7 @@ export interface BiometricRegistrationOptions {
   userId: string;
   userName: string;
   displayName: string;
-  /** RP ID — should match the domain, e.g. "pos.kastra.co.ke" */
+  /** RP ID — should match the domain, e.g. "pos.faida.co.ke" */
   rpId?: string;
   rpName?: string;
 }
@@ -53,7 +53,7 @@ export async function registerBiometric(
       challenge,
       rp: {
         id: opts.rpId ?? window.location.hostname,
-        name: opts.rpName ?? 'Kastra POS',
+        name: opts.rpName ?? 'Faida POS',
       },
       user: {
         id: userIdBytes,

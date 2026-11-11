@@ -184,7 +184,7 @@ export default function CyberKioskPage() {
           </div>
         </div>
 
-        <div className="absolute bottom-8 text-gray-700 text-xs">KASTRA POS · Cybercafé</div>
+        <div className="absolute bottom-8 text-gray-700 text-xs">Faida POS · Cybercafé</div>
       </div>
     );
   }
@@ -207,7 +207,7 @@ export default function CyberKioskPage() {
         >
           {attendantCalled ? 'Attendant notified' : 'Call attendant'}
         </button>
-        <div className="absolute bottom-8 text-gray-700 text-xs">KASTRA POS · Cybercafé</div>
+        <div className="absolute bottom-8 text-gray-700 text-xs">Faida POS · Cybercafé</div>
       </div>
     );
   }
@@ -321,7 +321,7 @@ export default function CyberKioskPage() {
         >
           {attendantCalled ? 'Attendant on the way' : 'Call attendant'}
         </button>
-        <p className="text-gray-700 text-xs">KASTRA POS · Cybercafé Management</p>
+        <p className="text-gray-700 text-xs">Faida POS · Cybercafé Management</p>
       </div>
     </div>
   );

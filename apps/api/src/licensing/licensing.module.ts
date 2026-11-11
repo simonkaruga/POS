@@ -6,8 +6,8 @@ import { LicenseService } from './license.service';
 import { LicenseController } from './license.controller';
 
 /**
- * Licensing. On the KASTRA cloud server: the authority that issues licences to offline installations. On an offline
- * installation (KASTRA_EDITION=LOCAL): the service that holds the signed licence and keeps the business's plan in step.
+ * Licensing. On the Faida cloud server: the authority that issues licences to offline installations. On an offline
+ * installation (FAIDA_EDITION=LOCAL): the service that holds the signed licence and keeps the business's plan in step.
  */
 @Module({
   imports: [PrismaModule],

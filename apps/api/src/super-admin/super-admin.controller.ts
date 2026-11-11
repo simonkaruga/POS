@@ -359,7 +359,7 @@ export class SuperAdminController implements OnModuleInit {
   async exportRevenueCsv(@Res() res: Response) {
     const csv = await this.service.exportRevenueCsv();
     res.setHeader('Content-Type', 'text/csv');
-    res.setHeader('Content-Disposition', `attachment; filename="kastra-revenue-${new Date().toISOString().slice(0,10)}.csv"`);
+    res.setHeader('Content-Disposition', `attachment; filename="faida-revenue-${new Date().toISOString().slice(0,10)}.csv"`);
     res.send(csv);
   }
 

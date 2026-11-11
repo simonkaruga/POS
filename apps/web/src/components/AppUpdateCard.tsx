@@ -20,8 +20,8 @@ export default function AppUpdateCard() {
   const installNow = async () => {
     if (!found) return;
     const ok = await confirm({
-      title: `Install KASTRA ${found.version}?`,
-      message: 'KASTRA will close for about a minute while it updates, then open again by itself. Your data is backed up first. Finish any sale in progress before you continue.',
+      title: `Install Faida ${found.version}?`,
+      message: 'Faida will close for about a minute while it updates, then open again by itself. Your data is backed up first. Finish any sale in progress before you continue.',
       confirmLabel: 'Install and restart',
       variant: 'info',
     });
@@ -30,7 +30,7 @@ export default function AppUpdateCard() {
 
   return (
     <Card>
-      <CardHeader title="Version and updates" subtitle={`This computer runs KASTRA ${version ?? '…'}.`} />
+      <CardHeader title="Version and updates" subtitle={`This computer runs Faida ${version ?? '…'}.`} />
       <CardBody className="space-y-3">
         {busy ? (
           <p className="text-sm text-gray-700 flex items-center gap-2" role="status">
@@ -38,7 +38,7 @@ export default function AppUpdateCard() {
           </p>
         ) : found ? (
           <p className="text-sm text-gray-800">
-            <strong>KASTRA {found.version}</strong> is ready to install.
+            <strong>Faida {found.version}</strong> is ready to install.
           </p>
         ) : (
           <p className="text-sm text-gray-600">

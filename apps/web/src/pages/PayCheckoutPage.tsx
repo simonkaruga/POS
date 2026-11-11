@@ -185,7 +185,7 @@ export default function PayCheckoutPage() {
           </button>
 
           <p className="text-center text-xs text-gray-400">
-            Secured by <span className="font-semibold text-gray-600">Kastra POS</span> · Powered by M-Pesa
+            Secured by <span className="font-semibold text-gray-600">Faida POS</span> · Powered by M-Pesa
           </p>
         </div>
       </div>

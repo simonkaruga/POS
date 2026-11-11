@@ -235,7 +235,7 @@ export class SuperAdminService {
 
   /**
    * A new licence key: KPS- and three groups of 8 random hex characters. The key itself proves nothing; it is only a name the
-   * KASTRA server looks up. What makes a licence unforgeable is the signed token the server issues when the key is activated
+   * Faida server looks up. What makes a licence unforgeable is the signed token the server issues when the key is activated
    * (see licensing/). The old "machine-bound" keys carried a checksum whose recipe shipped in the desktop app, so anyone
    * could compute a valid one; they are gone.
    */
@@ -507,10 +507,10 @@ export class SuperAdminService {
     const user = await this.prisma.user.findUnique({ where: { id: userId } });
     if (!user) throw new BadRequestException('User not found');
 
-    // Generate secure temporary password: Kastra + 6 random chars + 2 digits + !
+    // Generate secure temporary password: Faida + 6 random chars + 2 digits + !
     const chars = randomBytes(4).toString('hex').toUpperCase().slice(0, 4);
     const digits = String(Math.floor(Math.random() * 90) + 10);
-    const tempPassword = `Kastra@${chars}${digits}!`;
+    const tempPassword = `Faida@${chars}${digits}!`;
     const passwordHash = await bcrypt.hash(tempPassword, 12);
 
     await this.prisma.user.update({

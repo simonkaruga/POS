@@ -1,9 +1,9 @@
-# KASTRA Order — Customer App (mobile-customer)
+# Faida Order — Customer App (mobile-customer)
 
 Expo / React Native self-service app for a business's customers: browse the menu,
 order, pay with M-Pesa, reserve a table, and track loyalty points.
 
-- Store name: **KASTRA Order** · slug `kastra-customer` · package `co.ke.kastra.order`
+- Store name: **Faida Order** · slug `faida-customer` · package `co.ke.faida.order`
 - Router: `expo-router` (file-based)
 
 ---

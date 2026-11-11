@@ -116,7 +116,7 @@ export default function LoginGate({ onDone }: { onDone: () => void }) {
         <ScrollView contentContainerStyle={s.centered} keyboardShouldPersistTaps="handled">
           <View style={s.logoWrap}>
             <View style={s.logoCircle}><Ionicons name="person-circle" size={40} color="#FFF" /></View>
-            <Text style={s.appName}>{businessName || 'Kastra Order'}</Text>
+            <Text style={s.appName}>{businessName || 'Faida Order'}</Text>
             <Text style={s.appSub}>{step === 'PHONE' ? 'Sign in to order & track' : 'Enter the code we texted you'}</Text>
           </View>
 

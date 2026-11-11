@@ -29,7 +29,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   fullWidth?: boolean;
 }
 
-/** The one button. Primary is the single violet action on a screen; everything else is secondary or ghost. */
+/** The one button. Primary is the single Faida Blue action on a screen; everything else is secondary or ghost. */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   { variant = 'primary', size = 'md', loading, icon, fullWidth, className, children, disabled, type = 'button', ...rest },
   ref,

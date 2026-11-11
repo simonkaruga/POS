@@ -4,7 +4,7 @@ import * as os from 'os';
 import * as path from 'path';
 import { databaseUrl, ensureConfig, loadConfig, newConfig, saveConfig } from '../src/config';
 
-const tmp = () => fs.mkdtempSync(path.join(os.tmpdir(), 'kastra-cfg-'));
+const tmp = () => fs.mkdtempSync(path.join(os.tmpdir(), 'faida-cfg-'));
 const opts = { pgDataDir: '/x/pgdata', backupDir: '/x/backups' };
 
 describe('server.json', () => {
@@ -49,7 +49,7 @@ describe('server.json', () => {
     // Characters that break a connection address unless they are encoded, followed by random text; generated, not written down.
     const awkward = `@:/#?%${crypto.randomBytes(4).toString('hex')}`;
     const c = { ...newConfig(opts), dbPassword: awkward };
-    expect(databaseUrl(c)).toBe(`postgresql://kastra:${encodeURIComponent(awkward)}@127.0.0.1:${c.pgPort}/kastra`);
+    expect(databaseUrl(c)).toBe(`postgresql://faida:${encodeURIComponent(awkward)}@127.0.0.1:${c.pgPort}/faida`);
     expect(databaseUrl(c)).not.toContain(awkward); // the raw password never appears in the address
   });
 });

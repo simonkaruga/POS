@@ -1,4 +1,4 @@
-# KASTRA POS — Landing Site
+# Faida POS — Landing Site
 
 The public marketing site and HTML user manual. Plain static HTML — **no build step,
 no framework, no dependencies**.
@@ -13,7 +13,7 @@ no framework, no dependencies**.
 | `about.html` | About |
 | `contact.html` | Contact |
 | `setup-guide.html` | Getting-started guide for new operators |
-| `kastra-pos-manual.html` | **Generated** — the user manual. See below |
+| `faida-pos-manual.html` | **Generated** — the user manual. See below |
 | `terms.html` | Terms of service |
 | `privacy.html` | Privacy policy |
 | `kdpa.html` | Kenya Data Protection Act compliance statement |
@@ -22,14 +22,14 @@ Assets (`favicon.png`, `posfav.png`, images) sit alongside the pages.
 
 ## Look
 
-Light Mist Gray with Signal Violet, the same as the web app. Every page links `tokens.css`, which is
+Light Cloud with Faida Blue, the same as the web app. Every page links `tokens.css`, which is
 **generated** from [`design/tokens.json`](../../design/tokens.json) by `npm run tokens` (never edit it, and do not
 put a `:root` colour block back in a page). Write colours as `var(--accent)`, `var(--text)`, `var(--green)`; the
 older names (`--bg2`, `--blue`, `--text2`...) are kept as aliases. The user manual gets the same variables from
 `docs/templates/manual-tokens.css` when `scripts/build-docs.sh` runs. Third-party brand colours (Shopify, Xero,
 Google...) in the download and integration tiles are deliberately left as they are.
 
-## kastra-pos-manual.html is generated — do not edit it
+## faida-pos-manual.html is generated — do not edit it
 
 It is built from [`docs/user-guide.md`](../../docs/user-guide.md) by
 [`scripts/build-docs.sh`](../../scripts/build-docs.sh), using the pandoc template and
@@ -67,8 +67,8 @@ deploy time** by [apply-domains.mjs](apply-domains.mjs). Run it in the deploy st
 after setting the env vars:
 
 ```bash
-KASTRA_WEB_ORIGIN=https://app.your-domain.com \
-KASTRA_API_ORIGIN=https://api.your-domain.com \
+FAIDA_WEB_ORIGIN=https://app.your-domain.com \
+FAIDA_API_ORIGIN=https://api.your-domain.com \
 node apps/landing/apply-domains.mjs
 ```
 

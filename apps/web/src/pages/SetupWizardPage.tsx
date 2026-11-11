@@ -173,7 +173,7 @@ export default function SetupWizardPage() {
                 <ShoppingCart className="w-10 h-10 text-white" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">Welcome to KASTRA POS</h1>
+                <h1 className="text-3xl font-bold text-gray-900">Welcome to Faida POS</h1>
                 {planInfo ? (
                   <div className={`inline-flex items-center gap-2 mt-3 px-4 py-2 rounded-full text-white text-sm font-semibold ${planInfo.color}`}>
                     <Sparkles className="w-4 h-4" />

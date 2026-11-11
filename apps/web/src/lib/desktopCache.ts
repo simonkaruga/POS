@@ -44,7 +44,7 @@ export async function dropOfflineShell(env: CacheEnv): Promise<{ unregistered: n
 
 /** The real browser environment. */
 export function browserCacheEnv(): CacheEnv {
-  const KEY = 'kastra-shell-purged';
+  const KEY = 'faida-shell-purged';
   return {
     serviceWorker: 'serviceWorker' in navigator ? navigator.serviceWorker : undefined,
     caches: 'caches' in window ? window.caches : undefined,

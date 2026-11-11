@@ -28,7 +28,7 @@ const BORDER  = '#E2E8F0';
 const ERROR   = '#EF4444';
 
 /** First-launch setup wizard for the customer app.
- *  1. Server URL — which KASTRA API to connect to
+ *  1. Server URL — which Faida API to connect to
  *  2. Business Code — which business / restaurant's menu to show
  *  After that, the normal tab layout takes over. */
 function SetupWizard({ onDone }: { onDone: () => void }) {
@@ -134,25 +134,25 @@ function SetupWizard({ onDone }: { onDone: () => void }) {
           <ScrollView contentContainerStyle={ss.centered} keyboardShouldPersistTaps="handled">
             <View style={ss.logoWrap}>
               <View style={ss.logoCircle}><Ionicons name="server" size={34} color="#FFF" /></View>
-              <Text style={ss.appName}>Kastra Order</Text>
+              <Text style={ss.appName}>Faida Order</Text>
               <Text style={ss.appSub}>Server Setup</Text>
             </View>
             <View style={ss.card}>
               <Text style={ss.cardTitle}>API Server URL</Text>
-              <Text style={ss.cardSub}>Enter the Kastra API URL for your business.{'\n'}Cloud users: leave as default.</Text>
+              <Text style={ss.cardSub}>Enter the Faida API URL for your business.{'\n'}Cloud users: leave as default.</Text>
               {urlError ? <Text style={ss.error}>{urlError}</Text> : null}
               <TextInput
                 style={ss.input}
                 value={urlInput}
                 onChangeText={v => { setUrlInput(v); setUrlError(''); }}
-                placeholder="https://pos-bhe5.onrender.com/api/v1"
+                placeholder="https://faida-api.onrender.com/api/v1"
                 autoCapitalize="none"
                 autoCorrect={false}
                 keyboardType="url"
                 placeholderTextColor={SUBTLE}
                 autoFocus
               />
-              <Text style={ss.hint}>Default (cloud): https://pos-bhe5.onrender.com/api/v1{'\n'}LAN server: http://192.168.x.x:3010/api/v1 (same Wi-Fi)</Text>
+              <Text style={ss.hint}>Default (cloud): https://faida-api.onrender.com/api/v1{'\n'}LAN server: http://192.168.x.x:3010/api/v1 (same Wi-Fi)</Text>
               <TouchableOpacity style={[ss.btn, urlTesting && { opacity: 0.7 }]} onPress={handleSaveUrl} disabled={urlTesting}>
                 {urlTesting
                   ? <ActivityIndicator color="#FFF" />
@@ -173,7 +173,7 @@ function SetupWizard({ onDone }: { onDone: () => void }) {
         <ScrollView contentContainerStyle={ss.centered} keyboardShouldPersistTaps="handled">
           <View style={ss.logoWrap}>
             <View style={ss.logoCircle}><Ionicons name="storefront" size={34} color="#FFF" /></View>
-            <Text style={ss.appName}>Kastra Order</Text>
+            <Text style={ss.appName}>Faida Order</Text>
             <Text style={ss.appSub}>Enter your business code</Text>
           </View>
           <View style={ss.card}>

@@ -26,7 +26,7 @@ fn main() {
         .plugin(tauri_plugin_updater::Builder::new().build())
         .setup(|app| {
             let version = app.package_info().version.to_string();
-            println!("KASTRA POS Desktop v{} starting...", version);
+            println!("Faida POS Desktop v{} starting...", version);
 
             // A computer that keeps its own data starts its database and API now; the web UI shows progress.
             let handle = app.handle().clone();
@@ -40,7 +40,7 @@ fn main() {
                 }
             });
 
-            // Answer "who is the KASTRA server?" broadcasts only when other computers are allowed to connect.
+            // Answer "who is the Faida server?" broadcasts only when other computers are allowed to connect.
             tauri::async_runtime::spawn(async {
                 if let Ok(cfg) = setup::get_setup_mode().await {
                     if setup::is_local_server_mode(&cfg.mode) && cfg.lan_enabled.unwrap_or(false) {
@@ -102,7 +102,7 @@ fn main() {
             local_server::local_server_restore,
         ])
         .build(tauri::generate_context!())
-        .expect("error while building KASTRA POS desktop");
+        .expect("error while building Faida POS desktop");
 
     app.run(|app_handle, event| {
         // Closing the window must not cut the database off mid-write: stop it cleanly (with a backup if the last one is

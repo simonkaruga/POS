@@ -2,7 +2,7 @@
 
 set -e
 
-echo "🚀 KASTRA POS - Complete Setup Script"
+echo "🚀 Faida POS - Complete Setup Script"
 echo "===================================="
 echo ""
 
@@ -70,7 +70,7 @@ echo "📝 Step 6/6: Creating start script..."
 cat > start.sh << 'EOF'
 #!/bin/bash
 
-echo "🚀 Starting KASTRA POS..."
+echo "🚀 Starting Faida POS..."
 echo ""
 echo "API will run on: http://localhost:3000"
 echo "Web will run on: http://localhost:3005"

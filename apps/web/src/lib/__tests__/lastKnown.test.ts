@@ -34,7 +34,7 @@ describe('lastKnown', () => {
   });
 
   it('treats corrupt data as a first visit rather than crashing the app', () => {
-    localStorage.setItem('kastra:last:settings:x', '{not json');
+    localStorage.setItem('faida:last:settings:x', '{not json');
     expect(readLastKnown('settings:x')).toBeUndefined();
   });
 

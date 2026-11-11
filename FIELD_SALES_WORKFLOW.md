@@ -1,7 +1,7 @@
 # Field Sales & Delivery Workflow Guide
 
 ## Overview
-The KASTRA POS field sales module enables B2B sales agents to take orders from customers in the field, which are then processed by office staff and delivered via organized delivery runs.
+The Faida POS field sales module enables B2B sales agents to take orders from customers in the field, which are then processed by office staff and delivered via organized delivery runs.
 
 ---
 
@@ -321,6 +321,6 @@ Once order is `DELIVERED` (or `CONFIRMED`/`PACKED`/`DISPATCHED`):
 ## Support
 
 For questions or issues, contact:
-- Technical Support: support@kastrapos.co.ke
-- Documentation: https://docs.kastrapos.co.ke
-- GitHub Issues: https://github.com/kastrapos/pos/issues
+- Technical Support: support@faidapos.co.ke
+- Documentation: https://docs.faidapos.co.ke
+- GitHub Issues: https://github.com/faidapos/pos/issues

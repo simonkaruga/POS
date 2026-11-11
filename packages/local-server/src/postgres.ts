@@ -131,7 +131,7 @@ export class PostgresManager {
     if (this.isInitialised()) return false;
     // Never touch a folder that already holds someone's files. Only a missing or empty folder is ours to fill.
     if (fs.existsSync(this.o.dataDir) && fs.readdirSync(this.o.dataDir).length > 0) {
-      throw new Error(`The folder ${this.o.dataDir} is not empty and is not a KASTRA database. Choose an empty or new folder.`);
+      throw new Error(`The folder ${this.o.dataDir} is not empty and is not a Faida database. Choose an empty or new folder.`);
     }
     const createdByUs = !fs.existsSync(this.o.dataDir);
     fs.mkdirSync(nodePath.dirname(this.o.dataDir), { recursive: true });

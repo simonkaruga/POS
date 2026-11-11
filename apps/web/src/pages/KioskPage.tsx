@@ -43,12 +43,12 @@ function getUrlParams() {
 }
 
 const CAT_COLORS: Record<string, string> = {
-  'Food':     '#ef4444', 'Drinks':  '#8B4EFF', 'Coffee':    '#a16207',
+  'Food':     '#ef4444', 'Drinks':  '#3B7DFF', 'Coffee':    '#a16207',
   'Desserts': '#ec4899', 'Bakery':  '#f59e0b', 'Snacks':    '#10b981',
-  'Produce':  '#22c55e', 'Dairy':   '#8B4EFF', 'Household': '#8b5cf6',
+  'Produce':  '#22c55e', 'Dairy':   '#3B7DFF', 'Household': '#8b5cf6',
   'Other':    '#64748b',
 };
-function catColor(cat: string) { return CAT_COLORS[cat] ?? '#8B4EFF'; }
+function catColor(cat: string) { return CAT_COLORS[cat] ?? '#3B7DFF'; }
 
 // ─── Overlay screens ──────────────────────────────────────────────────────────
 
@@ -345,7 +345,7 @@ export default function KioskPage() {
       {/* ── Category strip ──────────────────────────────────────────────────── */}
       <div className="bg-gray-900 border-b border-gray-700 shrink-0 flex items-center gap-2 px-4 py-2.5 overflow-x-auto">
         {categories.map(cat => {
-          const color = cat === 'all' ? '#8B4EFF' : catColor(cat);
+          const color = cat === 'all' ? '#3B7DFF' : catColor(cat);
           const active = activeCategory === cat;
           return (
             <button

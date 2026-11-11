@@ -143,7 +143,7 @@ export default function QRMenuPage() {
           </div>
         )}
         <div className="text-center py-4 text-xs text-gray-300 dark:text-gray-600">
-          Powered by KASTRA POS
+          Powered by Faida POS
         </div>
       </div>
     </div>

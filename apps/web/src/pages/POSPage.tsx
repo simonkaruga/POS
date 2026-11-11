@@ -3,7 +3,8 @@ import { computeTaxes } from '@pos/shared';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import { MessageSquare, X, ShoppingCart, Clock, Printer, Rocket, CheckCircle2 } from 'lucide-react';
+import { MessageSquare, X, ShoppingCart, Clock, Printer, Rocket } from 'lucide-react';
+import { PaidCheck } from '../components/ui/PaidCheck';
 import { BrowserMultiFormatReader as _BrowserMultiFormatReader } from '@zxing/browser'; // kept for HW scanner
 import { api } from '../lib/api';
 import { usePOSStore, type ApiItem, type PriceLevel, type CartItem, type ItemUOM } from '../stores/pos';
@@ -382,7 +383,7 @@ export default function POSPage() {
     try {
       const ch = new BroadcastChannel('pos-pole-display');
       ch.postMessage({
-        businessName: businessSettings?.name ?? 'KASTRA POS',
+        businessName: businessSettings?.name ?? 'Faida POS',
         items: cart.map((i) => ({
           id: i.id,
           name: i.name,
@@ -406,7 +407,7 @@ export default function POSPage() {
     try {
       const ch = new BroadcastChannel('pos-pole-display');
       ch.postMessage({
-        businessName: businessSettings?.name ?? 'KASTRA POS',
+        businessName: businessSettings?.name ?? 'Faida POS',
         items: cart.map((i) => ({
           id: i.id,
           name: i.name,
@@ -530,7 +531,7 @@ export default function POSPage() {
 
       const receipt: ReceiptData = {
         receiptNumber: result.receiptNumber,
-        businessName: businessSettings?.name ?? 'KASTRA POS',
+        businessName: businessSettings?.name ?? 'Faida POS',
         storeName: effectiveStoreName,
         date: new Date().toISOString(),
         cashierName: user?.name ?? 'Cashier',
@@ -598,7 +599,7 @@ export default function POSPage() {
         });
 
       try {
-        const bizName = businessSettings?.name ?? 'KASTRA POS';
+        const bizName = businessSettings?.name ?? 'Faida POS';
         const ch = new BroadcastChannel('pos-pole-display');
         ch.postMessage({ businessName: bizName, items: [], subtotalCents: 0, discountCents: 0, vatCents: 0, totalCents: result.totalCents, status: 'complete' });
         ch.close();
@@ -802,7 +803,7 @@ export default function POSPage() {
     try {
       const channel = new BroadcastChannel('pos-pole-display');
       channel.postMessage({
-        businessName: businessSettings?.name ?? 'KASTRA POS',
+        businessName: businessSettings?.name ?? 'Faida POS',
         items: cart.map((i) => ({ id: i.id, name: i.name, quantity: i.quantity, unitPriceCents: i.unitPriceCents, totalCents: i.totalCents })),
         subtotalCents, discountCents: totalDiscountCents, vatCents, totalCents,
         status: cart.length > 0 ? 'cart' : 'idle',
@@ -1027,7 +1028,7 @@ export default function POSPage() {
             onClick={() => void handlePayClick()}
             disabled={cart.length === 0 || checkoutMutation.isPending}
             className="relative flex-1 py-3 font-bold text-sm xs:text-base transition-colors disabled:opacity-40"
-            style={{ background: cart.length === 0 ? '#1e293b' : '#7A35FF' }}
+            style={{ background: cart.length === 0 ? '#1e293b' : '#1F6BFF' }}
           >
             <span className="text-white">
               {checkoutMutation.isPending ? 'Processing…' : cart.length > 0 ? `Charge ${formatKES(totalCents)}` : 'Add items to pay'}
@@ -1082,7 +1083,7 @@ export default function POSPage() {
         >
           <div className="flex items-start justify-between gap-3 mb-2">
             <div>
-              <div className="font-bold text-base inline-flex items-center gap-1.5"><CheckCircle2 className="w-5 h-5" aria-hidden="true" />{lastReceipt.queued ? 'Sale saved offline' : 'Sale Complete!'}</div>
+              <div className="font-bold text-base inline-flex items-center gap-2"><PaidCheck key={lastReceipt.receiptNumber} size={34} className="text-white" />{lastReceipt.queued ? 'Sale saved offline' : 'Sale Complete!'}</div>
               <div className="text-sm opacity-90 mt-0.5">{lastReceipt.queued ? 'Provisional receipt' : 'Receipt'} #{lastReceipt.receiptNumber}</div>
               {lastReceipt.queued && <div className="text-xs opacity-90 mt-0.5">It uploads by itself when the connection is back.</div>}
               <div className="text-sm font-bold mt-0.5">{formatKES(lastReceipt.totalCents)}</div>

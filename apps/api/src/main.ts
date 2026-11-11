@@ -95,7 +95,7 @@ async function bootstrap() {
 
     // ─── Swagger / OpenAPI ─────────────────────────────────────────────────────
     const swaggerConfig = new DocumentBuilder()
-      .setTitle('KASTRA POS API')
+      .setTitle('Faida POS API')
       .setDescription('eTIMS-compliant POS API for Kenyan businesses')
       .setVersion('1.0')
       .addBearerAuth({ type: 'http', scheme: 'bearer', bearerFormat: 'JWT' }, 'JWT')

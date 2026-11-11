@@ -1,5 +1,5 @@
 /**
- * KASTRA POS — Load & Stress Test
+ * Faida POS — Load & Stress Test
  * Run: node load-test.js [--users 1000] [--url http://localhost:3010/api/v1]
  *
  * Simulates realistic POS workloads: auth, item listing, checkout, reports.
@@ -219,7 +219,7 @@ async function runLoadTest(concurrentUsers, label) {
 
 function printScalabilityAnalysis() {
   console.log(`\n${'═'.repeat(60)}`);
-  console.log(`  SCALABILITY ANALYSIS — KASTRA POS ARCHITECTURE`);
+  console.log(`  SCALABILITY ANALYSIS — Faida POS ARCHITECTURE`);
   console.log(`${'═'.repeat(60)}`);
 
   const scenarios = [
@@ -292,7 +292,7 @@ function printScalabilityAnalysis() {
   console.log(`  • With horizontal scaling (K8s)  : ~50,000+ concurrent users`);
   console.log(`  • With Redis cluster + sharding  : ~1,000,000 users (data)`);
   console.log(`\n  OFFLINE-FIRST ADVANTAGE:`);
-  console.log(`  Kastra's offline-first design means a server outage does NOT`);
+  console.log(`  Faida's offline-first design means a server outage does NOT`);
   console.log(`  stop sales — each device continues operating independently.`);
   console.log(`  This naturally distributes the load and reduces server pressure.`);
   console.log(`${'─'.repeat(60)}\n`);
@@ -310,7 +310,7 @@ function getVerdict(concurrent) {
 
 async function main() {
   console.log(`\n${'═'.repeat(60)}`);
-  console.log(`  KASTRA POS — SYSTEM TEST & SCALABILITY REPORT`);
+  console.log(`  Faida POS — SYSTEM TEST & SCALABILITY REPORT`);
   console.log(`  Date: ${new Date().toISOString()}`);
   console.log(`  Target: ${BASE_URL}`);
   console.log(`${'═'.repeat(60)}`);

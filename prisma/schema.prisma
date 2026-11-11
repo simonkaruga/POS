@@ -1100,7 +1100,7 @@ model SmsLog {
   phone      String
   /// OTP (customer login code) or GENERAL (receipts, delivery updates, everything else)
   purpose    String
-  /// PLATFORM = the shared KASTRA account (costs us), BUSINESS = the business's own account
+  /// PLATFORM = the shared Faida account (costs us), BUSINESS = the business's own account
   channel    String
   success    Boolean
   createdAt  DateTime @default(now())
@@ -1375,7 +1375,7 @@ model LicenseKey {
   @@index([machineId])
 }
 
-// The licence an offline (LOCAL) installation holds: one row, id "local". The token is signed by the KASTRA server and
+// The licence an offline (LOCAL) installation holds: one row, id "local". The token is signed by the Faida server and
 // checked here with the public key, so it cannot be forged; the rest is a readable copy for the status screen.
 model LocalLicense {
   id               String    @id @default("local")

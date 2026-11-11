@@ -23,7 +23,7 @@ function build(opts: { business?: boolean; counts?: { phone?: number; business?:
 const ENV = { ...process.env };
 beforeEach(() => {
   sendMock.mockReset().mockResolvedValue(OK);
-  process.env = { ...ENV, AT_USERNAME: 'platform-account', AT_API_KEY: 'platform-key', AT_SENDER_ID: 'KASTRA' };
+  process.env = { ...ENV, AT_USERNAME: 'platform-account', AT_API_KEY: 'platform-key', AT_SENDER_ID: 'Faida' };
 });
 afterAll(() => { process.env = ENV; });
 
@@ -31,7 +31,7 @@ describe('NotificationsService.sendSMS — which account sends', () => {
   it('sends login codes on the platform account even when the shop has its own', async () => {
     const { svc } = build({ business: true });
     await svc.sendSMS('biz-1', '0712345678', 'code', { purpose: 'OTP' });
-    expect(sendMock).toHaveBeenCalledWith('platform-account', expect.objectContaining({ from: 'KASTRA', to: ['+254712345678'] }));
+    expect(sendMock).toHaveBeenCalledWith('platform-account', expect.objectContaining({ from: 'Faida', to: ['+254712345678'] }));
   });
 
   it('sends everything else on the shop\'s own account and sender ID when it has one', async () => {

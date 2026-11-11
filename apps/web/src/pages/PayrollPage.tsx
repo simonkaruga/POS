@@ -125,7 +125,7 @@ function printPayslips(run: PayrollRun) {
         .right { text-align: right; }
         .total-row td { font-weight: bold; border-top: 2px solid #333; }
         .section-header { background: #e8e8e8; font-weight: bold; }
-        .net-row td { background: #7A35FF; color: white; font-size: 14px; font-weight: bold; }
+        .net-row td { background: #1F6BFF; color: white; font-size: 14px; font-weight: bold; }
       </style>
     </head>
     <body>

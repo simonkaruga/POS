@@ -17,15 +17,15 @@ describe('AffiliateService — referral links', () => {
   });
 
   it('builds the link from FRONTEND_URL, not the requesting host', () => {
-    process.env.FRONTEND_URL = 'https://app.pos.kastra.co.ke';
+    process.env.FRONTEND_URL = 'https://app.pos.faida.co.ke';
     expect(AffiliateService.referralUrl('AFF-K3M9QX'))
-      .toBe('https://app.pos.kastra.co.ke/?mode=register&aff=AFF-K3M9QX');
+      .toBe('https://app.pos.faida.co.ke/?mode=register&aff=AFF-K3M9QX');
   });
 
   it('tolerates a trailing slash on the configured origin', () => {
-    process.env.FRONTEND_URL = 'https://app.pos.kastra.co.ke/';
+    process.env.FRONTEND_URL = 'https://app.pos.faida.co.ke/';
     expect(AffiliateService.referralUrl('AFF-K3M9QX'))
-      .toBe('https://app.pos.kastra.co.ke/?mode=register&aff=AFF-K3M9QX');
+      .toBe('https://app.pos.faida.co.ke/?mode=register&aff=AFF-K3M9QX');
   });
 
   it('never renders "undefined" into a link customers will click', () => {

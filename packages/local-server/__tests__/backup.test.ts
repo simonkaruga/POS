@@ -11,12 +11,12 @@ describe('backup file names', () => {
   it('round-trips', () => {
     const d = new Date(2026, 10, 6, 10, 30, 15);
     const name = backupFileName(d, 'pre-upgrade');
-    expect(name).toBe('KASTRA-2026-11-06_103015-pre-upgrade.kbk');
+    expect(name).toBe('FAIDA-2026-11-06_103015-pre-upgrade.kbk');
     expect(parseBackupName(name)).toEqual({ createdAt: d, reason: 'pre-upgrade' });
   });
   it('ignores files that are not ours', () => {
     expect(parseBackupName('holiday.jpg')).toBeNull();
-    expect(parseBackupName('KASTRA-2026-11-06_103015-auto.kbk.part')).toBeNull(); // half-written
+    expect(parseBackupName('FAIDA-2026-11-06_103015-auto.kbk.part')).toBeNull(); // half-written
   });
 });
 

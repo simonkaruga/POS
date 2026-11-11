@@ -1,4 +1,4 @@
-# KASTRA POS — API
+# Faida POS — API
 
 NestJS 10 + Prisma 5 backend. Single service for all nine client apps.
 
@@ -154,11 +154,11 @@ recording revenue.
 
 ### Licensing the offline edition ([src/licensing/](src/licensing/))
 
-The offline edition (`KASTRA_EDITION=LOCAL`, set by `packages/local-server`) cannot ask a payment
+The offline edition (`FAIDA_EDITION=LOCAL`, set by `packages/local-server`) cannot ask a payment
 provider whether it is paid up, so its plan comes from a **signed licence**:
 
 - `license-token.ts` — `kl1.<payload>.<signature>`, Ed25519. The private key exists only on the cloud
-  server (`LICENSE_SIGNING_PRIVATE_KEY`); the app carries the public key (`KASTRA_LICENSE_PUBLIC_KEY`),
+  server (`LICENSE_SIGNING_PRIVATE_KEY`); the app carries the public key (`FAIDA_LICENSE_PUBLIC_KEY`),
   so it can check a licence and cannot make one. The payload names the computer (`machineId`), the plan,
   when this token ends and when the licence itself ends.
 - `license-authority.service.ts` + `license-server.controller.ts` (**cloud**) — `POST /license-server/activate`

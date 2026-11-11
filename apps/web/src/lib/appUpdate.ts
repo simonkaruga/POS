@@ -45,7 +45,7 @@ export function describeProgress(p: UpdateProgress): string {
     case 'stopping':
       return 'Saving your data before the update';
     case 'installing':
-      return 'Installing. KASTRA will restart by itself in a moment';
+      return 'Installing. Faida will restart by itself in a moment';
     case 'error':
       return p.error || 'The update did not finish. Nothing was changed.';
     default:

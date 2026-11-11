@@ -194,7 +194,7 @@ async function runExclusive(user: SyncUser | null, timeoutMs: number): Promise<S
     | undefined;
   const empty: SyncRunResult = { synced: 0, rejected: 0, waiting: 0 };
   if (!locks) return run(user, timeoutMs);
-  return locks.request('kastra-sync', { ifAvailable: true }, async (lock) => (lock ? run(user, timeoutMs) : empty));
+  return locks.request('faida-sync', { ifAvailable: true }, async (lock) => (lock ? run(user, timeoutMs) : empty));
 }
 
 async function run(user: SyncUser | null, timeoutMs: number): Promise<SyncRunResult> {
