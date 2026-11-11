@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { api } from '../lib/api';
+import EtimsConnectionPanel from '../components/EtimsConnectionPanel';
 import ReceiptPrinterSettings from '../components/ReceiptPrinterSettings';
 import { useAuthStore } from '../stores/auth';
 import {
@@ -585,10 +586,6 @@ export default function SettingsPage() {
   const [selectedCurrencies, setSelectedCurrencies] = useState<string[]>([]);
   const [currencySaved, setCurrencySaved] = useState(false);
 
-  // ─── eTIMS credentials ─────────────────────────────────────────────────────
-  const [etimsForm, setEtimsForm] = useState({ bhfId: '', tin: '', dvcSrno: '' });
-  const [etimsSaved, setEtimsSaved] = useState(false);
-
   // ─── M-Pesa credentials ────────────────────────────────────────────────────
   const [mpesaForm, setMpesaForm] = useState({
     consumerKey: '',
@@ -1069,16 +1066,6 @@ export default function SettingsPage() {
     },
   });
 
-  const saveEtimsMutation = useMutation({
-    mutationFn: (data: typeof etimsForm) =>
-      api.patch(`/business/${businessId}/etims-credentials`, data),
-    onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: ['business-settings'] });
-      setEtimsSaved(true);
-      setTimeout(() => setEtimsSaved(false), 3000);
-      setEtimsForm({ bhfId: '', tin: '', dvcSrno: '' });
-    },
-  });
 
   const saveMpesaMutation = useMutation({
     mutationFn: (data: typeof mpesaForm) =>
@@ -2277,105 +2264,7 @@ export default function SettingsPage() {
       {/* ── KRA eTIMS Tab ─────────────────────────────────────────────────── */}
       {activeTab === 'etims' && (
         <div className="space-y-4">
-          <div
-            className={`p-4 rounded-lg border ${
-              settings?.hasEtimsCredentials
-                ? 'bg-green-50 border-green-200'
-                : 'bg-yellow-50 border-yellow-200'
-            }`}
-          >
-            <div className="flex items-center gap-2">
-              {settings?.hasEtimsCredentials ? (
-                <>
-                  <CheckCircle className="w-5 h-5 text-green-600" />
-                  <span className="font-medium text-green-700">eTIMS credentials configured</span>
-                </>
-              ) : (
-                <>
-                  <AlertCircle className="w-5 h-5 text-yellow-600" />
-                  <span className="font-medium text-yellow-700">eTIMS not configured</span>
-                </>
-              )}
-            </div>
-            <p className="text-sm mt-1 text-gray-600">
-              {settings?.hasEtimsCredentials
-                ? 'Your KRA eTIMS credentials are saved. Re-enter below to update them.'
-                : 'Enter your KRA eTIMS credentials to enable automatic fiscal receipt submission.'}
-            </p>
-          </div>
-
-          <div className="bg-white rounded-xl shadow p-6 space-y-4">
-            <h3 className="font-semibold">KRA eTIMS Credentials</h3>
-            <p className="text-sm text-gray-500">
-              Obtain these from the KRA eTIMS portal at{' '}
-              <span className="font-mono text-xs bg-gray-100 px-1 py-0.5 rounded">
-                etims.kra.go.ke
-              </span>
-            </p>
-
-            <div>
-              <label htmlFor="f-branch-id-bhfid" className="block text-sm font-medium text-gray-700 mb-1">
-                Branch ID (BhfId)
-              </label>
-              <input id="f-branch-id-bhfid"
-                type="text"
-                value={etimsForm.bhfId}
-                onChange={(e) => setEtimsForm((f) => ({ ...f, bhfId: e.target.value }))}
-                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 font-mono"
-                placeholder="e.g. 00"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="f-tax-identification-number-tin" className="block text-sm font-medium text-gray-700 mb-1">
-                Tax Identification Number (TIN)
-              </label>
-              <input id="f-tax-identification-number-tin"
-                type="text"
-                value={etimsForm.tin}
-                onChange={(e) => setEtimsForm((f) => ({ ...f, tin: e.target.value }))}
-                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 font-mono"
-                placeholder="e.g. P000000000M"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Device Serial No. <span className="text-gray-400 font-normal">(dvcSrno)</span>
-              </label>
-              <input
-                type="text"
-                value={etimsForm.dvcSrno}
-                onChange={(e) => setEtimsForm((f) => ({ ...f, dvcSrno: e.target.value }))}
-                className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 font-mono"
-                placeholder="e.g. VSCU12345678"
-              />
-              <p className="text-xs text-gray-400 mt-1">
-                Assigned by KRA when you register your device on the eTIMS portal. Credentials are encrypted with AES-256 before storage.
-              </p>
-            </div>
-
-            <div className="flex items-center gap-3 pt-2">
-              <button
-                onClick={() => saveEtimsMutation.mutate(etimsForm)}
-                disabled={
-                  !etimsForm.bhfId ||
-                  !etimsForm.tin ||
-                  !etimsForm.dvcSrno ||
-                  saveEtimsMutation.isPending
-                }
-                className="flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50"
-              >
-                <Shield className="w-4 h-4" />
-                {saveEtimsMutation.isPending ? 'Saving...' : 'Save eTIMS Credentials'}
-              </button>
-              {etimsSaved && (
-                <span className="flex items-center gap-1.5 text-green-600 text-sm">
-                  <CheckCircle className="w-4 h-4" /> Saved securely
-                </span>
-              )}
-            </div>
-          </div>
+          <EtimsConnectionPanel />
 
           {/* eTIMS Pending Queue */}
           <div className="bg-white rounded-xl shadow p-6 space-y-4">

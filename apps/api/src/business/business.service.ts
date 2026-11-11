@@ -1,3 +1,4 @@
+import { EtimsOscuService } from '../etims/oscu/etims-oscu.service';
 import {
   Injectable,
   Logger,
@@ -371,22 +372,20 @@ export class BusinessService {
 
   // ─── Credential Management ────────────────────────────────────────────────────
 
+  /**
+   * Connect the business to KRA eTIMS: initialise the OSCU device KRA approved and keep the communication key it
+   * returns. Saving the PIN, branch and serial alone is not enough; KRA refuses every call without that key.
+   */
   async saveEtimsCredentials(
     businessId: string,
     creds: { bhfId: string; tin: string; dvcSrno: string },
   ) {
-    // Normalise into the shape the eTIMS service expects
-    const normalised = {
-      kraPin: creds.tin,
-      branchId: creds.bhfId,
-      dvcSrno: creds.dvcSrno,
-    };
-    const encrypted = this.encrypt(normalised);
-    await this.prisma.business.update({
-      where: { id: businessId },
-      data: { etimsCredentialsEncrypted: encrypted },
-    });
-    return { message: 'eTIMS credentials saved' };
+    try {
+      const connected = await new EtimsOscuService(this.prisma).connect(businessId, { tin: creds.tin, bhfId: creds.bhfId, dvcSrlNo: creds.dvcSrno });
+      return { message: `Connected to KRA eTIMS as ${connected.tradeNm ?? connected.tin}` };
+    } catch (e) {
+      throw new BadRequestException(`KRA eTIMS: ${e instanceof Error ? e.message : String(e)}`);
+    }
   }
 
   async saveMpesaCredentials(

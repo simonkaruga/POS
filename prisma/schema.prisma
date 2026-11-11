@@ -32,6 +32,16 @@ model Business {
   atCredentialsEncrypted        String?
   etimsMode                     String                @default("SANDBOX")
   etimsProductionOnboarded      Boolean               @default(false)
+  /// Last KRA invoice number (invcNo) used for this branch. KRA numbers run 1, 2, 3... with no gaps.
+  etimsInvcSeq                  Int                   @default(0)
+  /// Last stock movement number (sarNo) sent to KRA.
+  etimsSarSeq                   Int                   @default(0)
+  /// Last running number used in a KRA item code (KE2NTU0000001).
+  etimsItemSeq                  Int                   @default(0)
+  /// When real KRA submission began; stock movements before this are not reported.
+  etimsLiveSince                DateTime?
+  /// KRA item class used for items that do not have their own.
+  etimsDefaultItemClsCd         String?
   kraItaxIntegrationEnabled     Boolean               @default(false)
   kraItaxCredentials            String?
   // A gifted or internal account: full access, but nobody paid. Excluded from MRR
@@ -255,6 +265,13 @@ model Item {
   updatedAt           DateTime             @updatedAt
   deletedAt           DateTime?
   kraItemCode         String?
+  /// The item code registered with KRA (/saveItem), e.g. KE2NTU0000001.
+  etimsItemCd         String?
+  etimsRegisteredAt   DateTime?
+  /// KRA quantity and packaging unit codes; U (pieces) and NT (net) when not set.
+  etimsQtyUnitCd      String?
+  etimsPkgUnitCd      String?
+  etimsRegisterError  String?
   soldOut             Boolean   @default(false)
   isFractional        Boolean   @default(false)
   unitLabel           String?
@@ -366,6 +383,17 @@ model Sale {
   totalCents         Int                 @default(0)
   etimsSubmitted     Boolean             @default(false)
   etimsControlNumber String?
+  /// KRA invoice number (invcNo) this sale was signed under.
+  etimsInvcNo        Int?
+  /// KRA receipt signature (rcptSign): goes into the receipt QR code.
+  etimsRcptSign      String?
+  etimsIntrlData     String?
+  /// KRA control unit time of signing (sdcDateTime, yyyyMMddHHmmss).
+  etimsSignedAt      String?
+  etimsAttempts      Int                 @default(0)
+  etimsLastError     String?
+  /// KRA refused the invoice itself: retrying will not help until a person fixes it.
+  etimsNeedsAttention Boolean            @default(false)
   createdAt          DateTime            @default(now())
   updatedAt          DateTime            @updatedAt
   deletedAt          DateTime?
@@ -636,11 +664,16 @@ model InventoryMovement {
   variantId    String?
   source       String
   createdAt    DateTime @default(now())
+  /// Stock movement number (sarNo) this was reported to KRA under, and when.
+  etimsSarNo      Int?
+  etimsReportedAt DateTime?
+  etimsError      String?
   batch        Batch?   @relation(fields: [batchId], references: [id])
   item         Item     @relation(fields: [itemId], references: [id])
   sale         Sale?    @relation(fields: [saleId], references: [id])
 
   @@index([businessId, itemId, createdAt])
+  @@index([businessId, etimsReportedAt, createdAt], map: "InventoryMovement_etims_pending_idx")
   @@index([type])
   @@index([offlineId])
 }
@@ -1174,6 +1207,9 @@ model Return {
   processedBy                String
   etimsCreditNoteSubmitted   Boolean  @default(false)
   etimsCreditNoteRef         String?
+  etimsCreditNoteInvcNo      Int?
+  etimsCreditNoteSign        String?
+  etimsCreditNoteError       String?
   createdAt                  DateTime @default(now())
   sale                       Sale     @relation(fields: [saleId], references: [id])
 
@@ -3138,4 +3174,34 @@ model CashMovement {
 
   @@index([businessId, storeId, createdAt])
   @@index([bookingId])
+}
+
+/// Every call to KRA eTIMS, request and answer (the communication key is never stored here). KRA disputes are
+/// settled with this record, so it is kept.
+model EtimsCallLog {
+  id         String   @id @default(uuid())
+  businessId String
+  path       String
+  request    Json?
+  response   Json?
+  resultCd   String?
+  ok         Boolean
+  durationMs Int
+  error      String?
+  createdAt  DateTime @default(now())
+
+  @@index([businessId, createdAt])
+}
+
+/// KRA's item classification list (/selectItemClsList), shared by every business. Each item sold must carry one of
+/// these 10-digit codes.
+model EtimsItemClass {
+  itemClsCd  String   @id
+  itemClsNm  String
+  itemClsLvl Int?
+  taxTyCd    String?
+  useYn      Boolean  @default(true)
+  updatedAt  DateTime @updatedAt
+
+  @@index([itemClsNm])
 }

@@ -3,7 +3,7 @@ import { EtimsRetryService } from './etims-retry.service';
 const NOW = new Date('2026-11-05T12:00:00.000Z');
 
 function setup(ids = ['s1', 's2', 's3']) {
-  const prisma: any = { business: { findMany: jest.fn().mockResolvedValue([{ id: 'b1' }]) }, sale: { findMany: jest.fn().mockResolvedValue(ids.map((id) => ({ id }))) } };
+  const prisma: any = { business: { findMany: jest.fn().mockResolvedValue([{ id: 'b1' }]) }, sale: { findMany: jest.fn().mockResolvedValue(ids.map((id) => ({ id }))) }, return: { findMany: jest.fn().mockResolvedValue([]) } };
   const etims: any = { submitSale: jest.fn().mockResolvedValue({ success: true }) };
   return { prisma, etims, svc: new EtimsRetryService(prisma, etims) };
 }
@@ -16,6 +16,7 @@ describe('EtimsRetryService', () => {
     expect(q.where).toEqual({
       businessId: { in: ['b1'] },
       etimsSubmitted: false,
+      etimsNeedsAttention: false,
       status: { in: ['PAID', 'CREDIT'] },
       createdAt: { gte: new Date('2026-10-29T12:00:00.000Z'), lte: new Date('2026-11-05T11:55:00.000Z') },
     });

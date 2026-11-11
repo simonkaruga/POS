@@ -160,6 +160,15 @@ export const ACCESS_RULES: readonly AccessRule[] = [
   r('*', '/etims/enable-itax', OWN),
   r('*', '/etims/submit-vat-return', OWN),
   r('GET', '/etims/vat-return-data', FIN),
+  r('GET', '/etims/status', FIN),
+  r('GET', '/etims/attention', FIN),
+  r('GET', '/etims/calls', OWN),
+  r('POST', '/etims/sales/:id/retry', FIN),
+  r('GET', '/etims/item-classes', MGMT),
+  r('POST', '/etims/item-classes/sync', OWN),
+  r('PATCH', '/etims/items', MGMT),
+  r('PATCH', '/etims/default-item-class', OWN),
+  r('POST', '/etims/stock/report', OWN),
 
   // ── Stock, purchasing, catalogue ──────────────────────────────────────────
   r('POST', '/inventory/adjustment', MGMT),

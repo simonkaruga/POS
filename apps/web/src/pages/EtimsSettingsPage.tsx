@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Shield, CheckCircle, AlertTriangle, FileText, Settings } from 'lucide-react';
 import { api } from '../lib/api';
+import EtimsConnectionPanel from '../components/EtimsConnectionPanel';
 import { useAuthStore } from '../stores/auth';
 
 interface Business {
@@ -27,7 +28,6 @@ export default function EtimsSettingsPage() {
   const qc = useQueryClient();
   const user = useAuthStore((s) => s.user);
   const [activeTab, setActiveTab] = useState<'onboarding' | 'itax' | 'vat-returns'>('onboarding');
-  const [showOnboardingForm, setShowOnboardingForm] = useState(false);
   const [showItaxForm, setShowItaxForm] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState(() => {
     const now = new Date();
@@ -50,23 +50,6 @@ export default function EtimsSettingsPage() {
     enabled: !!businessId && activeTab === 'vat-returns',
   });
 
-  // Production onboarding mutation
-  const onboardingMutation = useMutation({
-    mutationFn: (data: any) => api.post('/etims/production-onboarding', data),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['business'] });
-      setShowOnboardingForm(false);
-    },
-  });
-
-  // Switch to production mutation
-  const switchModeMutation = useMutation({
-    mutationFn: () => api.post(`/etims/switch-production/${businessId}`),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['business'] });
-    },
-  });
-
   // Enable iTax integration mutation
   const enableItaxMutation = useMutation({
     mutationFn: (data: any) => api.post('/etims/enable-itax', { ...data, businessId }),
@@ -83,21 +66,6 @@ export default function EtimsSettingsPage() {
       // Show success message
     },
   });
-
-  const handleOnboarding = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    
-    onboardingMutation.mutate({
-      businessId,
-      kraPin: formData.get('kraPin'),
-      businessName: formData.get('businessName'),
-      businessAddress: formData.get('businessAddress'),
-      contactPerson: formData.get('contactPerson'),
-      contactPhone: formData.get('contactPhone'),
-      contactEmail: formData.get('contactEmail'),
-    });
-  };
 
   const handleItaxSetup = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -202,70 +170,7 @@ export default function EtimsSettingsPage() {
 
       <div className="flex-1 overflow-y-auto p-6">
         {/* eTIMS Production Onboarding */}
-        {activeTab === 'onboarding' && (
-          <div className="space-y-6">
-            <div className="bg-white rounded-xl border border-gray-200 p-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">eTIMS Production Mode</h2>
-              
-              {!business?.etimsProductionOnboarded ? (
-                <div className="space-y-4">
-                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                    <div className="flex items-start gap-3">
-                      <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
-                      <div>
-                        <h3 className="font-medium text-yellow-800">Production Onboarding Required</h3>
-                        <p className="text-sm text-yellow-700 mt-1">
-                          You need to complete KRA eTIMS production onboarding to switch from sandbox mode.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <button
-                    onClick={() => setShowOnboardingForm(true)}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                  >
-                    Start Onboarding Process
-                  </button>
-                </div>
-              ) : business?.etimsMode === 'SANDBOX' ? (
-                <div className="space-y-4">
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
-                      <div>
-                        <h3 className="font-medium text-green-800">Production Onboarding Complete</h3>
-                        <p className="text-sm text-green-700 mt-1">
-                          You can now switch to production mode for live tax submissions.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <button
-                    onClick={() => switchModeMutation.mutate()}
-                    disabled={switchModeMutation.isPending}
-                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
-                  >
-                    {switchModeMutation.isPending ? 'Switching...' : 'Switch to Production'}
-                  </button>
-                </div>
-              ) : (
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
-                    <div>
-                      <h3 className="font-medium text-green-800">Production Mode Active</h3>
-                      <p className="text-sm text-green-700 mt-1">
-                        Your system is connected to KRA eTIMS production environment.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
+        {activeTab === 'onboarding' && <EtimsConnectionPanel />}
 
         {/* iTax Integration */}
         {activeTab === 'itax' && (
@@ -378,91 +283,6 @@ export default function EtimsSettingsPage() {
           </div>
         )}
       </div>
-
-      {/* Onboarding Form Modal */}
-      {showOnboardingForm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md">
-            <div className="px-6 py-4 border-b border-gray-200">
-              <h2 className="text-lg font-bold text-gray-900">eTIMS Production Onboarding</h2>
-            </div>
-            <form onSubmit={handleOnboarding} className="p-6 space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">KRA PIN</label>
-                <input
-                  name="kraPin"
-                  type="text"
-                  required
-                  pattern="[A-Z]\d{9}[A-Z]"
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="A123456789Z"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Business Name</label>
-                <input
-                  name="businessName"
-                  type="text"
-                  required
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Business Address</label>
-                <textarea
-                  name="businessAddress"
-                  required
-                  rows={3}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Contact Person</label>
-                <input
-                  name="contactPerson"
-                  type="text"
-                  required
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Contact Phone</label>
-                <input
-                  name="contactPhone"
-                  type="tel"
-                  required
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Contact Email</label>
-                <input
-                  name="contactEmail"
-                  type="email"
-                  required
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-              <div className="flex gap-3 pt-4">
-                <button
-                  type="button"
-                  onClick={() => setShowOnboardingForm(false)}
-                  className="flex-1 py-2 text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={onboardingMutation.isPending}
-                  className="flex-1 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
-                >
-                  {onboardingMutation.isPending ? 'Submitting...' : 'Submit'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
 
       {/* iTax Setup Form Modal */}
       {showItaxForm && (

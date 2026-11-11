@@ -1,9 +1,9 @@
-import { etimsPaymentType } from './etims-payment';
 import { Injectable, BadRequestException, BadGatewayException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { AuditService } from '../audit/audit.service';
 import * as crypto from 'crypto';
-import { etimsLineTax, etimsTaxTotals } from './etims-tax';
+import { EtimsOscuService, CREDIT_NOTE_REASON } from './oscu/etims-oscu.service';
+import { OscuError } from './oscu/oscu-client';
 
 /** What the sandbox generates in place of a KRA control number: ETM + a millisecond timestamp. */
 const MOCK_CONTROL_NUMBER = /^ETM\d{10,}$/;
@@ -17,63 +17,13 @@ const ETIMS_VERIFY_BASE =
   process.env.ETIMS_VERIFY_URL ??
   'https://etims.kra.go.ke/common/link/etims/receipt/indexEtimsReceiptData';
 
-// ─── KRA eTIMS API interfaces ─────────────────────────────────────────────────
-
-interface EtimsInvoiceItem {
-  itemSeq: number;
-  itemCd: string;
-  itemClsCd: string;
-  itemNm: string;
-  pkgUnitCd: string;
-  pkg: number;
-  qtyUnitCd: string;
-  qty: number;
-  prc: number;
-  splyAmt: number;
-  dcRt: number;
-  dcAmt: number;
-  taxblAmt: number;
-  taxTyCd: string;
-  taxAmt: number;
-  totAmt: number;
-}
-
-interface EtimsInvoicePayload {
-  invoiceNo: string;
-  tpin: string;
-  branchId: string;
-  tradeTerms: string;
-  saleDate: string;
-  stockRlsDt?: string;
-  cfmDt?: string;
-  cnclReqDt?: string;
-  cnclDate?: string;
-  rfdRsnCd?: string;
-  orgInvcNo?: string;
-  pmtTyCd: string;
-  rcptTyCd: string;
-  salesSttsCd?: string;
-  totItemCnt?: number;
-  prchrAcptcYn?: string;
-  prchrTpin?: string;   // buyer KRA PIN — required when prchrAcptcYn = 'Y'
-  remark?: string;
-  taxblAmtA: number;
-  taxblAmtB: number;
-  taxblAmtC: number;
-  taxblAmtD: number;
-  taxAmtA: number;
-  taxAmtB: number;
-  taxAmtC: number;
-  taxAmtD: number;
-  totTaxblAmt: number;
-  totTaxAmt: number;
-  totAmt: number;
-  itemList: EtimsInvoiceItem[];
-}
-
 interface EtimsProductionOnboardingDto {
   businessId: string;
   kraPin: string;
+  /** The OSCU device serial number KRA issued on the eTIMS portal. */
+  dvcSrlNo?: string;
+  /** The branch id KRA registered (00 = head office). */
+  bhfId?: string;
   businessName: string;
   businessAddress: string;
   contactPerson: string;
@@ -105,10 +55,24 @@ export class EtimsService {
     return this.isProductionEnv ? this.ETIMS_PRODUCTION_URL : this.ETIMS_SANDBOX_URL;
   }
 
+  private readonly oscu: EtimsOscuService;
+
   constructor(
     private prisma: PrismaService,
     private audit: AuditService,
-  ) {}
+    oscu?: EtimsOscuService,
+  ) {
+    this.oscu = oscu ?? new EtimsOscuService(prisma);
+  }
+
+  /** A KRA refusal is the caller's data (400); KRA being unreachable is a gateway problem (502, retried later). */
+  private kraError(e: unknown): never {
+    if (e instanceof OscuError) {
+      if (e.retryable) throw new BadGatewayException(e.message);
+      throw new BadRequestException(e.message);
+    }
+    throw e;
+  }
 
   // ─── Production onboarding ────────────────────────────────────────────────
 
@@ -121,30 +85,12 @@ export class EtimsService {
       throw new BadRequestException('Invalid KRA PIN format (expected: A123456789B)');
     }
 
+    if (!dto.dvcSrlNo?.trim()) {
+      throw new BadRequestException('Enter the OSCU device serial number from the KRA eTIMS portal');
+    }
+
     try {
-      const response = await this.callEtimsApi('/api/device/initialize', {
-        kraPin: dto.kraPin,
-        bhfId: '00', // branch ID — default head office
-        dvcSrlNo: `FAIDA-${dto.businessId.slice(0, 8).toUpperCase()}`,
-        txdtDt: new Date().toISOString().slice(0, 10).replace(/-/g, ''),
-      });
-
-      const deviceId = response.deviceId ?? response.dvcId ?? `DEV_${Date.now()}`;
-      const deviceKey = response.deviceKey ?? response.sdcId ?? crypto.randomBytes(32).toString('hex');
-
-      await this.prisma.business.update({
-        where: { id: dto.businessId },
-        data: {
-          etimsMode: 'PRODUCTION',
-          etimsProductionOnboarded: true,
-          etimsCredentialsEncrypted: this.encryptCredentials({
-            deviceId,
-            deviceKey,
-            kraPin: dto.kraPin,
-            branchId: '00',
-          }),
-        },
-      });
+      const creds = await this.oscu.connect(dto.businessId, { tin: dto.kraPin, bhfId: dto.bhfId ?? '00', dvcSrlNo: dto.dvcSrlNo });
 
       await this.audit.createEntry({
         businessId: dto.businessId,
@@ -153,11 +99,11 @@ export class EtimsService {
         action: 'ETIMS_PRODUCTION_ONBOARDED',
         entity: 'Business',
         entityId: dto.businessId,
-        after: { etimsMode: 'PRODUCTION', kraPin: dto.kraPin },
+        after: { etimsMode: 'PRODUCTION', kraPin: creds.tin, branchId: creds.bhfId, device: creds.dvcSrlNo },
         source: 'SYSTEM',
       });
 
-      return { success: true, deviceId, message: 'Successfully onboarded to eTIMS production' };
+      return { success: true, deviceId: creds.sdcId ?? creds.dvcSrlNo, message: `Connected to KRA eTIMS as ${creds.tradeNm ?? creds.tin}` };
     } catch (error) {
       throw new BadRequestException(`eTIMS onboarding failed: ${error instanceof Error ? error.message : String(error)}`);
     }
@@ -307,62 +253,48 @@ export class EtimsService {
   async submitSale(saleId: string): Promise<{ success: boolean; controlNumber?: string; intrlData?: string; qrUrl?: string; reason?: string; testMode?: boolean }> {
     const sale = await this.prisma.sale.findUnique({ where: { id: saleId } });
     if (!sale) throw new BadRequestException('Sale not found');
+    const business = await this.prisma.business.findUnique({ where: { id: sale.businessId } });
+
     if (sale.etimsSubmitted) {
-      const biz = await this.prisma.business.findUnique({ where: { id: sale.businessId } });
-      if (this.isTestSubmission(biz, sale.etimsControlNumber)) {
+      if (this.isTestSubmission(business, sale.etimsControlNumber)) {
         // No proof to show: a QR for a made-up control number would only fail on KRA's verification page.
         return { success: true, controlNumber: sale.etimsControlNumber ?? undefined, testMode: true };
       }
-      const sign = (sale as any).etimsIntrlData ?? sale.etimsControlNumber ?? undefined;
-      const id = this.etimsIdentity(biz);
+      const s = sale as typeof sale & { etimsRcptSign?: string | null; etimsIntrlData?: string | null };
+      const sign = s.etimsRcptSign ?? s.etimsIntrlData ?? sale.etimsControlNumber ?? undefined;
+      const id = this.etimsIdentity(business);
       return {
         success: true,
         controlNumber: sale.etimsControlNumber ?? undefined,
-        intrlData: sign,
-        qrUrl: this.buildEtimsQrUrl(id.kraPin, id.branchId, sign),
+        intrlData: s.etimsIntrlData ?? sign,
+        qrUrl: this.buildEtimsQrUrl(id.kraPin, id.branchId, s.etimsRcptSign ?? sign),
         testMode: false,
       };
     }
 
-    const business = await this.prisma.business.findUnique({ where: { id: sale.businessId } });
-    let controlNumber: string;
-    let intrlData: string;
-
+    // A business connected to KRA: the invoice is signed by KRA, never generated here.
+    if (this.oscu.isLive(business)) {
+      let signed;
+      try { signed = await this.oscu.submitSale(saleId); } catch (e) { this.kraError(e); }
+      await this.audit.createEntry({
+        businessId: sale.businessId, action: 'ETIMS_SUBMIT', entity: 'Sale', entityId: saleId, source: 'SYSTEM',
+        actor: 'system', actorType: 'SYSTEM', after: { invcNo: signed.invcNo, controlNumber: signed.controlNumber },
+      });
+      return { success: true, controlNumber: signed.controlNumber, intrlData: signed.intrlData ?? undefined, qrUrl: signed.qrUrl ?? undefined, testMode: false };
+    }
     if (business?.etimsMode === 'PRODUCTION' && business.etimsCredentialsEncrypted) {
-      // Real KRA eTIMS submission
-      const result = await this.submitToEtims(sale, business);
-      controlNumber = result.controlNumber;
-      intrlData = result.intrlData;
-    } else {
-      // Sandbox: generate realistic mock values
-      controlNumber = `ETM${Date.now()}`;
-      intrlData = `${sale.receiptNumber}|${controlNumber}|${new Date().toISOString().slice(0,10)}`;
+      // Credentials from before the OSCU rebuild carry no communication key: KRA would refuse every call.
+      throw new BadRequestException('Reconnect this business to KRA eTIMS (Settings → KRA eTIMS) with the device serial from the eTIMS portal');
     }
 
-    await this.prisma.sale.update({
-      where: { id: saleId },
-      data: {
-        etimsSubmitted: true,
-        etimsControlNumber: controlNumber,
-      },
-    });
-
+    // Sandbox: a realistic placeholder, clearly marked as a test on the receipt.
+    const controlNumber = `ETM${Date.now()}`;
+    await this.prisma.sale.update({ where: { id: saleId }, data: { etimsSubmitted: true, etimsControlNumber: controlNumber } });
     await this.audit.createEntry({
-      businessId: sale.businessId, action: 'ETIMS_SUBMIT',
-      entity: 'Sale', entityId: saleId, source: 'SYSTEM',
-      actor: 'system', actorType: 'SYSTEM',
-      after: { controlNumber },
+      businessId: sale.businessId, action: 'ETIMS_SUBMIT', entity: 'Sale', entityId: saleId, source: 'SYSTEM',
+      actor: 'system', actorType: 'SYSTEM', after: { controlNumber },
     });
-
-    if (this.isTestSubmission(business, controlNumber)) return { success: true, controlNumber, testMode: true };
-    const identity = this.etimsIdentity(business);
-    return {
-      success: true,
-      controlNumber,
-      intrlData,
-      qrUrl: this.buildEtimsQrUrl(identity.kraPin, identity.branchId, intrlData),
-      testMode: false,
-    };
+    return { success: true, controlNumber, testMode: true };
   }
 
   /** The seller PIN and branch id live inside the encrypted eTIMS credentials. */
@@ -372,19 +304,29 @@ export class EtimsService {
     if (!business?.etimsCredentialsEncrypted) return { branchId: '00' };
     try {
       const creds = this.decryptCredentials(business.etimsCredentialsEncrypted);
-      return { kraPin: creds.kraPin, branchId: creds.branchId ?? '00' };
+      return { kraPin: creds.tin ?? creds.kraPin, branchId: creds.bhfId ?? creds.branchId ?? '00' };
     } catch {
       return { branchId: '00' };
     }
   }
 
+  /**
+   * Correct a signed sale. KRA has no "amend": the original invoice is credited in full, and the corrected sale is
+   * then signed again under a new invoice number.
+   */
   async submitAmendment(saleId: string): Promise<{ success: boolean }> {
     const sale = await this.prisma.sale.findUnique({ where: { id: saleId } });
     if (!sale) throw new BadRequestException('Sale not found');
 
     const business = await this.prisma.business.findUnique({ where: { id: sale.businessId } });
-    if (business?.etimsMode === 'PRODUCTION' && business.etimsCredentialsEncrypted && sale.etimsControlNumber) {
-      await this.submitToEtimsAmendment(sale, business);
+    const s = sale as typeof sale & { etimsInvcNo?: number | null };
+    if (this.oscu.isLive(business) && sale.etimsSubmitted && s.etimsInvcNo) {
+      try { await this.oscu.creditNote(saleId, null, CREDIT_NOTE_REASON.MISSING_DATA); } catch (e) { this.kraError(e); }
+      await this.prisma.sale.update({
+        where: { id: saleId },
+        data: { etimsSubmitted: false, etimsControlNumber: null, etimsInvcNo: null, etimsRcptSign: null, etimsIntrlData: null, etimsSignedAt: null } as any,
+      });
+      await this.submitSale(saleId);
     }
 
     await this.audit.createEntry({
@@ -397,37 +339,32 @@ export class EtimsService {
   }
 
   /**
-   * Submit a Credit Note (rcptTyCd = 'R') to eTIMS for a processed return.
-   * Called non-blocking after the return transaction commits.
-   * KRA requires a CN referencing the original invoice for every return.
+   * Submit a credit note to eTIMS for a processed return. Called non-blocking after the return transaction commits;
+   * a failure is kept on the return and retried by the eTIMS retry pass.
+   * KRA requires a credit note referencing the original invoice for every return.
    */
   async submitCreditNote(returnId: string): Promise<void> {
-    const ret = await this.prisma.return.findUnique({
-      where: { id: returnId },
-      include: {
-        sale: {
-          include: { items: { include: { item: true } } },
-        },
-      },
-    });
-    if (!ret) return;
-    if (ret.etimsCreditNoteSubmitted) return;
+    const ret = await this.prisma.return.findUnique({ where: { id: returnId }, include: { sale: true } });
+    if (!ret || ret.etimsCreditNoteSubmitted) return;
 
     const sale = ret.sale;
     if (!sale.etimsSubmitted || !sale.etimsControlNumber) {
-      // Original sale was never submitted to eTIMS — no CN needed
+      // Original sale was never submitted to eTIMS: no credit note needed
       return;
     }
 
     const business = await this.prisma.business.findUnique({ where: { id: ret.businessId } });
-
     let creditNoteRef: string;
+    let extra: Record<string, unknown> = {};
 
-    if (business?.etimsMode === 'PRODUCTION' && business.etimsCredentialsEncrypted) {
+    if (this.oscu.isLive(business)) {
       try {
-        creditNoteRef = await this.submitToEtimsCreditNote(ret, sale, business);
+        const returnedIds: string[] = JSON.parse(ret.returnedItemIds || '[]');
+        const signed = await this.oscu.creditNote(ret.saleId, returnedIds, CREDIT_NOTE_REASON.REFUND);
+        creditNoteRef = signed.controlNumber;
+        extra = { etimsCreditNoteInvcNo: signed.invcNo, etimsCreditNoteSign: signed.rcptSign, etimsCreditNoteError: null };
       } catch (error) {
-        console.error('eTIMS credit note submission failed:', error);
+        await this.prisma.return.update({ where: { id: returnId }, data: { etimsCreditNoteError: String((error as Error)?.message ?? error).slice(0, 500) } as any });
         return;
       }
     } else {
@@ -437,7 +374,7 @@ export class EtimsService {
 
     await this.prisma.return.update({
       where: { id: returnId },
-      data: { etimsCreditNoteSubmitted: true, etimsCreditNoteRef: creditNoteRef },
+      data: { etimsCreditNoteSubmitted: true, etimsCreditNoteRef: creditNoteRef, ...extra } as any,
     });
 
     await this.audit.createEntry({
@@ -452,25 +389,135 @@ export class EtimsService {
     });
   }
 
+  /** A void of a signed sale. KRA cannot cancel an invoice, so the voided lines are credited. */
   async voidSale(saleId: string, reason: string) {
     const sale = await this.prisma.sale.findUnique({ where: { id: saleId } });
     if (!sale) throw new BadRequestException('Sale not found');
 
     const business = await this.prisma.business.findUnique({ where: { id: sale.businessId } });
 
-    if (business?.etimsMode === 'PRODUCTION' && sale.etimsSubmitted && business.etimsCredentialsEncrypted) {
+    if (this.oscu.isLive(business) && sale.etimsSubmitted) {
       try {
-        const voidRef = await this.submitEtimsVoid(sale, business, reason);
-        await this.prisma.voidRecord.updateMany({
-          where: { saleId },
-          data: { etimsVoidRef: voidRef },
-        });
+        const record = await this.prisma.voidRecord.findFirst({ where: { saleId }, orderBy: { createdAt: 'desc' } });
+        let ids: string[] | null = null;
+        try { const parsed = JSON.parse(record?.voidedItemIds ?? 'null'); ids = Array.isArray(parsed) && parsed.length ? parsed : null; } catch { ids = null; }
+        const signed = await this.oscu.creditNote(saleId, ids, CREDIT_NOTE_REASON.REFUND);
+        await this.prisma.voidRecord.updateMany({ where: { saleId }, data: { etimsVoidRef: signed.controlNumber } });
       } catch (error) {
-        console.error('eTIMS void submission failed:', error);
+        console.error(`eTIMS credit note for void (${reason}) failed:`, error);
       }
     }
 
     return { success: true };
+  }
+
+  // ─── Owner's eTIMS screen ───────────────────────────────────────────────────
+
+  /** A sale belongs to the signed-in user's business, or the route answers "not found". */
+  async assertSaleOwned(saleId: string, businessId: string): Promise<void> {
+    const sale = await this.prisma.sale.findFirst({ where: { id: saleId, businessId }, select: { id: true } });
+    if (!sale) throw new BadRequestException('Sale not found');
+  }
+
+  /** Everything the owner needs to know about the KRA connection, in one answer. */
+  async status(businessId: string) {
+    const business = await this.prisma.business.findUnique({ where: { id: businessId } });
+    const creds = this.oscu.credentialsOf(business);
+    const legacy = business?.etimsMode === 'PRODUCTION' && !!business.etimsCredentialsEncrypted && !creds;
+    const [pending, needsAttention, itemsWithoutClass, itemErrors, stockPending, stockErrors, creditNotesPending, lastCall] = await Promise.all([
+      this.prisma.sale.count({ where: { businessId, etimsSubmitted: false, status: { in: ['PAID', 'CREDIT'] }, etimsNeedsAttention: false } as any }),
+      this.prisma.sale.count({ where: { businessId, etimsNeedsAttention: true } as any }),
+      business?.etimsDefaultItemClsCd ? 0 : this.prisma.item.count({ where: { businessId, isActive: true, deletedAt: null, OR: [{ kraItemCode: null }, { kraItemCode: '' }] } }),
+      this.prisma.item.count({ where: { businessId, etimsRegisterError: { not: null } } as any }),
+      creds ? this.prisma.inventoryMovement.count({ where: { businessId, etimsReportedAt: null, createdAt: { gte: business?.etimsLiveSince ?? new Date() } } as any }) : 0,
+      this.prisma.inventoryMovement.count({ where: { businessId, etimsReportedAt: null, etimsError: { not: null } } as any }),
+      this.prisma.return.count({ where: { businessId, etimsCreditNoteSubmitted: false, etimsCreditNoteError: { not: null } } as any }),
+      this.prisma.etimsCallLog.findFirst({ where: { businessId }, orderBy: { createdAt: 'desc' }, select: { createdAt: true, ok: true, path: true, error: true } }),
+    ]);
+    return {
+      mode: creds ? 'LIVE' : legacy ? 'RECONNECT' : 'SANDBOX',
+      environment: this.oscu.environment,
+      kraPin: creds?.tin ?? null,
+      branchId: creds?.bhfId ?? null,
+      device: creds?.dvcSrlNo ?? null,
+      tradeName: creds?.tradeNm ?? null,
+      liveSince: business?.etimsLiveSince ?? null,
+      defaultItemClsCd: business?.etimsDefaultItemClsCd ?? null,
+      lastInvoiceNo: business?.etimsInvcSeq ?? 0,
+      pending, needsAttention, itemsWithoutClass, itemErrors, stockPending, stockErrors, creditNotesPending,
+      lastCall,
+    };
+  }
+
+  /** The things a person has to fix: refused invoices and items KRA cannot accept yet. */
+  async attention(businessId: string) {
+    const [sales, items] = await Promise.all([
+      this.prisma.sale.findMany({
+        where: { businessId, etimsNeedsAttention: true } as any,
+        select: { id: true, receiptNumber: true, totalCents: true, createdAt: true, etimsLastError: true, etimsAttempts: true } as any,
+        orderBy: { createdAt: 'desc' }, take: 100,
+      }),
+      this.prisma.item.findMany({
+        where: { businessId, isActive: true, deletedAt: null, OR: [{ kraItemCode: null }, { kraItemCode: '' }, { etimsRegisterError: { not: null } }] } as any,
+        select: { id: true, name: true, category: true, taxClass: true, kraItemCode: true, etimsQtyUnitCd: true, etimsRegisterError: true } as any,
+        orderBy: { name: 'asc' }, take: 500,
+      }),
+    ]);
+    return { sales, items };
+  }
+
+  /** Send a refused sale again after the problem (usually an item class) was fixed. */
+  async retrySale(saleId: string, businessId: string) {
+    await this.assertSaleOwned(saleId, businessId);
+    await this.prisma.sale.update({ where: { id: saleId }, data: { etimsNeedsAttention: false } as any });
+    return this.submitSale(saleId);
+  }
+
+  async searchItemClasses(q: string) {
+    const term = (q ?? '').trim();
+    return this.prisma.etimsItemClass.findMany({
+      where: { useYn: true, ...(term ? { OR: [{ itemClsNm: { contains: term, mode: 'insensitive' } }, { itemClsCd: { startsWith: term } }] } : {}) },
+      orderBy: [{ itemClsLvl: 'desc' }, { itemClsNm: 'asc' }],
+      take: 50,
+    });
+  }
+
+  async syncItemClasses(businessId: string) {
+    try { return await this.oscu.syncItemClasses(businessId); } catch (e) { this.kraError(e); }
+  }
+
+  /** Set the KRA item class (and optionally the KRA units) of one or more items. Re-registers them on the next sale. */
+  async setItemsKra(businessId: string, itemIds: string[], data: { itemClsCd?: string; qtyUnitCd?: string; pkgUnitCd?: string }) {
+    if (data.itemClsCd !== undefined && !/^\d{10}$/.test(data.itemClsCd)) throw new BadRequestException('A KRA item class is 10 digits');
+    const r = await this.prisma.item.updateMany({
+      where: { id: { in: itemIds }, businessId },
+      data: {
+        ...(data.itemClsCd !== undefined ? { kraItemCode: data.itemClsCd } : {}),
+        ...(data.qtyUnitCd ? { etimsQtyUnitCd: data.qtyUnitCd } : {}),
+        ...(data.pkgUnitCd ? { etimsPkgUnitCd: data.pkgUnitCd } : {}),
+        etimsRegisterError: null,
+      } as any,
+    });
+    return { updated: r.count };
+  }
+
+  async setDefaultItemClass(businessId: string, itemClsCd: string | null) {
+    if (itemClsCd && !/^\d{10}$/.test(itemClsCd)) throw new BadRequestException('A KRA item class is 10 digits');
+    await this.prisma.business.update({ where: { id: businessId }, data: { etimsDefaultItemClsCd: itemClsCd || null } as any });
+    return { defaultItemClsCd: itemClsCd || null };
+  }
+
+  async recentCalls(businessId: string, limit = 50) {
+    return this.prisma.etimsCallLog.findMany({
+      where: { businessId }, orderBy: { createdAt: 'desc' }, take: Math.min(Math.max(limit, 1), 200),
+      select: { id: true, createdAt: true, path: true, ok: true, resultCd: true, durationMs: true, error: true },
+    });
+  }
+
+  async reportStockNow(businessId: string) {
+    const business = await this.prisma.business.findUnique({ where: { id: businessId } });
+    if (!this.oscu.isLive(business)) throw new BadRequestException('Connect this business to KRA eTIMS first');
+    return this.oscu.reportStock(business);
   }
 
   async getStockStatus(businessId: string): Promise<{ pending: number; submitted: number }> {
@@ -499,247 +546,6 @@ export class EtimsService {
       catch { failed++; }
     }
     return { submitted, failed };
-  }
-
-  // ─── Real KRA eTIMS HTTP calls ────────────────────────────────────────────
-
-  private async submitToEtims(sale: any, business: any): Promise<{ controlNumber: string; intrlData: string }> {
-    const creds = this.decryptCredentials(business.etimsCredentialsEncrypted);
-    const [saleWithItems, customerRecord] = await Promise.all([
-      this.prisma.sale.findUnique({
-        where: { id: sale.id },
-        include: { items: { include: { item: true } }, payments: true },
-      }),
-      sale.customerId
-        ? this.prisma.customer.findUnique({ where: { id: sale.customerId }, select: { kraPin: true } })
-        : null,
-    ]);
-    // The customer's own PIN, else the one recorded on the sale (a fleet company is not a Customer record).
-    const buyerKraPin = customerRecord?.kraPin ?? (sale as { buyerKraPin?: string | null }).buyerKraPin ?? null;
-
-    const saleDateStr = new Date(sale.createdAt).toISOString().slice(0, 10).replace(/-/g, '');
-
-    const lineTaxes = (saleWithItems?.items ?? []).map((si) => etimsLineTax(si));
-    const itemList: EtimsInvoiceItem[] = (saleWithItems?.items ?? []).map((si, idx) => {
-      const tx = lineTaxes[idx];
-      const unitPrice = si.unitPriceCents / 100;
-      const qty = si.quantity;
-      // Use KRA item classification code stored on item, fall back to generic goods code
-      const itemClsCd = (si.item as any)?.kraItemCode ?? '5020230602';
-
-      return {
-        itemSeq: idx + 1,
-        itemCd: (si.item as any)?.barcode ?? (si.item as any)?.sku ?? `KA${String(idx + 1).padStart(5,'0')}`,
-        itemClsCd,
-        itemNm: si.item?.name ?? 'Item',
-        bcd: (si.item as any)?.barcode ?? '',
-        pkgUnitCd: 'NT',
-        pkg: qty,
-        qtyUnitCd: 'U',
-        qty,
-        prc: unitPrice,
-        splyAmt: tx.supplyCents / 100,
-        dcRt: tx.supplyCents > 0 ? Math.round((tx.discountCents / tx.supplyCents) * 10000) / 100 : 0,
-        dcAmt: tx.discountCents / 100,
-        taxblAmt: tx.taxableCents / 100,
-        taxTyCd: tx.taxTyCd,
-        taxAmt: tx.taxCents / 100,
-        totAmt: tx.amountCents / 100,
-      };
-    });
-    const taxTotals = etimsTaxTotals(lineTaxes);
-
-    const totalAmt = sale.totalCents / 100;
-    const pmtTyCd = etimsPaymentType(saleWithItems?.payments ?? [], sale.type === 'CREDIT');
-
-    const payload: EtimsInvoicePayload = {
-      invoiceNo: sale.receiptNumber,
-      tpin: creds.kraPin,
-      branchId: creds.branchId ?? '00',
-      tradeTerms: 'CSH',
-      saleDate: saleDateStr,
-      stockRlsDt: saleDateStr,
-      pmtTyCd,
-      rcptTyCd: 'S',
-      salesSttsCd: '02',           // 02 = Approved/Confirmed
-      totItemCnt: itemList.length,
-      cfmDt: new Date().toISOString().slice(0, 10).replace(/-/g, ''),
-      prchrAcptcYn: buyerKraPin ? 'Y' : 'N',
-      ...(buyerKraPin ? { prchrTpin: buyerKraPin } : {}),
-      ...taxTotals,
-      totAmt: totalAmt,
-      itemList,
-    };
-
-    const response = await this.callEtimsApiWithAuth(creds, '/api/trnsSales/saveTaxInvoice', payload);
-
-    // KRA returns intrlData (the cryptographic receipt signature) — this is what goes in the QR code
-    const controlNumber = response.controlNo ?? response.rcptNo ?? `ETM${Date.now()}`;
-    const intrlData = response.intrlData ?? response.rcptSign ?? controlNumber;
-
-    return { controlNumber, intrlData };
-  }
-
-  private async submitToEtimsAmendment(sale: any, business: any): Promise<void> {
-    const creds = this.decryptCredentials(business.etimsCredentialsEncrypted);
-    await this.callEtimsApiWithAuth(creds, '/api/trnsSales/saveTaxInvoice', {
-      invoiceNo: `${sale.receiptNumber}-AMD`,
-      tpin: creds.kraPin,
-      branchId: creds.branchId ?? '00',
-      orgInvcNo: sale.etimsControlNumber,
-      rcptTyCd: 'A', // amendment
-      saleDate: new Date().toISOString().slice(0, 10).replace(/-/g, ''),
-    });
-  }
-
-  private async submitEtimsVoid(sale: any, business: any, reason: string): Promise<string> {
-    const creds = this.decryptCredentials(business.etimsCredentialsEncrypted);
-    const response = await this.callEtimsApiWithAuth(creds, '/api/trnsSales/saveTaxInvoice', {
-      invoiceNo: sale.receiptNumber,
-      tpin: creds.kraPin,
-      branchId: creds.branchId ?? '00',
-      orgInvcNo: sale.etimsControlNumber,
-      rcptTyCd: 'C', // cancellation
-      cnclReqDt: new Date().toISOString().slice(0, 10).replace(/-/g, ''),
-      cnclDate: new Date().toISOString().slice(0, 10).replace(/-/g, ''),
-      rfdRsnCd: '01', // reason code 01 = wrong entry
-      remark: reason,
-    });
-    return response.voidRef ?? `VOID_${Date.now()}`;
-  }
-
-  /**
-   * Submit credit note (rcptTyCd = 'R') to KRA eTIMS.
-   * References the original sale's eTIMS control number via orgInvcNo.
-   * Only the returned items are included in the itemList.
-   */
-  private async submitToEtimsCreditNote(ret: any, sale: any, business: any): Promise<string> {
-    const creds = this.decryptCredentials(business.etimsCredentialsEncrypted);
-
-    const returnedIds: string[] = JSON.parse(ret.returnedItemIds || '[]');
-    const itemsToReturn = returnedIds.length > 0
-      ? sale.items.filter((i: any) => returnedIds.includes(i.id))
-      : sale.items;
-
-    const cnDate = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-
-    const lineTaxes = itemsToReturn.map((si: any) => etimsLineTax(si));
-    const itemList = itemsToReturn.map((si: any, idx: number) => {
-      const tx = lineTaxes[idx];
-      return {
-        itemSeq:    idx + 1,
-        itemCd:     si.item?.barcode ?? si.item?.sku ?? `KA${String(idx + 1).padStart(5,'0')}`,
-        itemClsCd:  si.item?.kraItemCode ?? '5020230602',
-        itemNm:     si.item?.name ?? 'Item',
-        bcd:        si.item?.barcode ?? '',
-        pkgUnitCd:  'NT',
-        pkg:        si.quantity,
-        qtyUnitCd:  'U',
-        qty:        si.quantity,
-        prc:        si.unitPriceCents / 100,
-        splyAmt:    tx.supplyCents / 100,
-        dcRt:       tx.supplyCents > 0 ? Math.round((tx.discountCents / tx.supplyCents) * 10000) / 100 : 0,
-        dcAmt:      tx.discountCents / 100,
-        taxblAmt:   tx.taxableCents / 100,
-        taxTyCd:    tx.taxTyCd,
-        taxAmt:     tx.taxCents / 100,
-        totAmt:     tx.amountCents / 100,
-      };
-    });
-
-    // The credit note refunds what was paid for the returned lines: after their share of the discount.
-    const totAmt = lineTaxes.reduce((sum: number, l: { amountCents: number }) => sum + l.amountCents, 0) / 100;
-    const taxTotals = etimsTaxTotals(lineTaxes);
-
-    const payload = {
-      invoiceNo:    `${sale.receiptNumber}-CN`,
-      tpin:         creds.kraPin,
-      branchId:     creds.branchId ?? '00',
-      orgInvcNo:    sale.etimsControlNumber,   // links CN to original invoice
-      rcptTyCd:     'R',                        // R = Return / Credit Note
-      salesSttsCd:  '02',
-      saleDate:     cnDate,
-      stockRlsDt:   cnDate,
-      cfmDt:        cnDate,
-      pmtTyCd:      'CN',                       // credit note payment type
-      rfdRsnCd:     '01',                       // 01 = customer return
-      tradeTerms:   'CSH',
-      prchrAcptcYn: 'N',
-      totItemCnt:   itemList.length,
-      ...taxTotals,
-      totAmt,
-      itemList,
-    };
-
-    const response = await this.callEtimsApiWithAuth(creds, '/api/trnsSales/saveTaxInvoice', payload);
-    return response.controlNo ?? response.rcptNo ?? `CN${Date.now()}`;
-  }
-
-  // ─── HTTP helpers ─────────────────────────────────────────────────────────
-
-  private async callEtimsApi(path: string, body: any): Promise<any> {
-    if (!this.isProductionEnv) {
-      // Sandbox: return mock response
-      return {
-        deviceId: `DEV_${Date.now()}`,
-        deviceKey: crypto.randomBytes(32).toString('hex'),
-        status: 'APPROVED',
-      };
-    }
-
-    const url = `${this.baseUrl}${path}`;
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-
-    if (!response.ok) {
-      const text = await response.text();
-      throw new BadGatewayException(`eTIMS API error ${response.status}: ${text}`);
-    }
-
-    const json = await response.json() as any;
-    if (json.resultCd !== '000') {
-      throw new BadGatewayException(`eTIMS error ${json.resultCd}: ${json.resultMsg}`);
-    }
-
-    return json.data ?? json;
-  }
-
-  private async callEtimsApiWithAuth(creds: any, path: string, body: any): Promise<any> {
-    if (!this.isProductionEnv) {
-      return { controlNo: `ETM${Date.now()}`, status: 'APPROVED' };
-    }
-
-    const url = `${this.baseUrl}${path}`;
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'tin': creds.kraPin ?? creds.tin,
-        'bhfId': creds.branchId ?? creds.bhfId ?? '00',
-        'dvcSrlNo': creds.dvcSrno ?? creds.deviceId ?? '',
-      },
-      body: JSON.stringify({
-        ...body,
-        tpin: creds.kraPin ?? creds.tin,
-        bhfId: creds.branchId ?? creds.bhfId ?? '00',
-        dvcSrlNo: creds.dvcSrno ?? creds.deviceId ?? '',
-      }),
-    });
-
-    if (!response.ok) {
-      const text = await response.text();
-      throw new BadGatewayException(`eTIMS API error ${response.status}: ${text}`);
-    }
-
-    const json = await response.json() as any;
-    if (json.resultCd !== '000') {
-      throw new BadGatewayException(`eTIMS error ${json.resultCd}: ${json.resultMsg}`);
-    }
-
-    return json.data ?? json;
   }
 
   private async callItaxApi(credentials: any, data: any): Promise<any> {

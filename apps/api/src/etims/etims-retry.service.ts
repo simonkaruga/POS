@@ -47,6 +47,8 @@ export class EtimsRetryService {
       where: {
         businessId: { in: live.map((b) => b.id) },
         etimsSubmitted: false,
+        // KRA refused these invoices themselves: resending the same data is refused again, so a person fixes them first.
+        etimsNeedsAttention: false,
         status: { in: ['PAID', 'CREDIT'] },
         createdAt: { gte: new Date(now.getTime() - GIVE_UP_AFTER_MS), lte: new Date(now.getTime() - RETRY_AFTER_MS) },
       },
@@ -68,6 +70,22 @@ export class EtimsRetryService {
       }
     }
     if (pending.length > 0) this.logger.log(`eTIMS retry: ${submitted} submitted, ${failed} failed of ${pending.length} pending`);
+
+    // Credit notes for returns that KRA could not take at the time.
+    const returns = await this.prisma.return.findMany({
+      where: {
+        businessId: { in: live.map((b) => b.id) },
+        etimsCreditNoteSubmitted: false,
+        etimsCreditNoteError: { not: null },
+        createdAt: { gte: new Date(now.getTime() - GIVE_UP_AFTER_MS), lte: new Date(now.getTime() - RETRY_AFTER_MS) },
+      } as any,
+      orderBy: { createdAt: 'asc' },
+      take: BATCH,
+      select: { id: true },
+    });
+    for (const r of returns) {
+      try { await this.etims.submitCreditNote(r.id); } catch { /* kept on the return; tried again next pass */ }
+    }
     return { tried: submitted + failed, submitted, failed };
   }
 }
